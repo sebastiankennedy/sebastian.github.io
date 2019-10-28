@@ -1,6 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>学习 PHP 之前言</title>
+    <url>/2019/10/28/%E5%AD%A6%E4%B9%A0-PHP-%E4%B9%8B%E5%BA%8F/</url>
+    <content><![CDATA[<p>&emsp;&emsp;时光荏苒，现在已是 2019 年了，离我大学毕业已经足有五周年。回望这五年的编程职业生涯，由于自身并非科班出身，加上工作始于三线城市，所以这一路走来也是磕磕碰碰，碰壁不少。其中曾跟风过方向转型，后因项目破产而转型失败，也曾跌入盲目追求高并发、高性能的知识陷阱，殊不知非立足于项目的知识经验，皆是空中阁楼，转眼间就忘得一干二净。也存在过没有自己主见，不断被媒体灌输知识焦虑而不断购买课程的一段时间。回顾这些经历，虽然让我时常感觉到懊悔，但毕竟也是吃一堑，长一智，这会让我不断调整方向，最终选择正确的学习成长道路。</p>
+<br>
+
+<p><img src="https://sebastian-1256190695.cos.ap-guangzhou.myqcloud.com/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%E9%80%9A%E7%94%A8%E5%AD%A6%E4%B9%A0%E4%BD%93%E7%B3%BB.jpg" alt="编程语言通用学习框架"></p>
+<p>&emsp;&emsp;这个系列的文章源于我看到一张编程学习体系图片，这张图片引起了我的注意与反思。我突然之间发现，我未曾系统地去学习过一门编程语言。我的专业是电子商务，编程完全是自学出来，大学毕业到目前为止，所有的知识来源皆是项目驱动、工资驱动和道听途说。例如项目需要这门技术，我便学习这门技术；招聘要求必须掌握哪门技术，我便学习哪门技术；社区大牛说学什么框架，我便跟风学习什么框架。对于编程到底是什么，编程是否存在通用的学习模型，编程的体系如何划分，我未曾深入思考。我知道有数据结构、算法、面向对象、网络编程、编码规范等等，等等；但是它们属于编程系统的哪一块，它们之间的关系是什么，如何将它们这些独立的知识节点关联起来，每门编程语言细分下去又有何不同，有何相同，它们之间特性是什么。这些问题，我都没有答案。 </p>
+<br>
+&emsp;&emsp;为了得到答案，我决定根据图片内容去重新学习一遍 PHP，然后从 PHP 扩展到其他编程语言，最终达到不再局限于某门编程语言的能力界限。]]></content>
+      <tags>
+        <tag>PHP</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Hello World!</title>
     <url>/2019/10/16/hello-world/</url>
     <content><![CDATA[<p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
