@@ -3,7 +3,7 @@
 <head><meta name="generator" content="Hexo 3.9.0">
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>使用 Elasticsearch + Kibana + Logstash 搭建简单日志分析平台 | “人类的悲欢并不相通，我只觉得他们吵闹。”</title>
+  <title>使用 JMeter 进行压力测试 | “人类的悲欢并不相通，我只觉得他们吵闹。”</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="author" content="Sebastian Kennedy">
   <meta name="keywords" content="Sebastian Kennedy Blog PHP Laravel Yii">
@@ -56,9 +56,9 @@
   <div class="overlay">
   <div class="page-title">
     <div class="avatar"><a href="/"><img src="https://sebastian-1256190695.cos.ap-guangzhou.myqcloud.com/person_1.jpg"></a></div>
-    <span>2019-10-29</span>
-    <h2>使用 Elasticsearch + Kibana + Logstash 搭建简单日志分析平台</h2>
-    <div class="tags"><i class="fa fa-tag"></i><a class="tag-link" href="/tags/ELK-Elasticsearch-Kibana-Logstash/">ELK Elasticsearch Kibana Logstash</a></div>
+    <span>2019-10-30</span>
+    <h2>使用 JMeter 进行压力测试</h2>
+    
     </div>
 </div>
 </div>
@@ -66,23 +66,7 @@
   <div class="lx-post">
     <div class="lx-entry padding">
       <div>
-        <h2 id="ELK-架构图"><a href="#ELK-架构图" class="headerlink" title="ELK 架构图"></a>ELK 架构图</h2><h2 id="ELK-流程图"><a href="#ELK-流程图" class="headerlink" title="ELK 流程图"></a>ELK 流程图</h2><h2 id="安装-Elasticsearch"><a href="#安装-Elasticsearch" class="headerlink" title="安装 Elasticsearch"></a>安装 Elasticsearch</h2><p>导入公钥</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget -qO - https://artifacts.elastic.co/GPG-KEY-elasticsearch | sudo apt-key add -</span><br></pre></td></tr></table></figure>
-
-<p>安装 Elasticsearch</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install apt-transport-https</span><br><span class="line"></span><br><span class="line">echo &quot;deb http://mirrors.tencentyun.com/elasticstack/apt/7.x/ stable main&quot; | sudo tee -a /etc/apt/sources.list.d/elastic-7.x.list</span><br><span class="line"></span><br><span class="line">sudo apt-get update</span><br><span class="line"></span><br><span class="line">sudo apt-get install elasticsearch</span><br></pre></td></tr></table></figure>
-
-<p>配置 Elasticsearch 开机启动</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo /bin/systemctl daemon-reload</span><br><span class="line">sudo /bin/systemctl enable elasticsearch.service</span><br></pre></td></tr></table></figure>
-
-<p>操作 Elasticsearch 常用命令</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo systemctl start elasticsearch.service</span><br><span class="line">sudo systemctl stop elasticsearch.service</span><br><span class="line">sudo systemctl restart elasticsearch.service</span><br></pre></td></tr></table></figure>
-
-<h2 id="安装-Kibana"><a href="#安装-Kibana" class="headerlink" title="安装 Kibana"></a>安装 Kibana</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install kibana</span><br></pre></td></tr></table></figure>
-
-<h2 id="安装-Logstash"><a href="#安装-Logstash" class="headerlink" title="安装 Logstash"></a>安装 Logstash</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h2 id="安装-Redis"><a href="#安装-Redis" class="headerlink" title="安装 Redis"></a>安装 Redis</h2>
+        
       </div>
     </div>
   </div>
@@ -90,12 +74,12 @@
 <div class="lx-navigation">
 	<div class="lx-cover prev lx-cover-sm" style="background-image: url(https://sebastian-1256190695.cos.ap-guangzhou.myqcloud.com/footer_2.jpg)">
 		<div class="overlay"></div>
-		<a class="copy" href="/2019/10/30/使用-JMeter-进行压力测试/">
+		<a class="copy" href="#">
 			<div class="display-t">
 				<div class="display-tc">
 					<div>
 						<span>Next</span>
-						<h3>使用 JMeter 进行压力测试</h3>
+						<h3>没有更新的文章</h3>
 					</div>
 				</div>
 			</div>
@@ -103,12 +87,12 @@
 	</div>
         <div class="lx-cover next lx-cover-sm" style="background-image: url(https://sebastian-1256190695.cos.ap-guangzhou.myqcloud.com/footer_1.jpg)">
 		<div class="overlay"></div>
-		<a class="copy" href="/2019/10/28/学习-PHP-之序/">
+		<a class="copy" href="/2019/10/29/使用-Elasticsearch-Kibana-Logstash-搭建简单日志分析平台/">
 			<div class="display-t">
 				<div class="display-tc">
 					<div>
 						<span>Prev</span>
-						<h3>学习 PHP 之前言</h3>
+						<h3>使用 Elasticsearch + Kibana + Logstash 搭建简单日志分析平台</h3>
 					</div>
 				</div>
 			</div>
