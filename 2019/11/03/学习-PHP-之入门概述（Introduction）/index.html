@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>学习 PHP 之入门概述 | “人类的悲欢并不相通，我只觉得他们吵闹。”</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="author" content="Sebastian Kennedy">
+  <meta name="keywords" content="Sebastian Kennedy Blog PHP Laravel Yii">
+  <meta name="description" content="Sebastian Kennedy Blog PHP Laravel Yii">
+  <script id="hexo-configurations">
+  var CONFIG = {
+    root: '/',
+    theme: 'lx',
+    version: '1.4.5',
+    localsearch:{
+      "enable": true,
+      "trigger": "auto",
+      "top_n_per_article": 1,
+      "unescape": false,
+      "preload": false
+      },
+    path: 'search.xml'
+  };
+</script>
+
+  <link rel="shortcut icon" href="https://sebastian-1256190695.cos.ap-guangzhou.myqcloud.com/person_1.jpg">
+  <link rel="stylesheet" href="/css/main.css">
+  <script src="/js/jquery.min.js"></script>
+  <script src="/js/jquery.jside.menu.js"></script>
+	<script>
+	$(document).ready(function(){
+	$(".menu-container").jSideMenu({
+	    jSidePosition: "position-right",
+	    jSideSticky: true,
+	    jSideSkin: "black-grey",
+	     });
+	}); 
+	</script>
+  <!--Google_Analytics-->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-150354789-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'UA-150354789-1');
+</script>
+
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:300|Noto+Serif+SC&amp;display=swap">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/font-awesome@4/css/font-awesome.min.css">
+</head>
+<body>
+<div class="single">
+<div id="page">
+<div id="lx-aside" style="background-image: url(https://sebastian-1256190695.cos.ap-guangzhou.myqcloud.com/page-cover.jpg)" data-stellar-background-ratio="0.5">
+  <div class="overlay">
+  <div class="page-title">
+    <div class="avatar"><a href="/"><img src="https://sebastian-1256190695.cos.ap-guangzhou.myqcloud.com/person_1.jpg"></a></div>
+    <span>2019-11-03</span>
+    <h2>学习 PHP 之入门概述</h2>
+    <div class="tags"><i class="fa fa-tag"></i><a class="tag-link" href="/tags/PHP-Composer/">PHP Composer</a></div>
+    </div>
+</div>
+</div>
+<div id="lx-main-content">
+  <div class="lx-post">
+    <div class="lx-entry padding">
+      <div>
+        <p><a name="05828867"></a></p>
+<h2 id="version-iteration-版本迭代"><a class="header-anchor" href="#version-iteration-版本迭代"></a>Version Iteration（版本迭代）</h2>
+<p>PHP 是一种被广泛应用的开放源代码的多用途脚本语言，它可嵌入到 HTML 中，尤其适合 Web 开发。当前最新稳定版本是 PHP 7.X，相比 PHP 5.X 版本增加了不少新特性。PHP 引擎也大部分被重写，PHP 的运行速度也提到了极大的提升。PHP 5.X 现已停止维护更新，建议使用 PHP 7.X 作为开发和生产的环境。<br>
+<br><br>
+各个版本新特性：</p>
+<ul>
+<li><a href="http://php.net/manual/zh/migration72.new-features.php" target="_blank" rel="noopener">7.2</a></li>
+<li><a href="http://php.net/manual/zh/migration71.new-features.php" target="_blank" rel="noopener">7.1</a></li>
+<li><a href="http://php.net/manual/zh/migration70.new-features.php" target="_blank" rel="noopener">7.0</a></li>
+</ul>
+<p><a name="3b6a9b27"></a></p>
+<h2 id="comments-split-注释与代码分离"><a class="header-anchor" href="#comments-split-注释与代码分离"></a>Comments &amp; Split（注释与代码分离）</h2>
+<p>注释的代码如下：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 注释方式一</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* 注释方式二 */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 注释方式三</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> string name</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span> string</span></span><br><span class="line"><span class="comment"> */</span></span><br></pre></td></tr></table></figure>
+<p>代码分离的代码如下：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">require</span>(<span class="string">"../path/file.php"</span>);</span><br><span class="line"><span class="keyword">require_once</span>(<span class="string">"../path/file.php"</span>);</span><br><span class="line"><span class="keyword">include</span>(<span class="string">"../path/file.php"</span>);</span><br><span class="line"><span class="keyword">include_once</span>(<span class="string">"../path/file.php"</span>);</span><br></pre></td></tr></table></figure>
+<p><code>require()</code>、<code>require_once()</code>、<code>include()</code>、<code>include_once()</code> 的异同：</p>
+<ul>
+<li>运行时
+<ul>
+<li><code>require()</code> 和 <code>require_once()</code>、<code>include()</code> 和 <code>include_once()</code> 的区别是带 <code>once</code> 后缀的会判断在这个文件之前是否已经加载过了文件，避免重复加载。</li>
+<li><code>require()</code> 和 <code>require_once()</code> 加载文件时，如果出错，将会产生一个 <code>E_COMPILE_ERROR</code> 级别的错误，脚本将会终止运行。</li>
+<li><code>include()</code> 和 <code>include_once()</code> 加载文件时，如果出错，只会产生一个 <code>E_WARNING</code> 级别的警告，脚本将会继续运行。</li>
+</ul>
+</li>
+<li>性能上
+<ul>
+<li><code>include()</code>、<code>include_once()</code> 执行时，文件每次都要进行读取和评估。</li>
+<li><code>require()</code>、<code>require_once()</code> 执行时，文件只处理一次。</li>
+<li><code>include_once()</code>、<code>require_once()</code> 是在 <code>include()</code> 和 <code>require()</code> 的基础上进步一步封装。</li>
+</ul>
+</li>
+<li>返回值
+<ul>
+<li>如果加载文件内使用 <code>return</code> 返回，那么 <code>require()</code>、<code>require_once()</code> 加载文件成功会有该文件 <code>return</code> 值的返回，失败会产生致命错误。</li>
+<li>如果加载文件内使用 <code>return</code> 返回，那么 <code>include()</code>、<code>include_once()</code> 加载文件成功会有该文件 <code>return</code> 值的返回，失败会抛出一个警告并返回 <code>boolean(false)</code> 。</li>
+<li>如果加载文件内没有使用 <code>return</code> 返回，那么 <code>require()</code>、<code>require_once()</code>、<code>include()</code>、<code>include_once()</code> 加载文件成功会返回 <code>int(1)</code> ，失败分别会产生致命错误和抛出警告并返回 <code>boolean(false)</code>。</li>
+</ul>
+</li>
+</ul>
+<br>
+代码分离相关函数如下：
+<p>SPL 是 Standard PHP Library (标准 PHP 库)的缩写。它是 PHP5 引入的一个扩展库，其主要功能包括 autoload 机制的实现及包括各种 Iterator 接口或类。SPL Autoload 具体有几个函数：</p>
+<ul>
+<li>spl_autoload：__autoload 默认实现</li>
+<li>spl_autoload_call：尝试所有已注册的函数来加载类</li>
+<li>spl_autoload_register：注册 __autoload() 函数</li>
+<li>spl_autoload_unregister：注销已注册的函数</li>
+<li>spl_autoload_functions：返回所有已注册的函数</li>
+<li>spl_autoload_extensions：注册并返回 spl_autoload 函数使用的默认文件扩展名</li>
+</ul>
+<p>PHP 代码分离相关函数就上述这些，但是实现起来已经是非常灵活了的。既可以简单地实现自动加载，也可以注册多个自定义的自动加载函数去满足不同场景下的代码分离需求。但是过于灵活也不好，会导致不同的框架有不同的方式实现代码分离和自动加载。代码分离和自动加载关键就是类名和文件的映射，为了统一代码分离和自动加载的方式，PHP 配合命名空间推出了 PSR-0 和 <a href="https://learnku.com/laravel/t/2081/psr-specification-psr-4-automatic-loading-specification" target="_blank" rel="noopener">PSR-4 自动加载规范</a>，由于 PSR-4 比 PSR-0 能够带来更加简洁的文件结构和更加灵活，目前 PSR-0 已经废弃。</p>
+<p><a name="679b0402"></a></p>
+<h2 id="builder-dependence-manager-构建与依赖管理"><a class="header-anchor" href="#builder-dependence-manager-构建与依赖管理"></a>Builder &amp; Dependence Manager（构建与依赖管理）</h2>
+<p><a name="PEAR"></a></p>
+<h3 id="pear"><a class="header-anchor" href="#pear"></a>PEAR</h3>
+<p>PEAR 是一个常用的依赖包管理器。PEAR 需要扩展包有专属的结构, 开发者在开发扩展包的时候要提前考虑为 PEAR 定制, 否则后面将无法使用 PEAR。</p>
+<p>PEAR 安装扩展包的时候, 是全局安装的, 意味着一旦安装了某个扩展包, 同一台服务器上的所有项目都能用上, 当然, 好处是当多个项目共同使用同一个扩展包的同一个版本, 坏处是如果你需要使用不同版本的话, 就会产生冲突。</p>
+<ul>
+<li><a href="https://pear.php.net/" target="_blank" rel="noopener">PHP 官方 PEAR</a></li>
+<li><a href="http://laravel-china.github.io/php-the-right-way/#pear" target="_blank" rel="noopener">PHP 之道 PEAR</a></li>
+</ul>
+<p><a name="ceccc17c"></a></p>
+<h3 id="composer-与-packagist"><a class="header-anchor" href="#composer-与-packagist"></a>Composer 与 Packagist</h3>
+<p>Composer 是另一个常用的依赖包管理器。在 <code>composer.json</code>  文件中列出你项目所需的依赖包，加上一点简单的命令，Composer 将会自动帮你下载并设置你的项目依赖。Composer 有点类似于 Node.js 里的 NPM，或者 Ruby 世界里的 Bundler。</p>
+<p>Packagist 是一个 Composer 官方的依赖包仓库，可以在 Packagist 上寻找想要的 PHP 依赖包。</p>
+<ul>
+<li><a href="https://getcomposer.org/" target="_blank" rel="noopener">Composer 官方网站</a></li>
+<li><a href="http://laravel-china.github.io/php-the-right-way/#composer_and_packagist" target="_blank" rel="noopener">PHP 之道 Composer</a></li>
+<li><a href="http://httpshttps://packagist.org/" target="_blank" rel="noopener">Packagist 官方网站    </a></li>
+</ul>
+<p><a name="7cfda144"></a></p>
+<h2 id="composer-基本用法"><a class="header-anchor" href="#composer-基本用法"></a>Composer 基本用法</h2>
+<ul>
+<li>扩展包名称
+<ul>
+<li>扩展包名称由供应商和项目成名组成，例如：
+<ul>
+<li>monolog/monolog</li>
+<li>laravel/laravel</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>扩展包版本
+<ul>
+<li>确切的版本号</li>
+<li>范围
+<ul>
+<li>比较操作符 <code>&gt;、&gt;=、&lt;、&lt;=、!=</code>
+<ul>
+<li>
+<blockquote>
+<p>1.0</p>
+</blockquote>
+</li>
+<li>
+<blockquote>
+<p>=1.0 &lt;=2.0</p>
+</blockquote>
+</li>
+</ul>
+</li>
+<li>连字符 -
+<ul>
+<li>1.0 - 2.0</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>通配符 <code>*</code>
+<ul>
+<li>1.0.*</li>
+</ul>
+</li>
+<li>赋值运算符
+<ul>
+<li>波浪号 ~
+<ul>
+<li>~1.2 相当于 &gt;=1.2 &lt;2.0.0</li>
+<li>~1.2.3 相当于 &gt;=1.2.3 &lt;1.3.0</li>
+</ul>
+</li>
+<li>折音号 ^
+<ul>
+<li>^1.2.3 相当于 &gt;=1.2.3 &lt;2.0.0</li>
+<li>^0.3.0 相当于 &gt;=0.3.0 &lt;0.4.0</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>版本稳定性
+<ul>
+<li>如果没有显式的指定版本的稳定性，Composer 会根据使用的操作符，默认在内部指定为 -dev 或者 -stable。</li>
+<li>可用的稳定性标识
+<ul>
+<li>dev</li>
+<li>alpha</li>
+<li>beta</li>
+<li>RC</li>
+<li>stable</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>扩展包定义
+<ul>
+<li>只要有一个 composer.json 文件在目录中，那么整个目录就是一个包。当添加一个扩展包被 require 到项目时，就是创建了一个依赖于其他扩展包、没有名字的包。</li>
+<li>Composer 将那些已经安装在系统上，但并不是由 Composer 安装的包视为一个虚拟的平台软件包。这包括 PHP 本身、PHP 扩展和一些系统库。</li>
+</ul>
+</li>
+<li>扩展包常见命令
+<ul>
+<li>composer create-project - 创建项目
+<ul>
+<li><code>composer create-project --prefer-dist vendor/package demo</code></li>
+</ul>
+</li>
+<li>composer install - 安装项目所有扩展包</li>
+<li>composer require - 安装一个新的扩展包
+<ul>
+<li><code>composer require vendor/package</code></li>
+<li><code>composer require vendor/package:2.*</code></li>
+<li><code>composer require vendor/package:dev-master -vvv</code></li>
+<li><code>composer require vendeor/package:^2.0.0-alpha2</code></li>
+</ul>
+</li>
+<li>composer update - 更新扩展包
+<ul>
+<li><code>composer update</code></li>
+<li><code>composer update vendor/package</code></li>
+<li><code>composer update vendor/*</code> - 支持通配符</li>
+<li>需要注意的是，能升级的版本收到版本约束的影响，扩展包不会升级到超出版本约束的范围。</li>
+</ul>
+</li>
+<li>composer remove - 移除扩展包
+<ul>
+<li><code>composer remove vendor/package</code></li>
+</ul>
+</li>
+<li>composer dump - 打印自动加载索引</li>
+<li>composer search - 搜索扩展包信息
+<ul>
+<li><code>composer search monolog</code></li>
+</ul>
+</li>
+<li>composer show - 展示扩展包信息
+<ul>
+<li><code>composer serach monolog</code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p><a name="388c5d85"></a></p>
+<h2 id="composer-文件"><a class="header-anchor" href="#composer-文件"></a>Composer 文件</h2>
+<p><a name="2e4006c4"></a></p>
+<h3 id="composer-json-文件"><a class="header-anchor" href="#composer-json-文件"></a>composer.json 文件</h3>
+<p>根据实际项目的 <code>composer.json</code> 文件解释其中字段，下面以 Laravel 项目的 <code>composer.json</code> 文件为例：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">"name"</span>: <span class="string">"laravel/laravel"</span>,</span><br><span class="line">    <span class="attr">"description"</span>: <span class="string">"The Laravel Framework."</span>,</span><br><span class="line">    <span class="attr">"keywords"</span>: [<span class="string">"framework"</span>, <span class="string">"laravel"</span>],</span><br><span class="line">    <span class="attr">"license"</span>: <span class="string">"MIT"</span>,</span><br><span class="line">    <span class="attr">"type"</span>: <span class="string">"project"</span>,</span><br><span class="line">    <span class="attr">"require"</span>: &#123;</span><br><span class="line">        <span class="attr">"php"</span>: <span class="string">"^7.1.3"</span>,</span><br><span class="line">        <span class="attr">"fideloper/proxy"</span>: <span class="string">"^4.0"</span>,</span><br><span class="line">        <span class="attr">"guzzlehttp/guzzle"</span>: <span class="string">"~6.0"</span>,</span><br><span class="line">        <span class="attr">"laravel/framework"</span>: <span class="string">"5.7.*"</span>,</span><br><span class="line">        <span class="attr">"laravel/horizon"</span>: <span class="string">"^2.0"</span>,</span><br><span class="line">        <span class="attr">"laravel/tinker"</span>: <span class="string">"^1.0"</span>,</span><br><span class="line">        <span class="attr">"predis/predis"</span>: <span class="string">"^1.1"</span>,</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="attr">"require-dev"</span>: &#123;</span><br><span class="line">        <span class="attr">"beyondcode/laravel-dump-server"</span>: <span class="string">"^1.0"</span>,</span><br><span class="line">        <span class="attr">"filp/whoops"</span>: <span class="string">"^2.0"</span>,</span><br><span class="line">        <span class="attr">"fzaninotto/faker"</span>: <span class="string">"^1.4"</span>,</span><br><span class="line">        <span class="attr">"mockery/mockery"</span>: <span class="string">"^1.0"</span>,</span><br><span class="line">        <span class="attr">"nunomaduro/collision"</span>: <span class="string">"^2.0"</span>,</span><br><span class="line">        <span class="attr">"orangehill/iseed"</span>: <span class="string">"^2.6"</span>,</span><br><span class="line">        <span class="attr">"phpunit/phpunit"</span>: <span class="string">"^7.0"</span></span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="attr">"autoload"</span>: &#123;</span><br><span class="line">        <span class="attr">"classmap"</span>: [</span><br><span class="line">            <span class="string">"database/seeds"</span>,</span><br><span class="line">            <span class="string">"database/factories"</span></span><br><span class="line">        ],</span><br><span class="line">        <span class="attr">"psr-4"</span>: &#123;</span><br><span class="line">            <span class="attr">"App\\"</span>: <span class="string">"app/"</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="attr">"autoload-dev"</span>: &#123;</span><br><span class="line">        <span class="attr">"psr-4"</span>: &#123;</span><br><span class="line">            <span class="attr">"Tests\\"</span>: <span class="string">"tests/"</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="attr">"extra"</span>: &#123;</span><br><span class="line">        <span class="attr">"laravel"</span>: &#123;</span><br><span class="line">            <span class="attr">"dont-discover"</span>: [</span><br><span class="line">              <span class="string">"beyondcode/laravel-dump-server"</span></span><br><span class="line">            ]</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="attr">"scripts"</span>: &#123;</span><br><span class="line">        <span class="attr">"post-root-package-install"</span>: [</span><br><span class="line">            <span class="string">"@php -r \"file_exists('.env') || copy('.env.example', '.env');\""</span></span><br><span class="line">        ],</span><br><span class="line">        <span class="attr">"post-create-project-cmd"</span>: [</span><br><span class="line">            <span class="string">"@php artisan key:generate"</span></span><br><span class="line">        ],</span><br><span class="line">        <span class="attr">"post-autoload-dump"</span>: [</span><br><span class="line">            <span class="string">"Illuminate\\Foundation\\ComposerScripts::postAutoloadDump"</span>,</span><br><span class="line">            <span class="string">"@php artisan package:discover"</span></span><br><span class="line">        ]</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="attr">"config"</span>: &#123;</span><br><span class="line">        <span class="attr">"preferred-install"</span>: <span class="string">"dist"</span>,</span><br><span class="line">        <span class="attr">"sort-packages"</span>: <span class="literal">true</span>,</span><br><span class="line">        <span class="attr">"optimize-autoloader"</span>: <span class="literal">true</span></span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="attr">"minimum-stability"</span>: <span class="string">"dev"</span>,</span><br><span class="line">    <span class="attr">"prefer-stable"</span>: <span class="literal">true</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>name - 包名</li>
+<li>description - 简介</li>
+<li>keywords - 关键词</li>
+<li>license - 许可协议</li>
+<li>type - 安装类型
+<ul>
+<li>library</li>
+<li>project</li>
+<li>metapackage</li>
+<li>composer-plugin</li>
+</ul>
+</li>
+<li>require - 必须的软件包列表，除非这些依赖被满足，否则不会完成安装</li>
+<li>require-dev - 开发或测试等目的，额外列出的依赖</li>
+<li>autoload - 用于生产或部署的 PHP 自动加载映射
+<ul>
+<li>psr-4</li>
+<li>psr-0</li>
+<li>classmap</li>
+<li>files</li>
+</ul>
+</li>
+<li>autoload-dev - 用于开发或测试的 PHP 自动加载映射
+<ul>
+<li>psr-4</li>
+<li>psr-0</li>
+<li>classmap</li>
+<li>files</li>
+</ul>
+</li>
+<li>extra - 供 scripts 使用的、任意的额外数据</li>
+<li>scripts - Composer 可以在安装过程中的各个阶段挂接脚本
+<ul>
+<li>post-root-package-install - 在 create-project 命令期间，根包安装完成后触发</li>
+<li>post-create-project-cmd - 在 create-project 命令执行后触发</li>
+<li>post-autoload-dump - 在自动加载器被转储后触发，<code>install</code>、<code>update</code>、<code>dump</code> 命令后触发</li>
+</ul>
+</li>
+</ul>
+<p><a href="https://docs.phpcomposer.com/articles/scripts.html" target="_blank" rel="noopener">点击查看更多 </a><a href="https://docs.phpcomposer.com/articles/scripts.html" target="_blank" rel="noopener"><code>composer.json</code></a><a href="https://docs.phpcomposer.com/articles/scripts.html" target="_blank" rel="noopener"> 文件字段说明。</a></p>
+<p><a name="3bff2fa7"></a></p>
+<h3 id="composer-lock-文件"><a class="header-anchor" href="#composer-lock-文件"></a>composer.lock 文件</h3>
+<p>在项目中安装扩展包后，Composer 会把安装时确切的版本号列表写入 <code>composer.lock</code> 文件。</p>
+<blockquote>
+<p>请提交项目中的 composer.lock、composer.json 文件到版本库中</p>
+</blockquote>
+<p>这是非常重要，因为 <code>install</code> 命令将会检查锁文件是否存在，如果存在，它将忽略 composer.json 文件中的定义，直接下载指定的版本。这意味着，任何人简历项目都将下载与指定版本完全相同的依赖。持续集成服务器、生产环境、团队中的其他开发人员、每件事、每个人都使用相同的依赖，从而减轻潜在的错误对部署造成影响。</p>
+<p><a name="15b0c584"></a></p>
+<h2 id="composer-自动加载机制"><a class="header-anchor" href="#composer-自动加载机制"></a>Composer 自动加载机制</h2>
+<p>Composer 将解决如下问题：</p>
+<ul>
+<li>有一个项目依赖于若干个扩展包</li>
+<li>其中一些库依赖于若干个扩展包</li>
+<li>声明项目所依赖的东西（文件，扩展包）</li>
+<li>找出项目所依赖的扩展包，并安装合适的版本</li>
+</ul>
+<p>Composer 准备了一个自动加载文件，它可以加载 Composer 下载的所有的类文件。使用它，只需要将下面这行代码添加到项目的引导文件中即可：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">require</span> <span class="string">'vendor/autoload.php'</span>;</span><br></pre></td></tr></table></figure>
+<p>以 Laravel 框架为例，在查看文件 <code>public/index.php</code> 时，可以看到代码如下：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Laravel - A PHP Framework For Web Artisans</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@package</span>  Laravel</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span>   Taylor Otwell &lt;taylor<span class="doctag">@laravel</span>.com&gt;</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"></span><br><span class="line">define(<span class="string">'LARAVEL_START'</span>, microtime(<span class="keyword">true</span>));</span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">|--------------------------------------------------------------------------</span></span><br><span class="line"><span class="comment">| Register The Auto Loader</span></span><br><span class="line"><span class="comment">|--------------------------------------------------------------------------</span></span><br><span class="line"><span class="comment">|</span></span><br><span class="line"><span class="comment">| Composer provides a convenient, automatically generated class loader for</span></span><br><span class="line"><span class="comment">| our application. We just need to utilize it! We'll simply require it</span></span><br><span class="line"><span class="comment">| into the script here so that we don't have to worry about manual</span></span><br><span class="line"><span class="comment">| loading any of our classes later on. It feels great to relax.</span></span><br><span class="line"><span class="comment">|</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">require</span> <span class="keyword">__DIR__</span>.<span class="string">'/../vendor/autoload.php'</span>;</span><br><span class="line"></span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+<p>代码 <code>require __DIR__.'/../vendor/autoload.php';</code> 注册 Composer 自动加载机制，查看文件 <code>autoload.php</code> 代码如下：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// autoload.php @generated by Composer</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">require_once</span> <span class="keyword">__DIR__</span> . <span class="string">'/composer/autoload_real.php'</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">return</span> ComposerAutoloaderInit814a92544ccdda06795b3f7f5a08b060::getLoader();</span><br></pre></td></tr></table></figure>
+<p><code>autoload.php</code> 文件是一个入口文件，关于 Composer 自动加载机制，需要查看 <code>autoload_real.php</code> 文件，打开文件代码如下：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// autoload_real.php @generated by Composer</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ComposerAutoloaderInit814a92544ccdda06795b3f7f5a08b060</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> $loader;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="function"><span class="keyword">function</span> <span class="title">loadClassLoader</span><span class="params">($class)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="string">'Composer\Autoload\ClassLoader'</span> === $class) &#123;</span><br><span class="line">            <span class="keyword">require</span> <span class="keyword">__DIR__</span> . <span class="string">'/ClassLoader.php'</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="function"><span class="keyword">function</span> <span class="title">getLoader</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">null</span> !== <span class="keyword">self</span>::$loader) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">self</span>::$loader;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        spl_autoload_register(<span class="keyword">array</span>(<span class="string">'ComposerAutoloaderInit814a92544ccdda06795b3f7f5a08b060'</span>, <span class="string">'loadClassLoader'</span>), <span class="keyword">true</span>, <span class="keyword">true</span>);</span><br><span class="line">        <span class="keyword">self</span>::$loader = $loader = <span class="keyword">new</span> \Composer\Autoload\ClassLoader();</span><br><span class="line">        spl_autoload_unregister(<span class="keyword">array</span>(<span class="string">'ComposerAutoloaderInit814a92544ccdda06795b3f7f5a08b060'</span>, <span class="string">'loadClassLoader'</span>));</span><br><span class="line"></span><br><span class="line">        $useStaticLoader = PHP_VERSION_ID &gt;= <span class="number">50600</span> &amp;&amp; !defined(<span class="string">'HHVM_VERSION'</span>) &amp;&amp; (!function_exists(<span class="string">'zend_loader_file_encoded'</span>) || !zend_loader_file_encoded());</span><br><span class="line">        <span class="keyword">if</span> ($useStaticLoader) &#123;</span><br><span class="line">            <span class="keyword">require_once</span> <span class="keyword">__DIR__</span> . <span class="string">'/autoload_static.php'</span>;</span><br><span class="line"></span><br><span class="line">            call_user_func(\Composer\Autoload\ComposerStaticInit814a92544ccdda06795b3f7f5a08b060::getInitializer($loader));</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            $map = <span class="keyword">require</span> <span class="keyword">__DIR__</span> . <span class="string">'/autoload_namespaces.php'</span>;</span><br><span class="line">            <span class="keyword">foreach</span> ($map <span class="keyword">as</span> $namespace =&gt; $path) &#123;</span><br><span class="line">                $loader-&gt;set($namespace, $path);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            $map = <span class="keyword">require</span> <span class="keyword">__DIR__</span> . <span class="string">'/autoload_psr4.php'</span>;</span><br><span class="line">            <span class="keyword">foreach</span> ($map <span class="keyword">as</span> $namespace =&gt; $path) &#123;</span><br><span class="line">                $loader-&gt;setPsr4($namespace, $path);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            $classMap = <span class="keyword">require</span> <span class="keyword">__DIR__</span> . <span class="string">'/autoload_classmap.php'</span>;</span><br><span class="line">            <span class="keyword">if</span> ($classMap) &#123;</span><br><span class="line">                $loader-&gt;addClassMap($classMap);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        $loader-&gt;register(<span class="keyword">true</span>);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> ($useStaticLoader) &#123;</span><br><span class="line">            $includeFiles = Composer\Autoload\ComposerStaticInit814a92544ccdda06795b3f7f5a08b060::$files;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            $includeFiles = <span class="keyword">require</span> <span class="keyword">__DIR__</span> . <span class="string">'/autoload_files.php'</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">foreach</span> ($includeFiles <span class="keyword">as</span> $fileIdentifier =&gt; $file) &#123;</span><br><span class="line">            composerRequire814a92544ccdda06795b3f7f5a08b060($fileIdentifier, $file);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> $loader;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">composerRequire814a92544ccdda06795b3f7f5a08b060</span><span class="params">($fileIdentifier, $file)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">empty</span>($GLOBALS[<span class="string">'__composer_autoload_files'</span>][$fileIdentifier])) &#123;</span><br><span class="line">        <span class="keyword">require</span> $file;</span><br><span class="line"></span><br><span class="line">        $GLOBALS[<span class="string">'__composer_autoload_files'</span>][$fileIdentifier] = <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上述代码中的 <code>$loader</code> 是 composer/ClassLoader.php 的 ClassLoader 类的实例。ClassLoader 类和 spl_autoload_register、spl_autoload_unregister 都是实现自动加载机制的。我们先重点关注代码中的几处 required 语句：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line">$map = <span class="keyword">require</span> <span class="keyword">__DIR__</span> . <span class="string">'/autoload_namespaces.php'</span>;</span><br><span class="line">$map = <span class="keyword">require</span> <span class="keyword">__DIR__</span> . <span class="string">'/autoload_psr4.php'</span>;</span><br><span class="line">$classMap = <span class="keyword">require</span> <span class="keyword">__DIR__</span> . <span class="string">'/autoload_classmap.php'</span>;</span><br><span class="line">$includeFiles = <span class="keyword">require</span> <span class="keyword">__DIR__</span> . <span class="string">'/autoload_files.php'</span>;</span><br></pre></td></tr></table></figure>
+<p>每个 require 语句都加载了 vendor/composer 下的一个 PHP 文件，它们分别对应不同的加载方式，在 <code>composer.json</code> 文件中它们分别被命名为：</p>
+<ul>
+<li>psr-4 - autoload_psr4.php
+<ul>
+<li><a href="https://learnku.com/laravel/t/2081/psr-specification-psr-4-automatic-loading-specification" target="_blank" rel="noopener">自动加载规范</a></li>
+</ul>
+</li>
+<li>psr-0 - autolod_namespaces.php
+<ul>
+<li>自动加载规范（已废弃）</li>
+</ul>
+</li>
+<li>classmap - autoload_classmap.php
+<ul>
+<li>通过配置指定的目录或文件，在 Composer 安装或更新时生成新的映射</li>
+</ul>
+</li>
+<li>files - autoload_files.php
+<ul>
+<li>手动指定直接加载的文件</li>
+</ul>
+</li>
+</ul>
+<p>以 Laravel 的 <code>composer.json</code> 文件为例：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">...</span><br><span class="line">  "autoload": &#123;</span><br><span class="line">    "psr-4": &#123;</span><br><span class="line">      "App\\": "app/"</span><br><span class="line">    &#125;,</span><br><span class="line">    "classmap": [</span><br><span class="line">      "database/seeds",</span><br><span class="line">      <span class="string">"database/factories"</span></span><br><span class="line">    ]</span><br><span class="line">  &#125;,</span><br><span class="line">...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>接着再重点分析 <code>autoload_real.php</code> 代码</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// autoload_real.php @generated by Composer</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ComposerAutoloaderInit87df794bebfc20f9e9133106778dd77b</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> $loader;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="function"><span class="keyword">function</span> <span class="title">loadClassLoader</span><span class="params">($class)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="string">'Composer\Autoload\ClassLoader'</span> === $class) &#123;</span><br><span class="line">            <span class="keyword">require</span> <span class="keyword">__DIR__</span> . <span class="string">'/ClassLoader.php'</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="function"><span class="keyword">function</span> <span class="title">getLoader</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">      	<span class="comment">// 单例模式，判断 loader 是否存在</span></span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">null</span> !== <span class="keyword">self</span>::$loader) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">self</span>::$loader;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">      	<span class="comment">// 使用 spl_autoload_register 注册自动加载函数</span></span><br><span class="line">        spl_autoload_register(<span class="keyword">array</span>(<span class="string">'ComposerAutoloaderInit87df794bebfc20f9e9133106778dd77b'</span>, <span class="string">'loadClassLoader'</span>), <span class="keyword">true</span>, <span class="keyword">true</span>);</span><br><span class="line">      </span><br><span class="line">      	<span class="comment">// 执行 new \Composer\Autoload\ClassLoader(); 时，会调用当前类的 loadClassLoader 类方法，返回 ClassLoader 类的实例</span></span><br><span class="line">        <span class="keyword">self</span>::$loader = $loader = <span class="keyword">new</span> \Composer\Autoload\ClassLoader();</span><br><span class="line">      </span><br><span class="line">      	<span class="comment">// 注销刚才注册的自动加载函数</span></span><br><span class="line">        spl_autoload_unregister(<span class="keyword">array</span>(<span class="string">'ComposerAutoloaderInit87df794bebfc20f9e9133106778dd77b'</span>, <span class="string">'loadClassLoader'</span>));</span><br><span class="line"></span><br><span class="line">      	<span class="comment">// 当 PHP 版本大于 5.6、没有使用 HHVM_VERSION、没有使用 Zend Guard 编码，则执行下面代码</span></span><br><span class="line">        $useStaticLoader = PHP_VERSION_ID &gt;= <span class="number">50600</span> &amp;&amp; !defined(<span class="string">'HHVM_VERSION'</span>) &amp;&amp; (!function_exists(<span class="string">'zend_loader_file_encoded'</span>) || !zend_loader_file_encoded());</span><br><span class="line">        <span class="keyword">if</span> ($useStaticLoader) &#123;</span><br><span class="line">            <span class="keyword">require_once</span> <span class="keyword">__DIR__</span> . <span class="string">'/autoload_static.php'</span>;</span><br><span class="line">          </span><br><span class="line">						<span class="comment">// 使用静态映射的方式去获取所有 PSR-4、PSR-0、ClassMap、files 等加载方式的类名和文件</span></span><br><span class="line">            call_user_func(\Composer\Autoload\ComposerStaticInit87df794bebfc20f9e9133106778dd77b::getInitializer($loader));</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="comment">// 获取 PSR-0 加载方式的类和路径</span></span><br><span class="line">            $map = <span class="keyword">require</span> <span class="keyword">__DIR__</span> . <span class="string">'/autoload_namespaces.php'</span>;</span><br><span class="line">            <span class="keyword">foreach</span> ($map <span class="keyword">as</span> $namespace =&gt; $path) &#123;</span><br><span class="line">                $loader-&gt;set($namespace, $path);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">          	<span class="comment">// 获取 PSR-4 加载方式的类和路径</span></span><br><span class="line">            $map = <span class="keyword">require</span> <span class="keyword">__DIR__</span> . <span class="string">'/autoload_psr4.php'</span>;</span><br><span class="line">            <span class="keyword">foreach</span> ($map <span class="keyword">as</span> $namespace =&gt; $path) &#123;</span><br><span class="line">                $loader-&gt;setPsr4($namespace, $path);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">	          <span class="comment">// 获取 classmap 加载方式的类和路径</span></span><br><span class="line">            $classMap = <span class="keyword">require</span> <span class="keyword">__DIR__</span> . <span class="string">'/autoload_classmap.php'</span>;</span><br><span class="line">            <span class="keyword">if</span> ($classMap) &#123;</span><br><span class="line">                $loader-&gt;addClassMap($classMap);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">				</span><br><span class="line">        <span class="comment">// ClassLoader 注册自动加载函数</span></span><br><span class="line">        $loader-&gt;register(<span class="keyword">true</span>);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 直接 require 所有 files 加载方式的文件</span></span><br><span class="line">        <span class="keyword">if</span> ($useStaticLoader) &#123;</span><br><span class="line">            $includeFiles = Composer\Autoload\ComposerStaticInit87df794bebfc20f9e9133106778dd77b::$files;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            $includeFiles = <span class="keyword">require</span> <span class="keyword">__DIR__</span> . <span class="string">'/autoload_files.php'</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">foreach</span> ($includeFiles <span class="keyword">as</span> $fileIdentifier =&gt; $file) &#123;</span><br><span class="line">            composerRequire87df794bebfc20f9e9133106778dd77b($fileIdentifier, $file);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> $loader;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">composerRequire87df794bebfc20f9e9133106778dd77b</span><span class="params">($fileIdentifier, $file)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">empty</span>($GLOBALS[<span class="string">'__composer_autoload_files'</span>][$fileIdentifier])) &#123;</span><br><span class="line">        <span class="keyword">require</span> $file;</span><br><span class="line"></span><br><span class="line">        $GLOBALS[<span class="string">'__composer_autoload_files'</span>][$fileIdentifier] = <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>至此，Composer 自动加载机制已经基本了解，如果想知道 $loader 是如何实现加载对应文件的，可以了解 ClassLoader 类的 loadClass 类方法的实现，在此就不在赘述了。</p>
+
+      </div>
+    </div>
+  </div>
+</div>
+<div class="lx-navigation">
+	<div class="lx-cover prev lx-cover-sm" style="background-image: url(https://sebastian-1256190695.cos.ap-guangzhou.myqcloud.com/footer_2.jpg)">
+		<div class="overlay"></div>
+		<a class="copy" href="#">
+			<div class="display-t">
+				<div class="display-tc">
+					<div>
+						<span>Next</span>
+						<h3>没有更新的文章</h3>
+					</div>
+				</div>
+			</div>
+		</a>
+	</div>
+        <div class="lx-cover next lx-cover-sm" style="background-image: url(https://sebastian-1256190695.cos.ap-guangzhou.myqcloud.com/footer_1.jpg)">
+		<div class="overlay"></div>
+		<a class="copy" href="/2019/10/29/使用-Elasticsearch-Kibana-Logstash-搭建简单日志分析平台/">
+			<div class="display-t">
+				<div class="display-tc">
+					<div>
+						<span>Prev</span>
+						<h3>使用 Elasticsearch + Kibana + Logstash 搭建简单日志分析平台</h3>
+					</div>
+				</div>
+			</div>
+		</a>
+	</div>
+</div>
+</div>
+<div class="comment"><div id="comments"></div></div>
+<footer>
+  <div>
+  Copyright &copy; 2019.<a href="/">Sebastian Kennedy</a><br>Powered by <a href="https://hexo.io" target="_blank">Hexo</a> | Theme <a href="https://lx.blleng.cn" target="_blank">Lx</a><br>
+  </div>
+</footer>
+</div>
+<a href="javascript:;" class="popup-trigger"><i class="menu-item-icon fa fa-search fa-fw"></i></a>
+<div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="Search..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+<button class="menu-trigger"></button>
+<div class="menu">
+  <div class="menu-head">
+    <span class="layer">
+      <div class="col">
+        <div class="row for-pic">
+          <div class="profile-pic">
+            <a href="/"><img src="https://sebastian-1256190695.cos.ap-guangzhou.myqcloud.com/person_1.jpg" alt="Sebastian Kennedy"></a>
+          </div>
+        </div>
+        <div class="row for-name">
+          <p>Sebastian Kennedy</p>
+          <span class="tagline">人类的悲欢并不相通，我只觉得他们吵闹。</span>
+        </div>
+      </div>
+    </span>
+  </div>
+  <nav class="menu-container">
+  <ul class="menu-items">
+    <li><a href="/"><i class="fa fa-home fa-fw"></i>首页</a></li>
+    <li><a href="/archives/"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+    <li class="has-sub"><span class="dropdown-heading">
+      <i class="fa fa-bookmark fa-fw"></i>页面</span>
+        <ul>
+          <li><a href="/guestbook">留言</a></li>
+        <li><a href="/about">关于</a></li>
+        </ul>
+    </li>
+    <li class="has-sub"><span class="dropdown-heading">
+      <i class="fa fa-link fa-fw"></i>友链</span>
+        <ul>
+          <li> <a href="https://lx.blleng.cn" target="_blank">Theme-Lx</a></li>
+        </ul>
+    </li>
+  </ul>
+  </nav>
+</div>
+
+<div class="gototop js-top">
+  <a href="#" class="js-gotop"><i class="fa fa-arrow-up"></i></a>
+</div>
+<script src="/js/jquery.easing.min.js"></script>
+<script src="/js/jquery.waypoints.min.js"></script>
+<script src="/js/jquery.stellar.min.js"></script>
+<script src="/js/main.js"></script>
+<script src="/js/local.search.js"></script>
+
+
+</body>
+</html>

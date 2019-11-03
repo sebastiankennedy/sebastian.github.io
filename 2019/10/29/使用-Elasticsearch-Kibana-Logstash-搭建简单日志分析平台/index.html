@@ -66,23 +66,23 @@
   <div class="lx-post">
     <div class="lx-entry padding">
       <div>
-        <h2 id="ELK-架构图"><a href="#ELK-架构图" class="headerlink" title="ELK 架构图"></a>ELK 架构图</h2><h2 id="ELK-流程图"><a href="#ELK-流程图" class="headerlink" title="ELK 流程图"></a>ELK 流程图</h2><h2 id="安装-Elasticsearch"><a href="#安装-Elasticsearch" class="headerlink" title="安装 Elasticsearch"></a>安装 Elasticsearch</h2><p>导入公钥</p>
+        <h2 id="elk-架构图"><a class="header-anchor" href="#elk-架构图"></a>ELK 架构图</h2>
+<h2 id="elk-流程图"><a class="header-anchor" href="#elk-流程图"></a>ELK 流程图</h2>
+<h2 id="安装-elasticsearch"><a class="header-anchor" href="#安装-elasticsearch"></a>安装 Elasticsearch</h2>
+<p>导入公钥</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget -qO - https://artifacts.elastic.co/GPG-KEY-elasticsearch | sudo apt-key add -</span><br></pre></td></tr></table></figure>
-
 <p>安装 Elasticsearch</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install apt-transport-https</span><br><span class="line"></span><br><span class="line">echo &quot;deb http://mirrors.tencentyun.com/elasticstack/apt/7.x/ stable main&quot; | sudo tee -a /etc/apt/sources.list.d/elastic-7.x.list</span><br><span class="line"></span><br><span class="line">sudo apt-get update</span><br><span class="line"></span><br><span class="line">sudo apt-get install elasticsearch</span><br></pre></td></tr></table></figure>
-
 <p>配置 Elasticsearch 开机启动</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo /bin/systemctl daemon-reload</span><br><span class="line">sudo /bin/systemctl enable elasticsearch.service</span><br></pre></td></tr></table></figure>
-
 <p>操作 Elasticsearch 常用命令</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo systemctl start elasticsearch.service</span><br><span class="line">sudo systemctl stop elasticsearch.service</span><br><span class="line">sudo systemctl restart elasticsearch.service</span><br></pre></td></tr></table></figure>
+<h2 id="安装-kibana"><a class="header-anchor" href="#安装-kibana"></a>安装 Kibana</h2>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install kibana</span><br></pre></td></tr></table></figure>
+<h2 id="安装-logstash"><a class="header-anchor" href="#安装-logstash"></a>安装 Logstash</h2>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h2 id="安装-redis"><a class="header-anchor" href="#安装-redis"></a>安装 Redis</h2>
 
-<h2 id="安装-Kibana"><a href="#安装-Kibana" class="headerlink" title="安装 Kibana"></a>安装 Kibana</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install kibana</span><br></pre></td></tr></table></figure>
-
-<h2 id="安装-Logstash"><a href="#安装-Logstash" class="headerlink" title="安装 Logstash"></a>安装 Logstash</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h2 id="安装-Redis"><a href="#安装-Redis" class="headerlink" title="安装 Redis"></a>安装 Redis</h2>
       </div>
     </div>
   </div>
@@ -90,12 +90,12 @@
 <div class="lx-navigation">
 	<div class="lx-cover prev lx-cover-sm" style="background-image: url(https://sebastian-1256190695.cos.ap-guangzhou.myqcloud.com/footer_2.jpg)">
 		<div class="overlay"></div>
-		<a class="copy" href="#">
+		<a class="copy" href="/2019/11/03/学习-PHP-之入门概述（Introduction）/">
 			<div class="display-t">
 				<div class="display-tc">
 					<div>
 						<span>Next</span>
-						<h3>没有更新的文章</h3>
+						<h3>学习 PHP 之入门概述</h3>
 					</div>
 				</div>
 			</div>
