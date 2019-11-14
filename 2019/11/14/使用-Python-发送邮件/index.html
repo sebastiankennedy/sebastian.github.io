@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>使用 Python 发送邮件 | “人类的悲欢并不相通，我只觉得他们吵闹。”</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="author" content="Sebastian Kennedy">
+  <meta name="keywords" content="Sebastian Kennedy Blog PHP Laravel Yii">
+  <meta name="description" content="Sebastian Kennedy Blog PHP Laravel Yii">
+  <script id="hexo-configurations">
+  var CONFIG = {
+    root: '/',
+    theme: 'lx',
+    version: '1.4.5',
+    localsearch:{
+      "enable": true,
+      "trigger": "auto",
+      "top_n_per_article": 1,
+      "unescape": false,
+      "preload": false
+      },
+    path: 'search.xml'
+  };
+</script>
+
+  <link rel="shortcut icon" href="https://sebastian-1256190695.cos.ap-guangzhou.myqcloud.com/person_1.jpg">
+  <link rel="stylesheet" href="/css/main.css">
+  <script src="/js/jquery.min.js"></script>
+  <script src="/js/jquery.jside.menu.js"></script>
+	<script>
+	$(document).ready(function(){
+	$(".menu-container").jSideMenu({
+	    jSidePosition: "position-right",
+	    jSideSticky: true,
+	    jSideSkin: "black-grey",
+	     });
+	}); 
+	</script>
+  <!--Google_Analytics-->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-150354789-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'UA-150354789-1');
+</script>
+
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:300|Noto+Serif+SC&amp;display=swap">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/font-awesome@4/css/font-awesome.min.css">
+</head>
+<body>
+<div class="single">
+<div id="page">
+<div id="lx-aside" style="background-image: url(https://sebastian-1256190695.cos.ap-guangzhou.myqcloud.com/page-cover.jpg)" data-stellar-background-ratio="0.5">
+  <div class="overlay">
+  <div class="page-title">
+    <div class="avatar"><a href="/"><img src="https://sebastian-1256190695.cos.ap-guangzhou.myqcloud.com/person_1.jpg"></a></div>
+    <span>2019-11-14</span>
+    <h2>使用 Python 发送邮件</h2>
+    <div class="tags"><i class="fa fa-tag"></i><a class="tag-link" href="/tags/Python/">Python</a></div>
+    </div>
+</div>
+</div>
+<div id="lx-main-content">
+  <div class="lx-post">
+    <div class="lx-entry padding">
+      <div>
+        <h2 id="内置模块"><a class="header-anchor" href="#内置模块"></a>内置模块</h2>
+<ul>
+<li>email：构建邮件内容</li>
+<li>smtplib：发送邮件</li>
+</ul>
+<h2 id="stmplib-模块使用示例"><a class="header-anchor" href="#stmplib-模块使用示例"></a>stmplib 模块使用示例</h2>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> smtplib</span><br><span class="line"></span><br><span class="line">// SMTP Simple Mail Transfer Protocol</span><br><span class="line">server = smtplib.SMTP()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">// SSL 加密</span><br><span class="line">server = smtplib.SMTP_SSL()</span><br><span class="line">server = smtplib.SMTP_SSL(smtp_server) // Python <span class="number">3.7</span> 以后使用</span><br><span class="line"></span><br><span class="line">// 连接一个服务器</span><br><span class="line">server.connect(host, port)</span><br><span class="line"></span><br><span class="line">// 邮箱账号与授权码</span><br><span class="line">server.login(username, password)</span><br><span class="line"></span><br><span class="line">// 发送地址，收件人，内容</span><br><span class="line">server.sendmail(from_addr, to_addr, msg.as_string())</span><br><span class="line">server.quit()</span><br></pre></td></tr></table></figure>
+<h2 id="email-模块使用示例"><a class="header-anchor" href="#email-模块使用示例"></a>email 模块使用示例</h2>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> email.mime.text <span class="keyword">import</span> MIMEText</span><br><span class="line"><span class="keyword">from</span> email.mime.image <span class="keyword">import</span> MIMEImage</span><br><span class="line"><span class="keyword">from</span> email.mime.multipart <span class="keyword">import</span> MIMEMultipart</span><br><span class="line"></span><br><span class="line">// 文本内容，文本类型，charset</span><br><span class="line">msg = MIMEText.(msg, type, charset)</span><br></pre></td></tr></table></figure>
+<h2 id="email-模块配置邮件头部"><a class="header-anchor" href="#email-模块配置邮件头部"></a>email 模块配置邮件头部</h2>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> email.header <span class="keyword">import</span> Header</span><br><span class="line"></span><br><span class="line">msg[<span class="string">'From'</span>] = Header(from_add<span class="string">r')</span></span><br><span class="line"><span class="string">msg['</span>To<span class="string">'] = Header(to_addr'</span>)</span><br><span class="line">msg[<span class="string">'Subject'</span>] = Header(<span class="string">'Subject'</span>)</span><br></pre></td></tr></table></figure>
+<h2 id="email-发送代码简单示例"><a class="header-anchor" href="#email-发送代码简单示例"></a>email 发送代码简单示例</h2>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> config</span><br><span class="line"><span class="keyword">import</span> smtplib</span><br><span class="line"><span class="keyword">from</span> email.mime.text <span class="keyword">import</span> MIMEText</span><br><span class="line"></span><br><span class="line"><span class="comment"># 连接服务器</span></span><br><span class="line">server = smtplib.SMTP_SSL(config.host, config.port)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 登录服务器</span></span><br><span class="line">server.login(config.username, config.password)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 编写邮件内容</span></span><br><span class="line">content = <span class="string">'Hello World'</span></span><br><span class="line">content_type = <span class="string">'plain'</span></span><br><span class="line">charset = <span class="string">'utf-8'</span></span><br><span class="line">content = MIMEText(content, content_type, charset)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 编写邮件头部</span></span><br><span class="line">content[<span class="string">'From'</span>] = config.from_addr</span><br><span class="line">content[<span class="string">'To'</span>] = config.to_addr</span><br><span class="line">content[<span class="string">'Subject'</span>] = config.subject</span><br><span class="line"></span><br><span class="line"><span class="comment"># 发送邮件</span></span><br><span class="line">server.sendmail(config.from_addr, config.to_addr, content.as_string())</span><br><span class="line">server.quit()</span><br></pre></td></tr></table></figure>
+<h2 id="email-实现群发"><a class="header-anchor" href="#email-实现群发"></a>email 实现群发</h2>
+<p>// TODO</p>
+<h2 id="email-实现签名"><a class="header-anchor" href="#email-实现签名"></a>email 实现签名</h2>
+<p>// TODO</p>
+
+      </div>
+    </div>
+  </div>
+</div>
+<div class="lx-navigation">
+	<div class="lx-cover prev lx-cover-sm" style="background-image: url(https://sebastian-1256190695.cos.ap-guangzhou.myqcloud.com/footer_2.jpg)">
+		<div class="overlay"></div>
+		<a class="copy" href="#">
+			<div class="display-t">
+				<div class="display-tc">
+					<div>
+						<span>Next</span>
+						<h3>没有更新的文章</h3>
+					</div>
+				</div>
+			</div>
+		</a>
+	</div>
+        <div class="lx-cover next lx-cover-sm" style="background-image: url(https://sebastian-1256190695.cos.ap-guangzhou.myqcloud.com/footer_1.jpg)">
+		<div class="overlay"></div>
+		<a class="copy" href="/2019/11/12/深入浅出计算机编码/">
+			<div class="display-t">
+				<div class="display-tc">
+					<div>
+						<span>Prev</span>
+						<h3>深入浅出计算机编码</h3>
+					</div>
+				</div>
+			</div>
+		</a>
+	</div>
+</div>
+</div>
+<div class="comment"><div id="comments"></div></div>
+<footer>
+  <div>
+  Copyright &copy; 2019.<a href="/">Sebastian Kennedy</a><br>Powered by <a href="https://hexo.io" target="_blank">Hexo</a> | Theme <a href="https://lx.blleng.cn" target="_blank">Lx</a><br>
+  </div>
+</footer>
+</div>
+<a href="javascript:;" class="popup-trigger"><i class="menu-item-icon fa fa-search fa-fw"></i></a>
+<div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="Search..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+<button class="menu-trigger"></button>
+<div class="menu">
+  <div class="menu-head">
+    <span class="layer">
+      <div class="col">
+        <div class="row for-pic">
+          <div class="profile-pic">
+            <a href="/"><img src="https://sebastian-1256190695.cos.ap-guangzhou.myqcloud.com/person_1.jpg" alt="Sebastian Kennedy"></a>
+          </div>
+        </div>
+        <div class="row for-name">
+          <p>Sebastian Kennedy</p>
+          <span class="tagline">人类的悲欢并不相通，我只觉得他们吵闹。</span>
+        </div>
+      </div>
+    </span>
+  </div>
+  <nav class="menu-container">
+  <ul class="menu-items">
+    <li><a href="/"><i class="fa fa-home fa-fw"></i>首页</a></li>
+    <li><a href="/archives/"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+    <li class="has-sub"><span class="dropdown-heading">
+      <i class="fa fa-bookmark fa-fw"></i>页面</span>
+        <ul>
+          <li><a href="/guestbook">留言</a></li>
+        <li><a href="/about">关于</a></li>
+        </ul>
+    </li>
+    <li class="has-sub"><span class="dropdown-heading">
+      <i class="fa fa-link fa-fw"></i>友链</span>
+        <ul>
+          <li> <a href="https://lx.blleng.cn" target="_blank">Theme-Lx</a></li>
+        </ul>
+    </li>
+  </ul>
+  </nav>
+</div>
+
+<div class="gototop js-top">
+  <a href="#" class="js-gotop"><i class="fa fa-arrow-up"></i></a>
+</div>
+<script src="/js/jquery.easing.min.js"></script>
+<script src="/js/jquery.waypoints.min.js"></script>
+<script src="/js/jquery.stellar.min.js"></script>
+<script src="/js/main.js"></script>
+<script src="/js/local.search.js"></script>
+
+
+</body>
+</html>

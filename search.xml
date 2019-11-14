@@ -1,6 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>使用 Python 发送邮件</title>
+    <url>/2019/11/14/%E4%BD%BF%E7%94%A8-Python-%E5%8F%91%E9%80%81%E9%82%AE%E4%BB%B6/</url>
+    <content><![CDATA[<h2 id="内置模块"><a class="header-anchor" href="#内置模块"></a>内置模块</h2>
+<ul>
+<li>email：构建邮件内容</li>
+<li>smtplib：发送邮件</li>
+</ul>
+<h2 id="stmplib-模块使用示例"><a class="header-anchor" href="#stmplib-模块使用示例"></a>stmplib 模块使用示例</h2>
+<figure class="highlight py"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> smtplib</span><br><span class="line"></span><br><span class="line">// SMTP Simple Mail Transfer Protocol</span><br><span class="line">server = smtplib.SMTP()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">// SSL 加密</span><br><span class="line">server = smtplib.SMTP_SSL()</span><br><span class="line">server = smtplib.SMTP_SSL(smtp_server) // Python <span class="number">3.7</span> 以后使用</span><br><span class="line"></span><br><span class="line">// 连接一个服务器</span><br><span class="line">server.connect(host, port)</span><br><span class="line"></span><br><span class="line">// 邮箱账号与授权码</span><br><span class="line">server.login(username, password)</span><br><span class="line"></span><br><span class="line">// 发送地址，收件人，内容</span><br><span class="line">server.sendmail(from_addr, to_addr, msg.as_string())</span><br><span class="line">server.quit()</span><br></pre></td></tr></table></figure>
+<h2 id="email-模块使用示例"><a class="header-anchor" href="#email-模块使用示例"></a>email 模块使用示例</h2>
+<figure class="highlight py"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> email.mime.text <span class="keyword">import</span> MIMEText</span><br><span class="line"><span class="keyword">from</span> email.mime.image <span class="keyword">import</span> MIMEImage</span><br><span class="line"><span class="keyword">from</span> email.mime.multipart <span class="keyword">import</span> MIMEMultipart</span><br><span class="line"></span><br><span class="line">// 文本内容，文本类型，charset</span><br><span class="line">msg = MIMEText.(msg, type, charset)</span><br></pre></td></tr></table></figure>
+<h2 id="email-模块配置邮件头部"><a class="header-anchor" href="#email-模块配置邮件头部"></a>email 模块配置邮件头部</h2>
+<figure class="highlight py"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> email.header <span class="keyword">import</span> Header</span><br><span class="line"></span><br><span class="line">msg[<span class="string">'From'</span>] = Header(from_add<span class="string">r')</span></span><br><span class="line"><span class="string">msg['</span>To<span class="string">'] = Header(to_addr'</span>)</span><br><span class="line">msg[<span class="string">'Subject'</span>] = Header(<span class="string">'Subject'</span>)</span><br></pre></td></tr></table></figure>
+<h2 id="email-发送代码简单示例"><a class="header-anchor" href="#email-发送代码简单示例"></a>email 发送代码简单示例</h2>
+<figure class="highlight py"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> config</span><br><span class="line"><span class="keyword">import</span> smtplib</span><br><span class="line"><span class="keyword">from</span> email.mime.text <span class="keyword">import</span> MIMEText</span><br><span class="line"></span><br><span class="line"><span class="comment"># 连接服务器</span></span><br><span class="line">server = smtplib.SMTP_SSL(config.host, config.port)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 登录服务器</span></span><br><span class="line">server.login(config.username, config.password)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 编写邮件内容</span></span><br><span class="line">content = <span class="string">'Hello World'</span></span><br><span class="line">content_type = <span class="string">'plain'</span></span><br><span class="line">charset = <span class="string">'utf-8'</span></span><br><span class="line">content = MIMEText(content, content_type, charset)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 编写邮件头部</span></span><br><span class="line">content[<span class="string">'From'</span>] = config.from_addr</span><br><span class="line">content[<span class="string">'To'</span>] = config.to_addr</span><br><span class="line">content[<span class="string">'Subject'</span>] = config.subject</span><br><span class="line"></span><br><span class="line"><span class="comment"># 发送邮件</span></span><br><span class="line">server.sendmail(config.from_addr, config.to_addr, content.as_string())</span><br><span class="line">server.quit()</span><br></pre></td></tr></table></figure>
+<h2 id="email-实现群发"><a class="header-anchor" href="#email-实现群发"></a>email 实现群发</h2>
+<p>// TODO</p>
+<h2 id="email-实现签名"><a class="header-anchor" href="#email-实现签名"></a>email 实现签名</h2>
+<p>// TODO</p>
+]]></content>
+      <tags>
+        <tag>Python</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>深入浅出计算机编码</title>
     <url>/2019/11/12/%E6%B7%B1%E5%85%A5%E6%B5%85%E5%87%BA%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BC%96%E7%A0%81/</url>
     <content><![CDATA[<h2 id="什么是编码"><a class="header-anchor" href="#什么是编码"></a>什么是编码</h2>
@@ -14,6 +39,37 @@
 <h2 id="什么是编码表"><a class="header-anchor" href="#什么是编码表"></a>什么是编码表</h2>
 <p>人类语言到计算机语言转换的形式，就叫做编码表，它让人类语言和计算机语言能够一一对应起来。<br>
 常用的编码表如下所示：</p>
+<table>
+<thead>
+<tr>
+<th>编码表</th>
+<th>适用性</th>
+<th>特点</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ASCII 码</td>
+<td>英文大小写，字符，不支持中文</td>
+<td>最早的编码，占用空间小</td>
+</tr>
+<tr>
+<td>GB2312 码、GBK 码</td>
+<td>支持了中文</td>
+<td>GBK 是 GB2312 的升级</td>
+</tr>
+<tr>
+<td>Unicode 码</td>
+<td>支持国际语言</td>
+<td>占用空间大，适用性强</td>
+</tr>
+<tr>
+<td>UTF-8 码</td>
+<td>支持国际语言</td>
+<td>Unicode 码升级版，两者之间容易转换。ASCII 码被 UTF-8 码包含</td>
+</tr>
+</tbody>
+</table>
 ]]></content>
   </entry>
   <entry>
