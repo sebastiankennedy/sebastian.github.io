@@ -108,6 +108,67 @@
 </tr>
 </tbody>
 </table>
+<h2 id="什么是位"><a class="header-anchor" href="#什么是位"></a>什么是位</h2>
+<p>位的英文名是 bit，是电子计算机中最小的数据单位，每一个位（bit）的状态只能是 0 或 1。</p>
+<h2 id="位-二进制-十六进制的关系"><a class="header-anchor" href="#位-二进制-十六进制的关系"></a>位、二进制、十六进制的关系</h2>
+<p>位与二进制：</p>
+<ul>
+<li>1 位（bit）= 1 个二进制位</li>
+<li>1 字节（Byte） = 8 位（bit）</li>
+<li>1 字节（Byte） = 8 个二进制位</li>
+<li>8 个二进制位 = 00000000 - 11111111 = 十进制位 0 ~ 255</li>
+</ul>
+<p>位、二进制与十六进制</p>
+<ul>
+<li>1 个十六进制位 = 0 ~ F  = 0 ~ 15</li>
+<li>4 个二进制位 = 0000 ~ 1111 = 0 ~ 15</li>
+<li>4 个二进制位 = 1 个十六进制位</li>
+<li>1 个字节（Byte）= 8 位（bit）= 8 个二进制位 = 2 个十六进制位 = 0 ~ 255</li>
+</ul>
+<h1 id="二进制位与十进制位相互转换"><a class="header-anchor" href="#二进制位与十进制位相互转换"></a>二进制位与十进制位相互转换</h1>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"># 二进制位转换成为十进制位</span><br><span class="line">00000001 = (0 x 128) + (0 x 64) + (0 x 32) + (0 x 16) + (0 x 8) + (0 x 4) + (0 x 2) + (1 x 1) = 1</span><br><span class="line">10000111 = (1 x 128) + (0 x 64) + (0 x 32) + (0 x 16) + (0 x 8) + (1 x 4) + (1 x 2) + (1 x 1) = 135</span><br><span class="line"></span><br><span class="line"># 十进制位与二进制位相互转换</span><br><span class="line">135 / 2 = 67（余数为 1）</span><br><span class="line">67  / 2 = 33（余数为 1）</span><br><span class="line">33  / 2 = 16（余数为 1）</span><br><span class="line">16  / 2 = 8 （余数为 0）</span><br><span class="line">8   / 2 = 4 （余数为 0）</span><br><span class="line">4   / 2 = 2 （余数为 0）</span><br><span class="line">2   / 2 = 1 （余数为 0）</span><br><span class="line">1   / 2 = 0 （余数为 1）</span><br><span class="line"></span><br><span class="line">10000111</span><br></pre></td></tr></table></figure>
+<h2 id="十六进制与十进制互相转换"><a class="header-anchor" href="#十六进制与十进制互相转换"></a>十六进制与十进制互相转换</h2>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># 十六进制转换成十进制：2AF5</span><br><span class="line">5 * 16^0 = 5</span><br><span class="line">F * 16^1 = 240</span><br><span class="line">A * 16^2 = 2560</span><br><span class="line">2 * 16^3 = 8192</span><br><span class="line">5 * 16^0 + F * 16^1 + A * 16^2 + 2 * 16^3 = 10997</span><br></pre></td></tr></table></figure>
+<h2 id="二进制与编码表"><a class="header-anchor" href="#二进制与编码表"></a>二进制与编码表</h2>
+<p>世界上存在多种编码方式，同一个二进制数字可以被解释成不同的符号。因此，要想打开一个文本文件，就必须知道它的编码方式，否则用错误的编码方式解读，就会出现乱码。ASCII 编码表只规定了 128 个字符，仅仅表示中文就不够用了。伴随互联网的普及，强烈要求出现一种统一的编码方式。UTF-8 就是在互联网上使用最广的一种 Unicode 的实现方式。</p>
+<h2 id="utf-8-编码规则"><a class="header-anchor" href="#utf-8-编码规则"></a>UTF-8 编码规则</h2>
+<p>Unicode 是一个符号集，它只规定了符号的二进制代码，却没有规定这个二进制代码如何存储。UTF-8 是 Unicode 的实现方式之一。是一种可变的编码方式，可以使用 1 ~ 4 个字节表示一个字符。</p>
+<ul>
+<li>对于单字节的符号，字节的第一位设为0，后面7位为这个符号的 Unicode 码。因此对于英语字母，UTF-8 编码和 ASCII 码是相同的。</li>
+<li>对于 n 字节的符号（n &gt; 1），第一个字节的前 n 位都设为 1，第 n + 1 位设为 0，后面字节的前两位一律设为 10。剩下的没有提及的二进制位，全部为这个符号的 Unicode 码。</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Unicode 符号范围</th>
+<th>UTF-8 编码方式</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>十六进制</td>
+<td>二进制</td>
+</tr>
+<tr>
+<td>0000 0000-0000 007F</td>
+<td>0xxxxxxx</td>
+</tr>
+<tr>
+<td>0000 0080-0000 07FF</td>
+<td>110xxxxx 10xxxxxx</td>
+</tr>
+<tr>
+<td>0000 0800-0000 FFFF</td>
+<td>1110xxxx 10xxxxxx 10xxxxxx</td>
+</tr>
+<tr>
+<td>0001 0000-0010 FFFF</td>
+<td>11110xxx 10xxxxxx 10xxxxxx 10xxxxxx</td>
+</tr>
+</tbody>
+</table>
+<p>以<code>卢</code>字为例，<code>卢</code>的 Unicode 是 <code>5362</code>，转换成为二进制是 <code>101 0011 0110 0010</code>，根据上表，<code>5362</code> 处于第三行范围内（<code>0000 0800-0000 FFFF</code>），然后，从<code>卢</code>的最后一个二进制位开始，依次从后向前填入格式中的 <code>x</code>，多出的位补 <code>0</code>。这样就得到了，<code>卢</code>的 UTF-8 编码是<code>11100101 10001101 10100010</code>，转换成十六进制就是 <code>E58DA2</code>。运算过程如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"># UTF-8 编码出现的二进制位</span><br><span class="line">1110xxxx 10xxxxxx 10xxxxxx</span><br><span class="line">     101   001101   100010</span><br><span class="line">11100101 10001101 10100010</span><br><span class="line"></span><br><span class="line"># 二进制位转十六进制位</span><br><span class="line">11100101 10001101 10100010 =  E58DA2 </span><br><span class="line"></span><br><span class="line"># 存储单位</span><br><span class="line">11100101 10001101 10100010 = 24 个二进制位 = 3 个字节</span><br><span class="line">E58DA2 = 6 个十六进制位 = 3 个字节</span><br></pre></td></tr></table></figure>
 
       </div>
     </div>
