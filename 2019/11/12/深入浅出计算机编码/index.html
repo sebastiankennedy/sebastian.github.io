@@ -69,7 +69,7 @@
         <h2 id="什么是编码"><a class="header-anchor" href="#什么是编码"></a>什么是编码</h2>
 <p>编码的本质就是让只认识 0 和 1 的计算机，能够理解我们人类使用的语言符号，并且将数据转换为二进制进行存储和传输。</p>
 <h2 id="为什么计算机只认识-0-和-1"><a class="header-anchor" href="#为什么计算机只认识-0-和-1"></a>为什么计算机只认识 0 和 1</h2>
-<p>计算机主要是采用数字集成电路搭建的，数字集成电路的基本单元是逻辑门，通过控制高电平和低电平（相当于 1 和 0），从而实现逻辑运算。</p>
+<p>电子计算机主要是采用数字集成电路搭建的，数字集成电路的基本单元是逻辑门，通过控制高电平和低电平（相当于 1 和 0），从而实现逻辑运算。</p>
 <h2 id="什么是二进制"><a class="header-anchor" href="#什么是二进制"></a>什么是二进制</h2>
 <p>二进制是计算技术中广泛采用的一种数制。二进制数据是用 0 和 1 两个数码来表示的数。</p>
 <h2 id="为什么将数据转换为二进制进行存储和传输"><a class="header-anchor" href="#为什么将数据转换为二进制进行存储和传输"></a>为什么将数据转换为二进制进行存储和传输</h2>
@@ -169,7 +169,8 @@
 </table>
 <p>以<code>卢</code>字为例，<code>卢</code>的 Unicode 是 <code>5362</code>，转换成为二进制是 <code>101 0011 0110 0010</code>，根据上表，<code>5362</code> 处于第三行范围内（<code>0000 0800-0000 FFFF</code>），然后，从<code>卢</code>的最后一个二进制位开始，依次从后向前填入格式中的 <code>x</code>，多出的位补 <code>0</code>。这样就得到了，<code>卢</code>的 UTF-8 编码是<code>11100101 10001101 10100010</code>，转换成十六进制就是 <code>E58DA2</code>。运算过程如下：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"># UTF-8 编码出现的二进制位</span><br><span class="line">1110xxxx 10xxxxxx 10xxxxxx</span><br><span class="line">     101   001101   100010</span><br><span class="line">11100101 10001101 10100010</span><br><span class="line"></span><br><span class="line"># 二进制位转十六进制位</span><br><span class="line">11100101 10001101 10100010 =  E58DA2 </span><br><span class="line"></span><br><span class="line"># 存储单位</span><br><span class="line">11100101 10001101 10100010 = 24 个二进制位 = 3 个字节</span><br><span class="line">E58DA2 = 6 个十六进制位 = 3 个字节</span><br></pre></td></tr></table></figure>
-
+<p>新建一个文件，然后往里写入汉字<code>卢</code>，保存之后退出查看文件大小，执行命令如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"># 创建文件</span><br><span class="line">touch test</span><br><span class="line"></span><br><span class="line"># 用 vscode 打开并写入汉字「卢」</span><br><span class="line">code test</span><br><span class="line"></span><br><span class="line"># 查看文件大小</span><br><span class="line">ls -lht</span><br><span class="line"></span><br><span class="line"># 显示文件 3B，三个字节</span><br><span class="line">-rw-r--r--   1 sebastian  staff     3B 12  6 14:14 test</span><br></pre></td></tr></table></figure>
       </div>
     </div>
   </div>
