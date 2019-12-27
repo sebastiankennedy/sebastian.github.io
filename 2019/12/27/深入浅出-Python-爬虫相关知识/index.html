@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>深入浅出 Python 爬虫相关知识 | “人类的悲欢并不相通，我只觉得他们吵闹。”</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="author" content="Sebastian Kennedy">
+  <meta name="keywords" content="Sebastian Kennedy Blog PHP Laravel Yii">
+  <meta name="description" content="Sebastian Kennedy Blog PHP Laravel Yii">
+  <script id="hexo-configurations">
+  var CONFIG = {
+    root: '/',
+    theme: 'lx',
+    version: '1.4.5',
+    localsearch:{
+      "enable": true,
+      "trigger": "auto",
+      "top_n_per_article": 1,
+      "unescape": false,
+      "preload": false
+      },
+    path: 'search.xml'
+  };
+</script>
+
+  <link rel="shortcut icon" href="https://sebastian-1256190695.cos.ap-guangzhou.myqcloud.com/person_1.jpg">
+  <link rel="stylesheet" href="/css/main.css">
+  <script src="/js/jquery.min.js"></script>
+  <script src="/js/jquery.jside.menu.js"></script>
+	<script>
+	$(document).ready(function(){
+	$(".menu-container").jSideMenu({
+	    jSidePosition: "position-right",
+	    jSideSticky: true,
+	    jSideSkin: "black-grey",
+	     });
+	}); 
+	</script>
+  <!--Google_Analytics-->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-150354789-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'UA-150354789-1');
+</script>
+
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:300|Noto+Serif+SC&amp;display=swap">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/font-awesome@4/css/font-awesome.min.css">
+</head>
+<body>
+<div class="single">
+<div id="page">
+<div id="lx-aside" style="background-image: url(https://sebastian-1256190695.cos.ap-guangzhou.myqcloud.com/page-cover.jpg)" data-stellar-background-ratio="0.5">
+  <div class="overlay">
+  <div class="page-title">
+    <div class="avatar"><a href="/"><img src="https://sebastian-1256190695.cos.ap-guangzhou.myqcloud.com/person_1.jpg"></a></div>
+    <span>2019-12-27</span>
+    <h2>深入浅出 Python 爬虫相关知识</h2>
+    <div class="tags"><i class="fa fa-tag"></i><a class="tag-link" href="/tags/Python/">Python</a></div>
+    </div>
+</div>
+</div>
+<div id="lx-main-content">
+  <div class="lx-post">
+    <div class="lx-entry padding">
+      <div>
+        <h2 id="爬虫的四个步骤"><a class="header-anchor" href="#爬虫的四个步骤"></a>爬虫的四个步骤</h2>
+<ul>
+<li>获取数据
+<ul>
+<li>Requests 库</li>
+</ul>
+</li>
+<li>解析数据
+<ul>
+<li>BeautifulSoup 库</li>
+</ul>
+</li>
+<li>提取数据</li>
+<li>存储数据</li>
+</ul>
+<h2 id="使用-urllib-request-对-url-parameters-进行转码"><a class="header-anchor" href="#使用-urllib-request-对-url-parameters-进行转码"></a>使用 urllib.request 对 url parameters 进行转码</h2>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">import urllib.request</span><br><span class="line"></span><br><span class="line">string = input(&apos;Hello World&apos;)</span><br><span class="line">encode_string = string.encode(&apos;gbk&apos;)</span><br><span class="line">url = &apos;https://www.baidu.com?keyword=&apos; + urllib.request.quote(encode_string)</span><br></pre></td></tr></table></figure>
+<h2 id="使用-requests-获取数据"><a class="header-anchor" href="#使用-requests-获取数据"></a>使用 requests 获取数据</h2>
+<p>安装</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 安装 requests</span></span><br><span class="line">pip3 install requests</span><br></pre></td></tr></table></figure>
+<p>示例</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 引入 requests 库</span></span><br><span class="line">res = requests.get(<span class="string">'URL'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 添加参数访问</span></span><br><span class="line">payload = &#123;</span><br><span class="line">    <span class="string">'hello'</span>: <span class="string">'world'</span></span><br><span class="line">&#125;</span><br><span class="line">res = requests.get(<span class="string">'URL'</span>, params=payload)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 添加请求头</span></span><br><span class="line">header = &#123;</span><br><span class="line">    <span class="comment"># 请求来源，本案例中其实是不需要加这个参数的</span></span><br><span class="line">    <span class="string">'origin'</span>:<span class="string">'https://y.qq.com'</span>,</span><br><span class="line">    <span class="comment"># 请求来源，携带的信息比“origin”更丰富</span></span><br><span class="line">    <span class="string">'referer'</span>:<span class="string">'https://y.qq.com/n/yqq/song/004Z8Ihr0JIu5s.html'</span>,</span><br><span class="line">    <span class="string">'user-agent'</span>:<span class="string">'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36'</span>,</span><br><span class="line">&#125;</span><br><span class="line">res = requests.get(<span class="string">'URL'</span>, params=payload, headers=headers)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 打印变量 res 的数据类型：requests.models.Response 类</span></span><br><span class="line">print(type(res))</span><br><span class="line"></span><br><span class="line"><span class="comment"># 自动处理 JSON</span></span><br><span class="line">res.json()</span><br></pre></td></tr></table></figure>
+<h4 id="request-models-response-类"><a class="header-anchor" href="#request-models-response-类"></a>request.models.Response 类</h4>
+<p>常用成员属性：</p>
+<ul>
+<li>response.status_code - 检查请求是否成功</li>
+<li>response.content - 把 response 对象转换为二进制数据</li>
+<li>response.text - 把 response 对象转换为字符串数据</li>
+<li>response.encoding - 定义 response 对象的编码</li>
+</ul>
+<h4 id="request-session-会话对象"><a class="header-anchor" href="#request-session-会话对象"></a>request.Session - 会话对象</h4>
+<p>会话对象让你能够跨请求保持某些参数。它也会在同一个 Session 实例发出的所有请求之间保持 cookie， 期间使用 urllib3 的 connection pooling 功能。所以如果你向同一主机发送多个请求，底层的 TCP 连接将会被重用，从而带来显著的性能提升。</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">session = requests.Session()</span><br><span class="line">session.get(<span class="string">'url'</span>)</span><br></pre></td></tr></table></figure>
+<h4 id="requests-cookies-转换存储方法"><a class="header-anchor" href="#requests-cookies-转换存储方法"></a>requests.cookies - 转换存储方法</h4>
+<p><img src="https://sebastian-1256190695.cos.ap-guangzhou.myqcloud.com/python/python-cookies-%E8%BD%AC%E6%8D%A2%E5%AD%98%E5%82%A8.png" alt="image"></p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> json</span><br><span class="line"></span><br><span class="line"><span class="comment"># 把 cookies 转化成字典</span></span><br><span class="line">cookies_dict = requests.utils.dict_from_cookiejar(session.cookies)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 把 cookies 字典转化成字符串</span></span><br><span class="line">cookies_str = json.dumps(cookies_dict)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 把 cookies 字符串存储起来</span></span><br><span class="line">file = open(<span class="string">'cookies.txt'</span>, <span class="string">'w'</span>)</span><br><span class="line">file.write(cookies_str)</span><br><span class="line">file.close()</span><br></pre></td></tr></table></figure>
+<p><img src="https://sebastian-1256190695.cos.ap-guangzhou.myqcloud.com/python/python-cookie-%E8%BD%AC%E6%8D%A2.png" alt="image"></p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cookies_txt = open(<span class="string">'cookies.txt'</span>, <span class="string">'r'</span>)</span><br><span class="line">cookies_dict = json.loads(cookies_txt.read())</span><br><span class="line">cookies = requests.utils.cookiejar_from_dict(cookies_dict)</span><br><span class="line">session.cookies = cookies</span><br></pre></td></tr></table></figure>
+<h2 id="使用-beautifulsoup-解析数据"><a class="header-anchor" href="#使用-beautifulsoup-解析数据"></a>使用 BeautifulSoup 解析数据</h2>
+<p>安装</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 安装 BeautifulSoup</span></span><br><span class="line">pip3 install BeautifulSoup4</span><br></pre></td></tr></table></figure>
+<p>示例</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">from</span> bs4 <span class="keyword">import</span> BeautifulSoup</span><br><span class="line"></span><br><span class="line">res = requests.get(<span class="string">'https://localprod.pandateacher.com/python-manuscript/crawler-html/spider-men5.0.html'</span>) </span><br><span class="line">html = res.text</span><br><span class="line"></span><br><span class="line"><span class="comment">#把网页解析为BeautifulSoup对象</span></span><br><span class="line">soup = BeautifulSoup(html,<span class="string">'html.parser'</span>)</span><br></pre></td></tr></table></figure>
+<h4 id="beautifulsoup-对象常用方法与属性"><a class="header-anchor" href="#beautifulsoup-对象常用方法与属性"></a>BeautifulSoup 对象常用方法与属性</h4>
+<ul>
+<li>方法
+<ul>
+<li>find(tag, attributes, recursive, text, keywords)
+<ul>
+<li>作用：提取满足要求的首个数据</li>
+<li>用法：BeautifulSoup 对象.find(‘标签’, ‘属性’)</li>
+<li>示例：<code>soup.find('div', class_='books')</code></li>
+<li>返回：Tag 类对象</li>
+</ul>
+</li>
+<li>find_all(tag, attributes, recursive, text, limit, keywords)
+<ul>
+<li>作用：提取满足要求的所有数据</li>
+<li>用法：BeautifulSoup 对象.find(‘标签’, ‘属性’)</li>
+<li>示例：<code>soup.find_all('div', style_='books')</code></li>
+<li>返回：ResultSet 类对象，本质是 Tag 类对象的列表</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>示例</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests </span><br><span class="line"><span class="keyword">from</span> bs4 <span class="keyword">import</span> BeautifulSoup</span><br><span class="line"></span><br><span class="line">res = requests.get(<span class="string">'https://localprod.pandateacher.com/python-manuscript/crawler-html/spider-men5.0.html'</span>)</span><br><span class="line">html= res.text</span><br><span class="line"></span><br><span class="line">soup = BeautifulSoup( html,<span class="string">'html.parser'</span>)</span><br><span class="line">items = soup.find_all(class_=<span class="string">'books'</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> item <span class="keyword">in</span> items:</span><br><span class="line">    print(<span class="string">'想找的数据都包含在这里了：\n'</span>,item)</span><br></pre></td></tr></table></figure>
+<h4 id="tag-对象常用方法与属性"><a class="header-anchor" href="#tag-对象常用方法与属性"></a>Tag 对象常用方法与属性</h4>
+<ul>
+<li>Tag.find()、Tag.find_all()：提取 Tag 中的 Tag。</li>
+<li>Tag.text：提取 Tag 中的文字。</li>
+<li>Tag[‘属性名’]：输入参数属性名，可以提取 Tag 这个属性的值。</li>
+</ul>
+<h4 id="编写爬虫通用业务流程"><a class="header-anchor" href="#编写爬虫通用业务流程"></a>编写爬虫通用业务流程</h4>
+<p><img src="https://sebastian-1256190695.cos.ap-guangzhou.myqcloud.com/python/python-%E7%88%AC%E8%99%AB%E9%80%9A%E7%94%A8%E4%B8%9A%E5%8A%A1%E6%B5%81%E7%A8%8B.png" alt="image"></p>
+<h2 id="使用-selenium-操控浏览器"><a class="header-anchor" href="#使用-selenium-操控浏览器"></a>使用 Selenium 操控浏览器</h2>
+<p>安装</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip3 install selenium</span><br></pre></td></tr></table></figure>
+<p>本地 Google Chrome 设置方法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">from selenium import webdriver</span><br><span class="line">import time</span><br><span class="line"></span><br><span class="line"># 设置 Chrome 驱动</span><br><span class="line">driver = webdriver.Chrome()</span><br><span class="line"></span><br><span class="line"># 打开网址</span><br><span class="line">driver.get(&apos;https://localprod.pandateacher.com/python-manuscript/hello-spiderman/&apos;)</span><br><span class="line"></span><br><span class="line"># 等待页面加载</span><br><span class="line">time.sleep(2)</span><br><span class="line"></span><br><span class="line"># 关闭页面</span><br><span class="line">driver.close()</span><br></pre></td></tr></table></figure>
+<h4 id="selenium-提取-html-元素"><a class="header-anchor" href="#selenium-提取-html-元素"></a>Selenium 提取 HTML 元素</h4>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>find_element_by_tag_name、find_elements_by_tag_name</td>
+<td>通过元素的标签名称选择</td>
+</tr>
+<tr>
+<td>find_element_by_class_name、find_elements_by_class_name</td>
+<td>通过元素的 class 属性选择</td>
+</tr>
+<tr>
+<td>find_element_by_id、find_elements_by_id</td>
+<td>通过元素的 id 选择</td>
+</tr>
+<tr>
+<td>find_element_by_name、find_elements_by_name</td>
+<td>通过元素的 name 属性选择</td>
+</tr>
+<tr>
+<td>find_element_by_link_text、find_elements_by_link_text</td>
+<td>通过链接文本获取超链接</td>
+</tr>
+<tr>
+<td>find_element_by_partial_link_text、find_elements_by_partial_link_text</td>
+<td>通过链接的部分文本获取超链接</td>
+</tr>
+</tbody>
+</table>
+<h4 id="selenium-操作浏览器"><a class="header-anchor" href="#selenium-操作浏览器"></a>Selenium 操作浏览器</h4>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 模拟按键输入，自动填写表单</span></span><br><span class="line">WebElement.send_keys(<span class="string">'123456'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 点击元素</span></span><br><span class="line">WebElement.click()</span><br></pre></td></tr></table></figure>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 以下方法都可以从网页中提取出'你好，蜘蛛侠！'这段文字</span></span><br><span class="line"></span><br><span class="line">find_element_by_tag_name：通过元素的名称选择</span><br><span class="line"><span class="comment"># 如&lt;h1&gt;你好，蜘蛛侠！&lt;/h1&gt; </span></span><br><span class="line"><span class="comment"># 可以使用find_element_by_tag_name('h1')</span></span><br><span class="line"></span><br><span class="line">find_element_by_class_name：通过元素的<span class="class"><span class="keyword">class</span>属性选择</span></span><br><span class="line"># 如&lt;h1 class="title"&gt;你好，蜘蛛侠！&lt;/h1&gt;</span><br><span class="line"><span class="comment"># 可以使用find_element_by_class_name('title')</span></span><br><span class="line"></span><br><span class="line">find_element_by_id：通过元素的id选择</span><br><span class="line"><span class="comment"># 如&lt;h1 id="title"&gt;你好，蜘蛛侠！&lt;/h1&gt; </span></span><br><span class="line"><span class="comment"># 可以使用find_element_by_id('title')</span></span><br><span class="line"></span><br><span class="line">find_element_by_name：通过元素的name属性选择</span><br><span class="line"><span class="comment"># 如&lt;h1 name="hello"&gt;你好，蜘蛛侠！&lt;/h1&gt; </span></span><br><span class="line"><span class="comment"># 可以使用find_element_by_name('hello')</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#以下两个方法可以提取出超链接</span></span><br><span class="line"></span><br><span class="line">find_element_by_link_text：通过链接文本获取超链接</span><br><span class="line"><span class="comment"># 如&lt;a href="spidermen.html"&gt;你好，蜘蛛侠！&lt;/a&gt;</span></span><br><span class="line"><span class="comment"># 可以使用find_element_by_link_text('你好，蜘蛛侠！')</span></span><br><span class="line"></span><br><span class="line">find_element_by_partial_link_text：通过链接的部分文本获取超链接</span><br><span class="line"><span class="comment"># 如&lt;a href="https://localprod.pandateacher.com/python-manuscript/hello-spiderman/"&gt;你好，蜘蛛侠！&lt;/a&gt;</span></span><br><span class="line"><span class="comment"># 可以使用find_element_by_partial_link_text('你好')</span></span><br></pre></td></tr></table></figure>
+<h4 id="webelement-对象常用方法与属性"><a class="header-anchor" href="#webelement-对象常用方法与属性"></a>WebElement 对象常用方法与属性</h4>
+<ul>
+<li>WebElement.text - 提取文字</li>
+<li>WebElement.get_attribute() - 输入参数</li>
+</ul>
+<h2 id="反爬策略"><a class="header-anchor" href="#反爬策略"></a>反爬策略</h2>
+<ul>
+<li>豆瓣电影 Top250 使用 HTTP 头部进行验证
+<ul>
+<li>模拟正常行为头部，添加至每次请求当中</li>
+</ul>
+</li>
+<li>QQ 音乐、搜索「周杰伦」使用 Ajax 进行反爬
+<ul>
+<li>查看所有 XHR，优先查看传输时间长，传输体积大的请求</li>
+</ul>
+</li>
+</ul>
+
+      </div>
+    </div>
+  </div>
+</div>
+<div class="lx-navigation">
+	<div class="lx-cover prev lx-cover-sm" style="background-image: url(https://sebastian-1256190695.cos.ap-guangzhou.myqcloud.com/footer_2.jpg)">
+		<div class="overlay"></div>
+		<a class="copy" href="#">
+			<div class="display-t">
+				<div class="display-tc">
+					<div>
+						<span>Next</span>
+						<h3>没有更新的文章</h3>
+					</div>
+				</div>
+			</div>
+		</a>
+	</div>
+        <div class="lx-cover next lx-cover-sm" style="background-image: url(https://sebastian-1256190695.cos.ap-guangzhou.myqcloud.com/footer_1.jpg)">
+		<div class="overlay"></div>
+		<a class="copy" href="/2019/12/21/Python-的基础使用/">
+			<div class="display-t">
+				<div class="display-tc">
+					<div>
+						<span>Prev</span>
+						<h3>Python 的基础使用</h3>
+					</div>
+				</div>
+			</div>
+		</a>
+	</div>
+</div>
+</div>
+<div class="comment"><div id="comments"></div></div>
+<footer>
+  <div>
+  Copyright &copy; 2019.<a href="/">Sebastian Kennedy</a><br>Powered by <a href="https://hexo.io" target="_blank">Hexo</a> | Theme <a href="https://lx.blleng.cn" target="_blank">Lx</a><br>
+  </div>
+</footer>
+</div>
+<a href="javascript:;" class="popup-trigger"><i class="menu-item-icon fa fa-search fa-fw"></i></a>
+<div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="Search..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+<button class="menu-trigger"></button>
+<div class="menu">
+  <div class="menu-head">
+    <span class="layer">
+      <div class="col">
+        <div class="row for-pic">
+          <div class="profile-pic">
+            <a href="/"><img src="https://sebastian-1256190695.cos.ap-guangzhou.myqcloud.com/person_1.jpg" alt="Sebastian Kennedy"></a>
+          </div>
+        </div>
+        <div class="row for-name">
+          <p>Sebastian Kennedy</p>
+          <span class="tagline">人类的悲欢并不相通，我只觉得他们吵闹。</span>
+        </div>
+      </div>
+    </span>
+  </div>
+  <nav class="menu-container">
+  <ul class="menu-items">
+    <li><a href="/"><i class="fa fa-home fa-fw"></i>首页</a></li>
+    <li><a href="/archives/"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+    <li class="has-sub"><span class="dropdown-heading">
+      <i class="fa fa-bookmark fa-fw"></i>页面</span>
+        <ul>
+          <li><a href="/guestbook">留言</a></li>
+        <li><a href="/about">关于</a></li>
+        </ul>
+    </li>
+    <li class="has-sub"><span class="dropdown-heading">
+      <i class="fa fa-link fa-fw"></i>友链</span>
+        <ul>
+          <li> <a href="https://lx.blleng.cn" target="_blank">Theme-Lx</a></li>
+        </ul>
+    </li>
+  </ul>
+  </nav>
+</div>
+
+<div class="gototop js-top">
+  <a href="#" class="js-gotop"><i class="fa fa-arrow-up"></i></a>
+</div>
+<script src="/js/jquery.easing.min.js"></script>
+<script src="/js/jquery.waypoints.min.js"></script>
+<script src="/js/jquery.stellar.min.js"></script>
+<script src="/js/main.js"></script>
+<script src="/js/local.search.js"></script>
+
+
+</body>
+</html>
