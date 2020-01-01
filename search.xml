@@ -141,6 +141,38 @@
 <p>示例</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">from gevent.queue import Queue</span><br></pre></td></tr></table></figure>
 <p><img src="https://sebastian-1256190695.cos.ap-guangzhou.myqcloud.com/python/python-queue.png" alt="image"></p>
+<h2 id="使用-scrapy-框架"><a class="header-anchor" href="#使用-scrapy-框架"></a>使用 Scrapy 框架</h2>
+<h4 id="scrapy-框架结构"><a class="header-anchor" href="#scrapy-框架结构"></a>Scrapy 框架结构</h4>
+<ul>
+<li>Scrapy Engine
+<ul>
+<li>Scheduler
+<ul>
+<li>处理引擎发送过来的requests对象（即网页请求的相关信息集合，包括params，data，cookies，request headers…等），会把请求的url以有序的方式排列成队，并等待引擎来提取（功能上类似于gevent库的queue模块）。</li>
+</ul>
+</li>
+<li>Downloader
+<ul>
+<li>负责处理引擎发送过来的requests，进行网页爬取，并将返回的response（爬取到的内容）交给引擎。它对应的是爬虫流程【获取数据】这一步。</li>
+</ul>
+</li>
+<li>Spiders
+<ul>
+<li>主要任务是创建requests对象和接受引擎发送过来的response（Downloader部门爬取到的内容），从中解析并提取出有用的数据。它对应的是爬虫流程【解析数据】和【提取数据】这两步。</li>
+</ul>
+</li>
+<li>Item Pipeline
+<ul>
+<li>负责存储和处理Spiders部门提取到的有用数据。这个对应的是爬虫流程【存储数据】这一步。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p><img src="https://sebastian-1256190695.cos.ap-guangzhou.myqcloud.com/python/python-scrapy-%E7%BB%93%E6%9E%84.png" alt="image"></p>
+<p><img src="https://sebastian-1256190695.cos.ap-guangzhou.myqcloud.com/python/python-scrapy-%E6%B5%81%E7%A8%8B.png" alt="image"></p>
+<p>安装</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">pip3 install scrapy</span><br></pre></td></tr></table></figure>
 <h2 id="反爬策略"><a class="header-anchor" href="#反爬策略"></a>反爬策略</h2>
 <ul>
 <li>豆瓣电影 Top250 使用 HTTP 头部进行验证
