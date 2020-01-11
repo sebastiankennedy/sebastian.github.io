@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Linux Shell 实战 | “人类的悲欢并不相通，我只觉得他们吵闹。”</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="author" content="Sebastian Kennedy">
+  <meta name="keywords" content="Sebastian Kennedy Blog PHP Laravel Yii">
+  <meta name="description" content="Sebastian Kennedy Blog PHP Laravel Yii">
+  <script id="hexo-configurations">
+  var CONFIG = {
+    root: '/',
+    theme: 'lx',
+    version: '1.4.5',
+    localsearch:{
+      "enable": true,
+      "trigger": "auto",
+      "top_n_per_article": 1,
+      "unescape": false,
+      "preload": false
+      },
+    path: 'search.xml'
+  };
+</script>
+
+  <link rel="shortcut icon" href="https://sebastian-1256190695.cos.ap-guangzhou.myqcloud.com/person_1.jpg">
+  <link rel="stylesheet" href="/css/main.css">
+  <script src="/js/jquery.min.js"></script>
+  <script src="/js/jquery.jside.menu.js"></script>
+	<script>
+	$(document).ready(function(){
+	$(".menu-container").jSideMenu({
+	    jSidePosition: "position-right",
+	    jSideSticky: true,
+	    jSideSkin: "black-grey",
+	     });
+	}); 
+	</script>
+  <!--Google_Analytics-->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-150354789-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'UA-150354789-1');
+</script>
+
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:300|Noto+Serif+SC&amp;display=swap">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/font-awesome@4/css/font-awesome.min.css">
+</head>
+<body>
+<div class="single">
+<div id="page">
+<div id="lx-aside" style="background-image: url(https://sebastian-1256190695.cos.ap-guangzhou.myqcloud.com/page-cover.jpg)" data-stellar-background-ratio="0.5">
+  <div class="overlay">
+  <div class="page-title">
+    <div class="avatar"><a href="/"><img src="https://sebastian-1256190695.cos.ap-guangzhou.myqcloud.com/person_1.jpg"></a></div>
+    <span>2016-10-03</span>
+    <h2>Linux Shell 实战</h2>
+    <div class="tags"><i class="fa fa-tag"></i><a class="tag-link" href="/tags/Linux/">Linux</a></div>
+    </div>
+</div>
+</div>
+<div id="lx-main-content">
+  <div class="lx-post">
+    <div class="lx-entry padding">
+      <div>
+        <h2 id="monitor-man-sh"><a class="header-anchor" href="#monitor-man-sh"></a>monitor_man.sh</h2>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span>!/bin/bash</span><br><span class="line"></span><br><span class="line">resettem=$(tput sgr0)</span><br><span class="line">declare -A ssharray</span><br><span class="line">i=0</span><br><span class="line">numbers=""</span><br><span class="line"></span><br><span class="line">for script_file in `ls -I "monitor_man.sh" ./`</span><br><span class="line">do</span><br><span class="line">  echo -e "\e[1;35m" "The Script:" $&#123;i&#125; '==&gt;' $&#123;resettem&#125; $&#123;script_file&#125;</span><br><span class="line"><span class="meta">  ssharray[$</span>i]=$&#123;script_file&#125;</span><br><span class="line">  numbers="$&#123;numbers&#125; | $&#123;i&#125;"</span><br><span class="line"></span><br><span class="line">  i=$((i+1))</span><br><span class="line">done</span><br><span class="line"></span><br><span class="line">while true</span><br><span class="line">do</span><br><span class="line">  read -p "Please input a number [ $&#123;numbers&#125; ]:" execshell</span><br><span class="line">  if [[ ! $&#123;execshell&#125; =~ ^[0-9]+ ]];then</span><br><span class="line">        exit 0</span><br><span class="line">  fi</span><br><span class="line">done</span><br></pre></td></tr></table></figure>
+<h2 id="system-monitor-sh"><a class="header-anchor" href="#system-monitor-sh"></a>system_monitor.sh</h2>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span>!/bin/bash</span><br><span class="line"></span><br><span class="line">clear</span><br><span class="line"></span><br><span class="line">if [[ $# -eq 0 ]]</span><br><span class="line">then</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> Define Variable reset_terminal</span><br><span class="line">reset_terminal=$(tput sgr0)</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> Check OS Type</span><br><span class="line">os=$(uname -o)</span><br><span class="line">echo -e '\E[32m' "Check OS Type" $reset_terminal $os</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> Check OS Release Version and Name</span><br><span class="line">os_name=$(cat /etc/issue|grep -e "Server")</span><br><span class="line">echo -e '\E[32m' "Check OS Release Version and Name" $reset_terminal $os_name</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> Check Architecture</span><br><span class="line">architecture=$(uname -m)</span><br><span class="line">echo -e '\E[32m' "Check Architecture" $reset_terminal $architecture</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> Check Kernel Release</span><br><span class="line">kernel_release=$(uname -r)</span><br><span class="line">echo -e '\E[32m' "Check Kernel Release" $reset_terminal $kernel_release</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> Check Hostname $HOSTNAME</span><br><span class="line">host_name=$(uname -n)</span><br><span class="line">echo -e '\E[32m' "Check Hostname" $reset_terminal $host_name</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> Check Internal IP</span><br><span class="line">internal_ip=$(hostname -I)</span><br><span class="line">echo -e '\E[32m' "Check Internal IP" $reset_terminal $internal_ip</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> Check External IP</span><br><span class="line">external_ip=$(curl -s http://ipecho.net/plain)</span><br><span class="line">echo -e '\E[32m' "Check External IP" $reset_terminal $external_ip</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> Check DNS</span><br><span class="line">name_servers=$(cat /etc/resolv.conf | grep -E "\&lt;nameserver[ ]+" | awk '&#123;print $NF&#125;')</span><br><span class="line">echo -e '\E[32m' "Check DNS" $reset_terminal $name_servers</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> Check if connected to Internet or not</span><br><span class="line">ping -c 2 baidu.com &amp;&gt; /dev/null &amp;&amp; echo "Internet:Connected" || echo "Internet:Disconnected"</span><br><span class="line">echo -e '\E[32m' "Check if connected to Internet or not" $reset_terminal $ping</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> Check Logged In Users</span><br><span class="line"><span class="meta">who&gt;</span>/tmp/who</span><br><span class="line">echo -e '\E[32m' "Logged In Users" &amp;&amp; cat /tmp/who</span><br><span class="line">rm -f /tmp/who</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> Check System Memory Usages</span><br><span class="line">system_men_usages=$(awk '/MemTotal/&#123;total=$2&#125;/MemFree/&#123;free=$2&#125;END&#123;print (total-free)/1024&#125;' /proc/meminfo)</span><br><span class="line">apps_mem_usages=$(awk '/MemTotal/&#123;total=$2&#125;/MemFree/&#123;free=$2&#125;/^Cached/&#123;cached=$2&#125;/Buffers/&#123;buffers=$2&#125;END&#123;print (total-free-cached-buffers)/1024&#125;' /proc/meminfo)</span><br><span class="line"></span><br><span class="line">echo -e '\E[32m' "System Memuserages" $reset_terminal $system_men_usages</span><br><span class="line">echo -e '\E[32m' "Apps Memuserages" $reset_terminal $apps_mem_usages</span><br><span class="line"></span><br><span class="line">load_average=$(top -n 1 -b | grep "load average:" | awk '&#123;print $12 $13 $14&#125;')</span><br><span class="line">echo -e '\E[32m' "load averages" $reset_terminal $load_average</span><br><span class="line"></span><br><span class="line">disk_average=$(df -hP | grep -vE 'Filesystem|tmpfs' | awk '&#123;print $1 " " $5&#125;')</span><br><span class="line">echo -e '\E[32m' "disk averages" $reset_terminal $disk_average</span><br><span class="line"></span><br><span class="line">fi</span><br></pre></td></tr></table></figure>
+<h2 id="check-server-sh"><a class="header-anchor" href="#check-server-sh"></a>check_server_sh</h2>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span>!/bin/bash</span><br><span class="line"></span><br><span class="line">resettem=$(tput sgr0)</span><br><span class="line"></span><br><span class="line">nginx_server='http://10.170.22.217'</span><br><span class="line"></span><br><span class="line">check_nginx_server()</span><br><span class="line">&#123;</span><br><span class="line">	status_code=curl -m 5 -s -w %&#123;http_code&#125; $&#123;nginx_server&#125; -o /dev/null</span><br><span class="line"></span><br><span class="line">	if [ $status_code -eq 000 -o $status_code -ge 500 ];then</span><br><span class="line">		echo -e '\E[32m' "Check http server error! Response status code is " $resettem $status_code</span><br><span class="line">	else</span><br><span class="line">		http_content=$(curl -s $&#123;nginx_server&#125;)</span><br><span class="line">		echo -e '\E[32m' "Check http server ok! \n" $resettem $http_content</span><br><span class="line">	fi</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">check_nginx_server</span><br></pre></td></tr></table></figure>
+
+      </div>
+    </div>
+  </div>
+</div>
+<div class="lx-navigation">
+	<div class="lx-cover prev lx-cover-sm" style="background-image: url(https://sebastian-1256190695.cos.ap-guangzhou.myqcloud.com/footer_2.jpg)">
+		<div class="overlay"></div>
+		<a class="copy" href="/2016/10/04/Linux-Shell-基础之变量/">
+			<div class="display-t">
+				<div class="display-tc">
+					<div>
+						<span>Next</span>
+						<h3>Linux Shell 基础之变量</h3>
+					</div>
+				</div>
+			</div>
+		</a>
+	</div>
+        <div class="lx-cover next lx-cover-sm" style="background-image: url(https://sebastian-1256190695.cos.ap-guangzhou.myqcloud.com/footer_1.jpg)">
+		<div class="overlay"></div>
+		<a class="copy" href="/2016/09/30/Linux-权限管理/">
+			<div class="display-t">
+				<div class="display-tc">
+					<div>
+						<span>Prev</span>
+						<h3>Linux 权限管理</h3>
+					</div>
+				</div>
+			</div>
+		</a>
+	</div>
+</div>
+</div>
+<div class="comment"><div id="comments"></div></div>
+<footer>
+  <div>
+  Copyright &copy; 2019.<a href="/">Sebastian Kennedy</a><br>Powered by <a href="https://hexo.io" target="_blank">Hexo</a> | Theme <a href="https://lx.blleng.cn" target="_blank">Lx</a><br>
+  </div>
+</footer>
+</div>
+<a href="javascript:;" class="popup-trigger"><i class="menu-item-icon fa fa-search fa-fw"></i></a>
+<div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="Search..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+<button class="menu-trigger"></button>
+<div class="menu">
+  <div class="menu-head">
+    <span class="layer">
+      <div class="col">
+        <div class="row for-pic">
+          <div class="profile-pic">
+            <a href="/"><img src="https://sebastian-1256190695.cos.ap-guangzhou.myqcloud.com/person_1.jpg" alt="Sebastian Kennedy"></a>
+          </div>
+        </div>
+        <div class="row for-name">
+          <p>Sebastian Kennedy</p>
+          <span class="tagline">人类的悲欢并不相通，我只觉得他们吵闹。</span>
+        </div>
+      </div>
+    </span>
+  </div>
+  <nav class="menu-container">
+  <ul class="menu-items">
+    <li><a href="/"><i class="fa fa-home fa-fw"></i>首页</a></li>
+    <li><a href="/archives/"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+    <li class="has-sub"><span class="dropdown-heading">
+      <i class="fa fa-bookmark fa-fw"></i>页面</span>
+        <ul>
+          <li><a href="/guestbook">留言</a></li>
+        <li><a href="/about">关于</a></li>
+        </ul>
+    </li>
+    <li class="has-sub"><span class="dropdown-heading">
+      <i class="fa fa-link fa-fw"></i>友链</span>
+        <ul>
+          <li> <a href="https://lx.blleng.cn" target="_blank">Theme-Lx</a></li>
+        </ul>
+    </li>
+  </ul>
+  </nav>
+</div>
+
+<div class="gototop js-top">
+  <a href="#" class="js-gotop"><i class="fa fa-arrow-up"></i></a>
+</div>
+<script src="/js/jquery.easing.min.js"></script>
+<script src="/js/jquery.waypoints.min.js"></script>
+<script src="/js/jquery.stellar.min.js"></script>
+<script src="/js/main.js"></script>
+<script src="/js/local.search.js"></script>
+
+
+</body>
+</html>

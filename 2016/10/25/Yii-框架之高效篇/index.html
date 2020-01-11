@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Yii 框架之高效篇 | “人类的悲欢并不相通，我只觉得他们吵闹。”</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="author" content="Sebastian Kennedy">
+  <meta name="keywords" content="Sebastian Kennedy Blog PHP Laravel Yii">
+  <meta name="description" content="Sebastian Kennedy Blog PHP Laravel Yii">
+  <script id="hexo-configurations">
+  var CONFIG = {
+    root: '/',
+    theme: 'lx',
+    version: '1.4.5',
+    localsearch:{
+      "enable": true,
+      "trigger": "auto",
+      "top_n_per_article": 1,
+      "unescape": false,
+      "preload": false
+      },
+    path: 'search.xml'
+  };
+</script>
+
+  <link rel="shortcut icon" href="https://sebastian-1256190695.cos.ap-guangzhou.myqcloud.com/person_1.jpg">
+  <link rel="stylesheet" href="/css/main.css">
+  <script src="/js/jquery.min.js"></script>
+  <script src="/js/jquery.jside.menu.js"></script>
+	<script>
+	$(document).ready(function(){
+	$(".menu-container").jSideMenu({
+	    jSidePosition: "position-right",
+	    jSideSticky: true,
+	    jSideSkin: "black-grey",
+	     });
+	}); 
+	</script>
+  <!--Google_Analytics-->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-150354789-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'UA-150354789-1');
+</script>
+
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:300|Noto+Serif+SC&amp;display=swap">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/font-awesome@4/css/font-awesome.min.css">
+</head>
+<body>
+<div class="single">
+<div id="page">
+<div id="lx-aside" style="background-image: url(https://sebastian-1256190695.cos.ap-guangzhou.myqcloud.com/page-cover.jpg)" data-stellar-background-ratio="0.5">
+  <div class="overlay">
+  <div class="page-title">
+    <div class="avatar"><a href="/"><img src="https://sebastian-1256190695.cos.ap-guangzhou.myqcloud.com/person_1.jpg"></a></div>
+    <span>2016-10-25</span>
+    <h2>Yii 框架之高效篇</h2>
+    <div class="tags"><i class="fa fa-tag"></i><a class="tag-link" href="/tags/Yii/">Yii</a></div>
+    </div>
+</div>
+</div>
+<div id="lx-main-content">
+  <div class="lx-post">
+    <div class="lx-entry padding">
+      <div>
+        <h2 id="yii-的延迟加载"><a class="header-anchor" href="#yii-的延迟加载"></a>Yii 的延迟加载</h2>
+<h3 id="类的延迟加载"><a class="header-anchor" href="#类的延迟加载"></a>类的延迟加载</h3>
+<p>sql_autoload_register</p>
+<p>Yii 如何使用 sql_autoload_register</p>
+<p>自动加载文件路径：vendor/yiisoft/yii2/Yii.php<br>
+入口文件路径：web/index.php</p>
+<h3 id="类的映射表机制"><a class="header-anchor" href="#类的映射表机制"></a>类的映射表机制</h3>
+<p>yii2快速的机制：使用类的映射表，把常用的类放入映射表中，加快加载速度</p>
+<p>映射表文件：vendor/yiisoft/yii2/classes.php<br>
+类的映射变量：Yii::$classMap<br>
+vendor/yiisoft/yii2/BaseYii.php</p>
+<p>可以通过使用Yii::$classMap，对延迟加载机制进行优化，是典型的空间换时间的做法，所以不建议往classMap中放入太多不常用的内容，避免内存占用过多</p>
+<p>只建议将常用的高频率class放进‘类的映射表’，不常用的就不要放，否则映射表大了，不但降低查询效率，还将占用不必要的内存。</p>
+<h3 id="组件的延迟加载"><a class="header-anchor" href="#组件的延迟加载"></a>组件的延迟加载</h3>
+<ul>
+<li>index.php
+<ul>
+<li>app
+<ul>
+<li>application class</li>
+<li>components
+<ul>
+<li>vendor/yiisoft/yii2/web/Application.php</li>
+<li>vendor/yiisoft/yii2/base/Application.php</li>
+</ul>
+</li>
+<li>controller</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="数据缓存的使用"><a class="header-anchor" href="#数据缓存的使用"></a>数据缓存的使用</h2>
+<h3 id="数据缓存的基础使用"><a class="header-anchor" href="#数据缓存的基础使用"></a>数据缓存的基础使用</h3>
+<p>如何配置缓存服务器</p>
+<p>如何将数据写入缓存</p>
+<p>如何将缓存数据读出</p>
+<p>如何修改缓存的数据</p>
+<p>如何删除缓存的数据</p>
+<p>如何清空缓存中数据</p>
+<p>如何设置缓存有效期</p>
+<h3 id="数据缓存的依赖关系详解"><a class="header-anchor" href="#数据缓存的依赖关系详解"></a>数据缓存的依赖关系详解</h3>
+<p>可以用来解决缓存实时更新的问题</p>
+<p>文件依赖<br>
+yii框架缓存的DB依赖,跟其他缓存依赖一样,如果依赖中的sql取出的数据发生了改变,相关联的缓存就会消失</p>
+<p>表达式依赖</p>
+<p>1、文件依赖(FileDependency)：一旦文件改变，缓存将失效<br>
+$dependency=new \yii\caching\FileDependency([‘filename’=&gt;‘hw.txt’]);<br>
+$cache-&gt;add(‘file_key’,‘hello word!’,3000,$dependency);<br>
+2、表达式依赖(ExpressionDependency)：一旦表达式改变，缓存将失效，即参数发生了变化<br>
+$dependency=new \yii\caching\ExpressionDependency([‘expression’=&gt;’\YII::$app-&gt;request-&gt;get[“name”]’]);<br>
+3、DB依赖(DbDependency)：一旦数据改变，缓存将失效<br>
+$dependency=new \yii\caching\ExpressionDependency(<br>
+[‘sql’=&gt;‘select count(*) from user’]);</p>
+<p>4.链式依赖<br>
+5.组依赖</p>
+<p>Yii 框架是如何监听文件改变、表达式改变和数据改变？</p>
+<h2 id="片段缓存的使用"><a class="header-anchor" href="#片段缓存的使用"></a>片段缓存的使用</h2>
+<p>//片段缓存介绍(主要负责把前端界面的一些区域[不会经常变动的区域：如京东商品分类]缓存起来[缓存到内存或文件中]，下次访问时直接从缓存里把数据拿出来，而不用再从数据库抓取信息，提高了程序的执行效率)。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- 使用视图组件($this)里的beginCache(&apos;缓存数据的名字&apos;)方法把cache_div给缓存起来;这个方法开启会检查当前有没有缓存，如果没有返回false --&gt;</span><br><span class="line">&lt;!-- 如何证明cache_div的代码片段被缓存了呢？ 在两个div里都添加上相同的内容。如果cache_div被缓存起来将会使用缓存里的内容，而不会使用修改后的内容。提高了程序的运行效率。 --&gt;</span><br><span class="line">&lt;?php if($this-&gt;beginCache(&apos;cache_div&apos;))&#123;?&gt;</span><br><span class="line">&lt;div id=&apos;cache_div&apos;&gt;</span><br><span class="line">	&lt;div&gt;这里待会会被缓存(这里是缓存过后添加的)&lt;/div&gt;</span><br><span class="line">&lt;/div&gt;</span><br><span class="line">&lt;?php</span><br><span class="line">	$this-&gt;endCache();//结束缓存</span><br><span class="line">&#125;</span><br><span class="line">?&gt;</span><br><span class="line"></span><br><span class="line">&lt;div id=&apos;no_cache_div&apos;&gt;</span><br><span class="line">	&lt;div&gt;这里不会被缓存(这里是缓存过后添加的)&lt;/div&gt;</span><br><span class="line">&lt;/div&gt;</span><br></pre></td></tr></table></figure>
+<p>片段缓存的设置</p>
+<p>片段缓存的时间<br>
+$this-&gt;beginCache(‘cache_div’,[‘duration’=&gt;$duration]);<br>
+$this-&gt;endCache();</p>
+<p>片段缓存的依赖<br>
+$this-&gt;beginCache(‘cache_div’,[‘dependency’=&gt;$dependency]);<br>
+$this-&gt;endCache();</p>
+<p>片段缓存的开关<br>
+$this-&gt;beginCache(‘cache_div’,[‘enabled’=&gt;$enabled’]);<br>
+$this-&gt;endCache();</p>
+<p>片段缓存的嵌套使用</p>
+<p>谨慎使用：外层的失效时间应该短于内层，外层的依赖条件应该低于内层，以确保最小的片段，返回的是最新的数据。</p>
+<p>片段嵌套缓存  外面的缓存时间大于里面的  那么里面的数据即使超过了缓存时间后有修改也不会被执行</p>
+<h2 id="页面缓存的使用"><a class="header-anchor" href="#页面缓存的使用"></a>页面缓存的使用</h2>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">public function actionIndex()</span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//页面访问index()方法之前会先访问behavior()方法行为。</span><br><span class="line">public function behavior()</span><br><span class="line">&#123;</span><br><span class="line">    return [</span><br><span class="line">        [</span><br><span class="line">            &apos;class&apos;      =&gt; &apos;yii\filters\PageCache&apos;,//页面缓存类</span><br><span class="line">            &apos;duration&apos;   =&gt; 1000,//缓存时间</span><br><span class="line">            &apos;only&apos;       =&gt; [&apos;index&apos;, &apos;test&apos;],//仅仅缓存index和test方法的数据]</span><br><span class="line">            &apos;dependency&apos; =&gt; [&apos;class&apos; =&gt; &apos;yii\caching\FileDependency&apos;, &apos;fileName&apos; =&gt; &apos;hw.txt&apos;]//文件缓存依赖</span><br><span class="line">        ],</span><br><span class="line">    ];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="http-缓存的使用"><a class="header-anchor" href="#http-缓存的使用"></a>HTTP 缓存的使用</h2>
+<p>如何校验服务器与浏览器的数据一致</p>
+<p>用矩形L代表浏览器，矩形F代表服务器。<br>
+1.当用户到F浏览网站或一个页面时，就会用L给F发送一个请求，然后F就会处理这个请求，处理完之后会把处理的结果作为一个响应返回给L，然后L从这个响应里拿数据，再显示出来，这样用户就可以看到他想看到的页面了。<br>
+2.但这时会遇到一个小问题，如果用户从F拿过来的数据不是他想要的数据(比如12306订票页面想订的票没有了)，这时用户猛刷新L，那么L就会给F发送很多的请求，实际上F的数据是没有发生变化的，F收到这么多请求后都会照常的处理，但处理的结果没有发生变化，所以处理的结果跟第一次返回出去的数据是一样的。所以这样对F来说，很浪费资源、时间。<br>
+3.F想了一个办法，当F第一次把数据(小圆表示)发送给L时，它让L把数据缓存到L里面，也就是把它缓存起来，缓存起来以后如果下一次L发送了请求到了F这边之后，F会对比F这边的数据和L那边的数据是不是一样的(F是如何校验的呢？)，如果是一样的那就没必要再把这个数据发送回给L了，就让L使用缓存里的数据就行了。<br>
+4.F如何校验F和L的数据是一样的，F就想了一个办法。当F第一次发送数据给L时，会在数据中塞入一个last-modified字段(记录了F这边数据的修改时间)，那么L也有了这个字段。那么当L下一次发送请求时，会把这个修改时间也带上，也就是把lm(last-modified字段)发送回给F，F会校验lm和F里的那个数据的修改时间是否是一样的，如果是一样的那么这个数据肯定没有被修改过，那就没必要再发送回给L了，直接告诉L去使用缓存里的数据就行了。<br>
+5.另一种校验方式是基于last-modified的小缺陷设计出来的(开发人员把F的数据@改为#，然后又改回@，那么数据@虽然没变化，但它的修改时间改变了。那么L发送过来的lm和数据@的修改时间是对不上的，然后F又把@发送给L，但实际上@没有发生变化，这样也会造成一些问题)。所以F想了一个办法，F第一次发送@数据包时，会根据@里的内容生成一个标志etag，通过etag可以大概了解数据包@里的内容。F会把etag和last-modified一起发送给L，那么L下一次访问F时，会传lm和etag。那么F先验证lm(两边数据修改时间是否一样)，一样则使用L的缓存；如果不一样，F则验证etag是否一样，如果一样证明@没有被修改，则让L使用缓存</p>
+<p>服务器响应304，not modifired</p>
+<p>服务器怎么告诉浏览器缓存起来？</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">public function behaviors()&#123;</span><br><span class="line">	return [</span><br><span class="line">		[</span><br><span class="line">			&apos;class&apos;=&gt;&apos;yii\filters\HttpCache&apos;,</span><br><span class="line">			&apos;lastModified&apos;=&gt;function()&#123;</span><br><span class="line">				return 1432817564;</span><br><span class="line">			&#125;,</span><br><span class="line">			&apos;etagSeed&apos;=&gt;function()&#123;</span><br><span class="line">				return &apos;etagseed2f;&apos;</span><br><span class="line">			&#125;</span><br><span class="line">		]</span><br><span class="line">	];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>//使用 HttpCache 之后再请求头部header会多了一个Cache-Control:last-modified 来作为标志</p>
+<p>在服务器修改数据之后如何让浏览器更新缓存</p>
+<p>httpCache的依赖:<br>
+lastModified: 时间标识<br>
+etagSeed：内容标识<br>
+当二者同时存时，需要两个均发生变化才会发送200并返回新数据</p>
+<h2 id="gii-工具简介"><a class="header-anchor" href="#gii-工具简介"></a>gii 工具简介</h2>
+<ul>
+<li>Model Generator（数据模型的代码生成器）</li>
+<li>Form Generator（表单的代码生成器）</li>
+<li>Module Generator（模块的代码生成器）</li>
+<li>CRUD Generator（增删改查的代码生成器）</li>
+<li>Controller Generator（控制器的代码生成器）</li>
+<li>Extension Generator（扩展的代码生成器）</li>
+</ul>
+
+      </div>
+    </div>
+  </div>
+</div>
+<div class="lx-navigation">
+	<div class="lx-cover prev lx-cover-sm" style="background-image: url(https://sebastian-1256190695.cos.ap-guangzhou.myqcloud.com/footer_2.jpg)">
+		<div class="overlay"></div>
+		<a class="copy" href="/2016/10/25/Yii-框架之基础篇/">
+			<div class="display-t">
+				<div class="display-tc">
+					<div>
+						<span>Next</span>
+						<h3>Yii 框架之基础篇</h3>
+					</div>
+				</div>
+			</div>
+		</a>
+	</div>
+        <div class="lx-cover next lx-cover-sm" style="background-image: url(https://sebastian-1256190695.cos.ap-guangzhou.myqcloud.com/footer_1.jpg)">
+		<div class="overlay"></div>
+		<a class="copy" href="/2016/10/20/打造扛得住的-MySQL-数据库架构/">
+			<div class="display-t">
+				<div class="display-tc">
+					<div>
+						<span>Prev</span>
+						<h3>打造扛得住的 MySQL 数据库架构</h3>
+					</div>
+				</div>
+			</div>
+		</a>
+	</div>
+</div>
+</div>
+<div class="comment"><div id="comments"></div></div>
+<footer>
+  <div>
+  Copyright &copy; 2019.<a href="/">Sebastian Kennedy</a><br>Powered by <a href="https://hexo.io" target="_blank">Hexo</a> | Theme <a href="https://lx.blleng.cn" target="_blank">Lx</a><br>
+  </div>
+</footer>
+</div>
+<a href="javascript:;" class="popup-trigger"><i class="menu-item-icon fa fa-search fa-fw"></i></a>
+<div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="Search..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+<button class="menu-trigger"></button>
+<div class="menu">
+  <div class="menu-head">
+    <span class="layer">
+      <div class="col">
+        <div class="row for-pic">
+          <div class="profile-pic">
+            <a href="/"><img src="https://sebastian-1256190695.cos.ap-guangzhou.myqcloud.com/person_1.jpg" alt="Sebastian Kennedy"></a>
+          </div>
+        </div>
+        <div class="row for-name">
+          <p>Sebastian Kennedy</p>
+          <span class="tagline">人类的悲欢并不相通，我只觉得他们吵闹。</span>
+        </div>
+      </div>
+    </span>
+  </div>
+  <nav class="menu-container">
+  <ul class="menu-items">
+    <li><a href="/"><i class="fa fa-home fa-fw"></i>首页</a></li>
+    <li><a href="/archives/"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+    <li class="has-sub"><span class="dropdown-heading">
+      <i class="fa fa-bookmark fa-fw"></i>页面</span>
+        <ul>
+          <li><a href="/guestbook">留言</a></li>
+        <li><a href="/about">关于</a></li>
+        </ul>
+    </li>
+    <li class="has-sub"><span class="dropdown-heading">
+      <i class="fa fa-link fa-fw"></i>友链</span>
+        <ul>
+          <li> <a href="https://lx.blleng.cn" target="_blank">Theme-Lx</a></li>
+        </ul>
+    </li>
+  </ul>
+  </nav>
+</div>
+
+<div class="gototop js-top">
+  <a href="#" class="js-gotop"><i class="fa fa-arrow-up"></i></a>
+</div>
+<script src="/js/jquery.easing.min.js"></script>
+<script src="/js/jquery.waypoints.min.js"></script>
+<script src="/js/jquery.stellar.min.js"></script>
+<script src="/js/main.js"></script>
+<script src="/js/local.search.js"></script>
+
+
+</body>
+</html>

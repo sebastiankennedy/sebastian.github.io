@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>使用 Laravel 构建内容管理框架（六） | “人类的悲欢并不相通，我只觉得他们吵闹。”</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="author" content="Sebastian Kennedy">
+  <meta name="keywords" content="Sebastian Kennedy Blog PHP Laravel Yii">
+  <meta name="description" content="Sebastian Kennedy Blog PHP Laravel Yii">
+  <script id="hexo-configurations">
+  var CONFIG = {
+    root: '/',
+    theme: 'lx',
+    version: '1.4.5',
+    localsearch:{
+      "enable": true,
+      "trigger": "auto",
+      "top_n_per_article": 1,
+      "unescape": false,
+      "preload": false
+      },
+    path: 'search.xml'
+  };
+</script>
+
+  <link rel="shortcut icon" href="https://sebastian-1256190695.cos.ap-guangzhou.myqcloud.com/person_1.jpg">
+  <link rel="stylesheet" href="/css/main.css">
+  <script src="/js/jquery.min.js"></script>
+  <script src="/js/jquery.jside.menu.js"></script>
+	<script>
+	$(document).ready(function(){
+	$(".menu-container").jSideMenu({
+	    jSidePosition: "position-right",
+	    jSideSticky: true,
+	    jSideSkin: "black-grey",
+	     });
+	}); 
+	</script>
+  <!--Google_Analytics-->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-150354789-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'UA-150354789-1');
+</script>
+
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:300|Noto+Serif+SC&amp;display=swap">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/font-awesome@4/css/font-awesome.min.css">
+</head>
+<body>
+<div class="single">
+<div id="page">
+<div id="lx-aside" style="background-image: url(https://sebastian-1256190695.cos.ap-guangzhou.myqcloud.com/page-cover.jpg)" data-stellar-background-ratio="0.5">
+  <div class="overlay">
+  <div class="page-title">
+    <div class="avatar"><a href="/"><img src="https://sebastian-1256190695.cos.ap-guangzhou.myqcloud.com/person_1.jpg"></a></div>
+    <span>2016-04-04</span>
+    <h2>使用 Laravel 构建内容管理框架（六）</h2>
+    <div class="tags"><i class="fa fa-tag"></i><a class="tag-link" href="/tags/Laravel/">Laravel</a></div>
+    </div>
+</div>
+</div>
+<div id="lx-main-content">
+  <div class="lx-post">
+    <div class="lx-entry padding">
+      <div>
+        <p>完成Entrust的配置</p>
+<h1 id="安装zizaco-entrust-package"><a class="header-anchor" href="#安装zizaco-entrust-package"></a>安装zizaco/entrust Package</h1>
+<hr>
+<p>zizaco/entrust是Laravel下基于角色的权限管理方案。</p>
+<p>1.修改文件<code>composer.json</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&quot;require&quot;: &#123;</span><br><span class="line">    &quot;php&quot;: &quot;&gt;=5.5.9&quot;,</span><br><span class="line">    &quot;laravel/framework&quot;: &quot;5.1.*&quot;,</span><br><span class="line">    &quot;gregwar/captcha&quot;: &quot;1.*&quot;,</span><br><span class="line">    &quot;zizaco/entrust&quot;: &quot;dev-laravel-5&quot;</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
+<p>2.在终端运行命令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">composer install</span><br><span class="line"></span><br><span class="line">// or</span><br><span class="line"></span><br><span class="line">composer update</span><br></pre></td></tr></table></figure>
+<p>3.在文件<code>config/app.php</code>的<code>providers</code>数组和<code>aliase</code>数组分别添加</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">// providers</span><br><span class="line">Zizaco\Entrust\EntrustServiceProvider::class</span><br><span class="line"></span><br><span class="line">// aliase</span><br><span class="line">&apos;Entrust&apos; =&gt; Zizaco\Entrust\EntrustFacade::class,</span><br></pre></td></tr></table></figure>
+<p>4.在文件<code>app/Http/Kernel.php</code>的<code>$routeMiddleware</code>添加</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&apos;role&apos; =&gt; Zizaco\Entrust\Middleware\EntrustRole::class,</span><br><span class="line">&apos;permission&apos; =&gt; Zizaco\Entrust\Middleware\EntrustPermission::class,</span><br><span class="line">&apos;ability&apos; =&gt; Zizaco\Entrust\Middleware\EntrustAbility::class,</span><br></pre></td></tr></table></figure>
+<p>5.Entrust会根据文件<code>config/auth.php</code>的<code>model</code>来选择用户模型，如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&apos;model&apos; =&gt; App\Models\User::class</span><br></pre></td></tr></table></figure>
+<p>执行以下命令生成配置文件<code>config/entrust.php</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">php artisan vendor:publish</span><br></pre></td></tr></table></figure>
+<p>修改配置文件<code>entrust.php</code>如下:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&apos;role&apos;=&gt;&apos;App\Models\Role&apos;</span><br><span class="line">&apos;permission&apos;=&gt;&apos;App\Models\Permission&apos;</span><br></pre></td></tr></table></figure>
+<p>6.生成数据库迁移文件并执行</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">php artisan entrust:migration</span><br><span class="line">php artisan migrate</span><br></pre></td></tr></table></figure>
+<p>7.生成自动加载</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">composer dump-autoload</span><br></pre></td></tr></table></figure>
+<h1 id="管理模型"><a class="header-anchor" href="#管理模型"></a>管理模型</h1>
+<hr>
+<p>为了使用Entrust，我们需要新建两个模型，在终端运行以下命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">// 角色模型</span><br><span class="line">php artisan make:model Models/Role</span><br><span class="line"></span><br><span class="line">// 权限模型</span><br><span class="line">php artisan make:model Models/Permission</span><br></pre></td></tr></table></figure>
+<h2 id="role-php"><a class="header-anchor" href="#role-php"></a>Role.php</h2>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">namespace App\Models;</span><br><span class="line"></span><br><span class="line">use Zizaco\Entrust\EntrustRole;</span><br><span class="line"></span><br><span class="line">class Role extends EntrustRole</span><br><span class="line">&#123;</span><br><span class="line">    protected $guarded = [];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="permission-php"><a class="header-anchor" href="#permission-php"></a>Permission.php</h2>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">namespace App\Models;</span><br><span class="line"></span><br><span class="line">use Zizaco\Entrust\EntrustPermission;</span><br><span class="line"></span><br><span class="line">class Permission extends EntrustPermission</span><br><span class="line">&#123;</span><br><span class="line">    protected $guarded = [];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>为了配合Entrust的使用，需要修改User.php的代码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line"></span><br><span class="line">namespace App\Models;</span><br><span class="line"></span><br><span class="line">use Illuminate\Auth\Authenticatable;</span><br><span class="line">use Illuminate\Database\Eloquent\Model;</span><br><span class="line">use Illuminate\Auth\Passwords\CanResetPassword;</span><br><span class="line">use Illuminate\Foundation\Auth\Access\Authorizable;</span><br><span class="line">use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;</span><br><span class="line">use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;</span><br><span class="line">use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;</span><br><span class="line">use Zizaco\Entrust\Traits\EntrustUserTrait;</span><br><span class="line"></span><br><span class="line">class User extends Model implements AuthenticatableContract,</span><br><span class="line">    AuthorizableContract,</span><br><span class="line">    CanResetPasswordContract</span><br><span class="line">&#123;</span><br><span class="line">    use Authenticatable, Authorizable, CanResetPassword, EntrustUserTrait&#123;</span><br><span class="line">        Authorizable::can insteadof  EntrustUserTrait;</span><br><span class="line">        EntrustUserTrait::can as hasPermission;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * The database table used by the model.</span><br><span class="line">     *</span><br><span class="line">     * @var string</span><br><span class="line">     */</span><br><span class="line">    protected $table = &apos;users&apos;;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * The attributes that are mass assignable.</span><br><span class="line">     *</span><br><span class="line">     * @var array</span><br><span class="line">     */</span><br><span class="line">    protected $fillable = [&apos;name&apos;, &apos;email&apos;, &apos;password&apos;];</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * The attributes excluded from the model&apos;s JSON form.</span><br><span class="line">     *</span><br><span class="line">     * @var array</span><br><span class="line">     */</span><br><span class="line">    protected $hidden = [&apos;password&apos;, &apos;remember_token&apos;];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>完成上述所有操作之后，Entrust的配置就完成了。</p>
+
+      </div>
+    </div>
+  </div>
+</div>
+<div class="lx-navigation">
+	<div class="lx-cover prev lx-cover-sm" style="background-image: url(https://sebastian-1256190695.cos.ap-guangzhou.myqcloud.com/footer_2.jpg)">
+		<div class="overlay"></div>
+		<a class="copy" href="/2016/04/04/使用Laravel构建内容管理框架（七）/">
+			<div class="display-t">
+				<div class="display-tc">
+					<div>
+						<span>Next</span>
+						<h3>使用 Laravel 构建内容管理框架（七）</h3>
+					</div>
+				</div>
+			</div>
+		</a>
+	</div>
+        <div class="lx-cover next lx-cover-sm" style="background-image: url(https://sebastian-1256190695.cos.ap-guangzhou.myqcloud.com/footer_1.jpg)">
+		<div class="overlay"></div>
+		<a class="copy" href="/2016/04/04/使用Laravel构建内容管理框架（五）/">
+			<div class="display-t">
+				<div class="display-tc">
+					<div>
+						<span>Prev</span>
+						<h3>使用 Laravel 构建内容管理框架（五）</h3>
+					</div>
+				</div>
+			</div>
+		</a>
+	</div>
+</div>
+</div>
+<div class="comment"><div id="comments"></div></div>
+<footer>
+  <div>
+  Copyright &copy; 2019.<a href="/">Sebastian Kennedy</a><br>Powered by <a href="https://hexo.io" target="_blank">Hexo</a> | Theme <a href="https://lx.blleng.cn" target="_blank">Lx</a><br>
+  </div>
+</footer>
+</div>
+<a href="javascript:;" class="popup-trigger"><i class="menu-item-icon fa fa-search fa-fw"></i></a>
+<div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="Search..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+<button class="menu-trigger"></button>
+<div class="menu">
+  <div class="menu-head">
+    <span class="layer">
+      <div class="col">
+        <div class="row for-pic">
+          <div class="profile-pic">
+            <a href="/"><img src="https://sebastian-1256190695.cos.ap-guangzhou.myqcloud.com/person_1.jpg" alt="Sebastian Kennedy"></a>
+          </div>
+        </div>
+        <div class="row for-name">
+          <p>Sebastian Kennedy</p>
+          <span class="tagline">人类的悲欢并不相通，我只觉得他们吵闹。</span>
+        </div>
+      </div>
+    </span>
+  </div>
+  <nav class="menu-container">
+  <ul class="menu-items">
+    <li><a href="/"><i class="fa fa-home fa-fw"></i>首页</a></li>
+    <li><a href="/archives/"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+    <li class="has-sub"><span class="dropdown-heading">
+      <i class="fa fa-bookmark fa-fw"></i>页面</span>
+        <ul>
+          <li><a href="/guestbook">留言</a></li>
+        <li><a href="/about">关于</a></li>
+        </ul>
+    </li>
+    <li class="has-sub"><span class="dropdown-heading">
+      <i class="fa fa-link fa-fw"></i>友链</span>
+        <ul>
+          <li> <a href="https://lx.blleng.cn" target="_blank">Theme-Lx</a></li>
+        </ul>
+    </li>
+  </ul>
+  </nav>
+</div>
+
+<div class="gototop js-top">
+  <a href="#" class="js-gotop"><i class="fa fa-arrow-up"></i></a>
+</div>
+<script src="/js/jquery.easing.min.js"></script>
+<script src="/js/jquery.waypoints.min.js"></script>
+<script src="/js/jquery.stellar.min.js"></script>
+<script src="/js/main.js"></script>
+<script src="/js/local.search.js"></script>
+
+
+</body>
+</html>

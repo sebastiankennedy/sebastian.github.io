@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>关于 PHP 函数 array_walk 的一些想法 | “人类的悲欢并不相通，我只觉得他们吵闹。”</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="author" content="Sebastian Kennedy">
+  <meta name="keywords" content="Sebastian Kennedy Blog PHP Laravel Yii">
+  <meta name="description" content="Sebastian Kennedy Blog PHP Laravel Yii">
+  <script id="hexo-configurations">
+  var CONFIG = {
+    root: '/',
+    theme: 'lx',
+    version: '1.4.5',
+    localsearch:{
+      "enable": true,
+      "trigger": "auto",
+      "top_n_per_article": 1,
+      "unescape": false,
+      "preload": false
+      },
+    path: 'search.xml'
+  };
+</script>
+
+  <link rel="shortcut icon" href="https://sebastian-1256190695.cos.ap-guangzhou.myqcloud.com/person_1.jpg">
+  <link rel="stylesheet" href="/css/main.css">
+  <script src="/js/jquery.min.js"></script>
+  <script src="/js/jquery.jside.menu.js"></script>
+	<script>
+	$(document).ready(function(){
+	$(".menu-container").jSideMenu({
+	    jSidePosition: "position-right",
+	    jSideSticky: true,
+	    jSideSkin: "black-grey",
+	     });
+	}); 
+	</script>
+  <!--Google_Analytics-->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-150354789-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'UA-150354789-1');
+</script>
+
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:300|Noto+Serif+SC&amp;display=swap">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/font-awesome@4/css/font-awesome.min.css">
+</head>
+<body>
+<div class="single">
+<div id="page">
+<div id="lx-aside" style="background-image: url(https://sebastian-1256190695.cos.ap-guangzhou.myqcloud.com/page-cover.jpg)" data-stellar-background-ratio="0.5">
+  <div class="overlay">
+  <div class="page-title">
+    <div class="avatar"><a href="/"><img src="https://sebastian-1256190695.cos.ap-guangzhou.myqcloud.com/person_1.jpg"></a></div>
+    <span>2016-11-22</span>
+    <h2>关于 PHP 函数 array_walk 的一些想法</h2>
+    <div class="tags"><i class="fa fa-tag"></i><a class="tag-link" href="/tags/PHP/">PHP</a></div>
+    </div>
+</div>
+</div>
+<div id="lx-main-content">
+  <div class="lx-post">
+    <div class="lx-entry padding">
+      <div>
+        <h2 id="array-walk"><a class="header-anchor" href="#array-walk"></a>array_walk</h2>
+<p>(PHP 4, PHP 5, PHP 7)<br>
+array_walk — 使用用户自定义函数对数组中的每个元素做回调处理</p>
+<h2 id="说明"><a class="header-anchor" href="#说明"></a>说明</h2>
+<p><code>bool array_walk ( array &amp;$array , callable $callback [, mixed $userdata = NULL ] )</code></p>
+<p>将用户自定义函数 funcname 应用到 array 数组中的每个单元。</p>
+<p>array_walk() 不会受到 array 内部数组指针的影响。array_walk() 会遍历整个数组而不管指针的位置。</p>
+<h2 id="参数"><a class="header-anchor" href="#参数"></a>参数</h2>
+<ul>
+<li>array
+<ul>
+<li>输入的数组。</li>
+</ul>
+</li>
+<li>callback
+<ul>
+<li>典型情况下 callback 接受两个参数。array 参数的值作为第一个，键名作为第二个。</li>
+</ul>
+</li>
+<li>Note:
+<ul>
+<li>如果 callback 需要直接作用于数组中的值，则给 callback 的第一个参数指定为引用。这样任何对这些单元的改变也将会改变原始数组本身。</li>
+</ul>
+</li>
+<li>Note:
+<ul>
+<li>参数数量超过预期，传入内置函数 (例如 strtolower())， 将抛出警告，所以不适合当做 funcname。<br>
+只有 array 的值才可以被改变，用户不应在回调函数中改变该数组本身的结构。例如增加/删除单元，unset 单元等等。如果 array_walk() 作用的数组改变了，则此函数的的行为未经定义，且不可预期。</li>
+</ul>
+</li>
+<li>userdata
+<ul>
+<li>如果提供了可选参数 userdata，将被作为第三个参数传递给 callback funcname。</li>
+</ul>
+</li>
+</ul>
+<h2 id="返回值"><a class="header-anchor" href="#返回值"></a>返回值</h2>
+<p>成功时返回 TRUE， 或者在失败时返回 FALSE。</p>
+<h2 id="范例"><a class="header-anchor" href="#范例"></a>范例</h2>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$graphics_card = [</span><br><span class="line">    [</span><br><span class="line">        <span class="string">'brand'</span>=&gt;<span class="string">'华硕'</span>,</span><br><span class="line">        <span class="string">'model'</span>=&gt;<span class="string">'GTX980(Ti)'</span>,</span><br><span class="line">        <span class="string">'status'</span>=&gt;<span class="number">1</span>,</span><br><span class="line">    ],</span><br><span class="line">    [</span><br><span class="line">        <span class="string">'brand'</span>=&gt;<span class="string">'技嘉'</span>,</span><br><span class="line">        <span class="string">'model'</span>=&gt;<span class="string">'GTX970'</span>,</span><br><span class="line">        <span class="string">'status'</span>=&gt;<span class="number">0</span>,</span><br><span class="line">    ],</span><br><span class="line">    [</span><br><span class="line">        <span class="string">'brand'</span>=&gt;<span class="string">'微星'</span>,</span><br><span class="line">        <span class="string">'model'</span>=&gt;<span class="string">'GTX960'</span>,</span><br><span class="line">        <span class="string">'status'</span>=&gt;<span class="number">1</span>,</span><br><span class="line">    ],</span><br><span class="line">    [</span><br><span class="line">        <span class="string">'brand'</span>=&gt;<span class="string">'七彩虹'</span>,</span><br><span class="line">        <span class="string">'model'</span>=&gt;<span class="string">'GTX950'</span>,</span><br><span class="line">        <span class="string">'status'</span>=&gt;<span class="number">0</span>,</span><br><span class="line">    ],</span><br><span class="line">];</span><br><span class="line"></span><br><span class="line">array_walk($graphics_card, <span class="function"><span class="keyword">function</span><span class="params">(&amp;$item)</span></span>&#123;</span><br><span class="line">    $item[<span class="string">'brand'</span>] = <span class="string">'按摩店'</span>;</span><br><span class="line">    $item[<span class="string">'model'</span>] = <span class="string">'1080'</span>;</span><br><span class="line">&#125;);</span><br><span class="line">var_dump($graphics_card);</span><br><span class="line"></span><br><span class="line">array_map(<span class="function"><span class="keyword">function</span><span class="params">($key)</span> <span class="title">use</span> <span class="params">(&amp;$graphics_card)</span> </span>&#123;</span><br><span class="line">    $graphics_card[$key][<span class="string">'brand'</span>] = <span class="string">'英伟达'</span>;</span><br><span class="line">    $graphics_card[$key][<span class="string">'model'</span>] = <span class="string">'泰坦'</span>;</span><br><span class="line">&#125;, array_keys($graphics_card));</span><br><span class="line">var_dump($graphics_card);</span><br></pre></td></tr></table></figure>
+
+      </div>
+    </div>
+  </div>
+</div>
+<div class="lx-navigation">
+	<div class="lx-cover prev lx-cover-sm" style="background-image: url(https://sebastian-1256190695.cos.ap-guangzhou.myqcloud.com/footer_2.jpg)">
+		<div class="overlay"></div>
+		<a class="copy" href="/2016/12/02/Yii2-Working-with-Databases/">
+			<div class="display-t">
+				<div class="display-tc">
+					<div>
+						<span>Next</span>
+						<h3>Yii2 Working with Databases</h3>
+					</div>
+				</div>
+			</div>
+		</a>
+	</div>
+        <div class="lx-cover next lx-cover-sm" style="background-image: url(https://sebastian-1256190695.cos.ap-guangzhou.myqcloud.com/footer_1.jpg)">
+		<div class="overlay"></div>
+		<a class="copy" href="/2016/11/21/关于-PHP-函数-array-filter-的一些想法/">
+			<div class="display-t">
+				<div class="display-tc">
+					<div>
+						<span>Prev</span>
+						<h3>关于 PHP 函数 array_filter 的一些想法</h3>
+					</div>
+				</div>
+			</div>
+		</a>
+	</div>
+</div>
+</div>
+<div class="comment"><div id="comments"></div></div>
+<footer>
+  <div>
+  Copyright &copy; 2019.<a href="/">Sebastian Kennedy</a><br>Powered by <a href="https://hexo.io" target="_blank">Hexo</a> | Theme <a href="https://lx.blleng.cn" target="_blank">Lx</a><br>
+  </div>
+</footer>
+</div>
+<a href="javascript:;" class="popup-trigger"><i class="menu-item-icon fa fa-search fa-fw"></i></a>
+<div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="Search..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+<button class="menu-trigger"></button>
+<div class="menu">
+  <div class="menu-head">
+    <span class="layer">
+      <div class="col">
+        <div class="row for-pic">
+          <div class="profile-pic">
+            <a href="/"><img src="https://sebastian-1256190695.cos.ap-guangzhou.myqcloud.com/person_1.jpg" alt="Sebastian Kennedy"></a>
+          </div>
+        </div>
+        <div class="row for-name">
+          <p>Sebastian Kennedy</p>
+          <span class="tagline">人类的悲欢并不相通，我只觉得他们吵闹。</span>
+        </div>
+      </div>
+    </span>
+  </div>
+  <nav class="menu-container">
+  <ul class="menu-items">
+    <li><a href="/"><i class="fa fa-home fa-fw"></i>首页</a></li>
+    <li><a href="/archives/"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+    <li class="has-sub"><span class="dropdown-heading">
+      <i class="fa fa-bookmark fa-fw"></i>页面</span>
+        <ul>
+          <li><a href="/guestbook">留言</a></li>
+        <li><a href="/about">关于</a></li>
+        </ul>
+    </li>
+    <li class="has-sub"><span class="dropdown-heading">
+      <i class="fa fa-link fa-fw"></i>友链</span>
+        <ul>
+          <li> <a href="https://lx.blleng.cn" target="_blank">Theme-Lx</a></li>
+        </ul>
+    </li>
+  </ul>
+  </nav>
+</div>
+
+<div class="gototop js-top">
+  <a href="#" class="js-gotop"><i class="fa fa-arrow-up"></i></a>
+</div>
+<script src="/js/jquery.easing.min.js"></script>
+<script src="/js/jquery.waypoints.min.js"></script>
+<script src="/js/jquery.stellar.min.js"></script>
+<script src="/js/main.js"></script>
+<script src="/js/local.search.js"></script>
+
+
+</body>
+</html>

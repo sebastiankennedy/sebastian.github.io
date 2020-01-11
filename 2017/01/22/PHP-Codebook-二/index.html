@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>PHP Codebook(二) | “人类的悲欢并不相通，我只觉得他们吵闹。”</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="author" content="Sebastian Kennedy">
+  <meta name="keywords" content="Sebastian Kennedy Blog PHP Laravel Yii">
+  <meta name="description" content="Sebastian Kennedy Blog PHP Laravel Yii">
+  <script id="hexo-configurations">
+  var CONFIG = {
+    root: '/',
+    theme: 'lx',
+    version: '1.4.5',
+    localsearch:{
+      "enable": true,
+      "trigger": "auto",
+      "top_n_per_article": 1,
+      "unescape": false,
+      "preload": false
+      },
+    path: 'search.xml'
+  };
+</script>
+
+  <link rel="shortcut icon" href="https://sebastian-1256190695.cos.ap-guangzhou.myqcloud.com/person_1.jpg">
+  <link rel="stylesheet" href="/css/main.css">
+  <script src="/js/jquery.min.js"></script>
+  <script src="/js/jquery.jside.menu.js"></script>
+	<script>
+	$(document).ready(function(){
+	$(".menu-container").jSideMenu({
+	    jSidePosition: "position-right",
+	    jSideSticky: true,
+	    jSideSkin: "black-grey",
+	     });
+	}); 
+	</script>
+  <!--Google_Analytics-->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-150354789-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'UA-150354789-1');
+</script>
+
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:300|Noto+Serif+SC&amp;display=swap">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/font-awesome@4/css/font-awesome.min.css">
+</head>
+<body>
+<div class="single">
+<div id="page">
+<div id="lx-aside" style="background-image: url(https://sebastian-1256190695.cos.ap-guangzhou.myqcloud.com/page-cover.jpg)" data-stellar-background-ratio="0.5">
+  <div class="overlay">
+  <div class="page-title">
+    <div class="avatar"><a href="/"><img src="https://sebastian-1256190695.cos.ap-guangzhou.myqcloud.com/person_1.jpg"></a></div>
+    <span>2017-01-22</span>
+    <h2>PHP Codebook(二)</h2>
+    <div class="tags"><i class="fa fa-tag"></i><a class="tag-link" href="/tags/PHP/">PHP</a></div>
+    </div>
+</div>
+</div>
+<div id="lx-main-content">
+  <div class="lx-post">
+    <div class="lx-entry padding">
+      <div>
+        <h2 id="2-1-检查变量是否包含一个合法数字"><a class="header-anchor" href="#2-1-检查变量是否包含一个合法数字"></a>2.1 检查变量是否包含一个合法数字</h2>
+<h4 id="问题"><a class="header-anchor" href="#问题"></a>问题</h4>
+<p>希望确保变量包含一个数（即使变量的类型是字符串），或者希望检查变量不仅是一个数，而且要特别指定其类型是一个数字类型。</p>
+<h4 id="实现"><a class="header-anchor" href="#实现"></a>实现</h4>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">    <span class="keyword">foreach</span> ([<span class="number">5</span>,<span class="string">'5'</span>,<span class="string">'05'</span>,<span class="number">12.3</span>,<span class="string">'16.7'</span>,<span class="string">'five'</span>,oxDECAFBAD,<span class="string">'10e2000'</span>] <span class="keyword">as</span> $maybeNumber) &#123;</span><br><span class="line">        $isItNumeric = is_numeric($maybeNumber);</span><br><span class="line">        $actualType = gettype($maybeNumber);</span><br><span class="line">        $string = <span class="string">"Is the $actualType $maybeNumber numeric?"</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span>(is_numeric($maybeNumber))&#123;</span><br><span class="line">            $answer = <span class="string">"yes"</span>;</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            $answer = <span class="string">"no"</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">echo</span> pack(<span class="string">"A40A3"</span>,$string,$answer).<span class="string">"\n"</span>;</span><br><span class="line">    &#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">Is the integer 5 numeric?               yes</span></span><br><span class="line"><span class="comment">Is the string 5 numeric?                yes</span></span><br><span class="line"><span class="comment">Is the string 05 numeric?               yes</span></span><br><span class="line"><span class="comment">Is the double 12.3 numeric?             yes</span></span><br><span class="line"><span class="comment">Is the string 16.7 numeric?             yes</span></span><br><span class="line"><span class="comment">Is the string five numeric?             no</span></span><br><span class="line"><span class="comment">Is the string oxDECAFBAD numeric?       no</span></span><br><span class="line"><span class="comment">Is the string 10e2000 numeric?          yes</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
+<h2 id="2-2-比较浮点数"><a class="header-anchor" href="#2-2-比较浮点数"></a>2.2 比较浮点数</h2>
+<h4 id="问题"><a class="header-anchor" href="#问题"></a>问题</h4>
+<p>希望检查两个浮点数是否相等</p>
+<h4 id="实现"><a class="header-anchor" href="#实现"></a>实现</h4>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$delta = <span class="number">0.00001</span>;</span><br><span class="line">$a = <span class="number">1.00000001</span>;</span><br><span class="line">$b = <span class="number">1.00000000</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>(abs($a - $b) &lt; $delta)&#123;</span><br><span class="line">    <span class="keyword">print</span> <span class="string">"$a and $b are equal enough"</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="2-3-浮点数舍入"><a class="header-anchor" href="#2-3-浮点数舍入"></a>2.3 浮点数舍入</h2>
+<h4 id="问题"><a class="header-anchor" href="#问题"></a>问题</h4>
+<p>希望舍入一个浮点数，可能取整为一个整数，或者舍入为指定的小数位数</p>
+<h4 id="实现"><a class="header-anchor" href="#实现"></a>实现</h4>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 四舍五入 round()</span></span><br><span class="line"><span class="keyword">echo</span> round(<span class="number">2.4</span>) . <span class="string">"\n"</span>;</span><br><span class="line"><span class="keyword">echo</span> round(<span class="number">2.5</span>) . <span class="string">"\n"</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 向上取整</span></span><br><span class="line"><span class="keyword">echo</span> ceil(<span class="number">2.4</span>) . <span class="string">"\n"</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 向下取整</span></span><br><span class="line"><span class="keyword">echo</span> floor(<span class="number">2.9</span>) . <span class="string">"\n"</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 一个数正好落在两个整数中间的位置，PHP 会向远离 0 的方向取整</span></span><br><span class="line"><span class="keyword">echo</span> round(<span class="number">2.5</span>) . <span class="string">"\n"</span>;</span><br><span class="line"><span class="keyword">echo</span> round(<span class="number">-2.5</span>) . <span class="string">"\n"</span>;</span><br><span class="line"><span class="keyword">echo</span> round(<span class="number">2.4</span>) . <span class="string">"\n"</span>;</span><br><span class="line"><span class="keyword">echo</span> round(<span class="number">-2.4</span>) . <span class="string">"\n"</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">echo</span> ceil(<span class="number">2.5</span>) . <span class="string">"\n"</span>;</span><br><span class="line"><span class="keyword">echo</span> ceil(<span class="number">-2.5</span>) . <span class="string">"\n"</span>;</span><br><span class="line"><span class="keyword">echo</span> ceil(<span class="number">2.4</span>) . <span class="string">"\n"</span>;</span><br><span class="line"><span class="keyword">echo</span> ceil(<span class="number">-2.4</span>) . <span class="string">"\n"</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">echo</span> floor(<span class="number">2.5</span>) . <span class="string">"\n"</span>;</span><br><span class="line"><span class="keyword">echo</span> floor(<span class="number">-2.5</span>) . <span class="string">"\n"</span>;</span><br><span class="line"><span class="keyword">echo</span> floor(<span class="number">2.4</span>) . <span class="string">"\n"</span>;</span><br><span class="line"><span class="keyword">echo</span> floor(<span class="number">-2.4</span>) . <span class="string">"\n"</span>;</span><br></pre></td></tr></table></figure>
+<h2 id="2-4-处理一系列整数"><a class="header-anchor" href="#2-4-处理一系列整数"></a>2.4 处理一系列整数</h2>
+<h4 id="问题"><a class="header-anchor" href="#问题"></a>问题</h4>
+<p>希望对一个整数范围应用一段代码</p>
+<h4 id="实现"><a class="header-anchor" href="#实现"></a>实现</h4>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 使用 range() 函数实现</span></span><br><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">foreach</span> (range(<span class="number">0</span>, <span class="number">100</span>, <span class="number">5</span>) <span class="keyword">as</span> $number) &#123;</span><br><span class="line">    <span class="keyword">echo</span> $number . <span class="string">"\n"</span>;</span><br><span class="line">    printf(<span class="string">"%d squared is %d\n"</span>, $number, $number * $number);</span><br><span class="line">    printf(<span class="string">"%d cubed is %d\n"</span>, $number, $number * $number * $number);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="2-5-在指定范围内生成随机数"><a class="header-anchor" href="#2-5-在指定范围内生成随机数"></a>2.5 在指定范围内生成随机数</h2>
+<h4 id="问题"><a class="header-anchor" href="#问题"></a>问题</h4>
+<p>希望在指定的数字范围内生成一个随机数</p>
+<h4 id="实现"><a class="header-anchor" href="#实现"></a>实现</h4>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$lower = <span class="number">0</span>;</span><br><span class="line">$upper = <span class="number">1024</span>;</span><br><span class="line">$randNumber = mt_rand($lower, $upper);</span><br><span class="line"></span><br><span class="line"><span class="keyword">echo</span> $randNumber;</span><br></pre></td></tr></table></figure>
+<h2 id="2-6-生成可预测的随机数"><a class="header-anchor" href="#2-6-生成可预测的随机数"></a>2.6 生成可预测的随机数</h2>
+<h4 id="问题"><a class="header-anchor" href="#问题"></a>问题</h4>
+<p>希望生成可预测的随机数，从而可以保证可重复的行为</p>
+<h4 id="实现"><a class="header-anchor" href="#实现"></a>实现</h4>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">pick_color</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    $colors = [<span class="string">'red'</span>, <span class="string">'orange'</span>, <span class="string">'yellow'</span>, <span class="string">'blue'</span>, <span class="string">'green'</span>, <span class="string">'indigo'</span>, <span class="string">'violet'</span>];</span><br><span class="line">    $i = mt_rand(<span class="number">0</span>, count($colors) - <span class="number">1</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> $colors[$i];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">mt_srand(<span class="number">34534</span>);</span><br><span class="line">$first = pick_color();</span><br><span class="line">$second = pick_color();</span><br><span class="line"></span><br><span class="line"><span class="keyword">print</span> <span class="string">"$first is red and $second is yellow"</span>;</span><br></pre></td></tr></table></figure>
+<h2 id="2-10-格式化数字"><a class="header-anchor" href="#2-10-格式化数字"></a>2.10 格式化数字</h2>
+<h4 id="问题"><a class="header-anchor" href="#问题"></a>问题</h4>
+<p>希望输出一个数，要包括千分位分隔符和小数点。</p>
+<h4 id="实现"><a class="header-anchor" href="#实现"></a>实现</h4>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$number = <span class="number">1234.56</span>;</span><br><span class="line"><span class="comment">// 千位分隔符</span></span><br><span class="line"><span class="keyword">echo</span> number_format($number) . <span class="string">"\n"</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 第二个参数指定使用了小数位数</span></span><br><span class="line"><span class="keyword">echo</span> number_format($number, <span class="number">2</span>) . <span class="string">"\n"</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 第三个参数指定小数点字符，第四个参数指定千位分隔符</span></span><br><span class="line"><span class="keyword">echo</span> number_format($number, <span class="number">2</span>, <span class="string">"@"</span>, <span class="string">'#'</span>) . <span class="string">"\n"</span>;</span><br></pre></td></tr></table></figure>
+<h2 id="2-16-转换进制"><a class="header-anchor" href="#2-16-转换进制"></a>2.16 转换进制</h2>
+<h4 id="问题"><a class="header-anchor" href="#问题"></a>问题</h4>
+<p>需要将一个数从一个进制转换为另一个进制</p>
+<h4 id="实现"><a class="header-anchor" href="#实现"></a>实现</h4>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="comment">// 十六进制</span></span><br><span class="line">$hex = <span class="string">'a1'</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 从十六进制转换为十进制</span></span><br><span class="line">$decimal = base_convert($hex, <span class="number">16</span>, <span class="number">10</span>) . <span class="string">"\n"</span>;</span><br><span class="line"><span class="keyword">echo</span> $decimal;</span><br><span class="line"></span><br><span class="line">$decimal = <span class="number">1024</span>;</span><br><span class="line"><span class="keyword">echo</span> base_convert($decimal, <span class="number">10</span>, <span class="number">2</span>) . <span class="string">"\n"</span>;</span><br><span class="line"><span class="keyword">echo</span> base_convert($decimal, <span class="number">10</span>, <span class="number">8</span>) . <span class="string">"\n"</span>;</span><br><span class="line"><span class="keyword">echo</span> base_convert($decimal, <span class="number">10</span>, <span class="number">16</span>);</span><br></pre></td></tr></table></figure>
+
+      </div>
+    </div>
+  </div>
+</div>
+<div class="lx-navigation">
+	<div class="lx-cover prev lx-cover-sm" style="background-image: url(https://sebastian-1256190695.cos.ap-guangzhou.myqcloud.com/footer_2.jpg)">
+		<div class="overlay"></div>
+		<a class="copy" href="/2017/01/22/PHP-Codebook-四/">
+			<div class="display-t">
+				<div class="display-tc">
+					<div>
+						<span>Next</span>
+						<h3>PHP Codebook(四)</h3>
+					</div>
+				</div>
+			</div>
+		</a>
+	</div>
+        <div class="lx-cover next lx-cover-sm" style="background-image: url(https://sebastian-1256190695.cos.ap-guangzhou.myqcloud.com/footer_1.jpg)">
+		<div class="overlay"></div>
+		<a class="copy" href="/2017/01/22/PHP-Codebook-一/">
+			<div class="display-t">
+				<div class="display-tc">
+					<div>
+						<span>Prev</span>
+						<h3>PHP Codebook(一)</h3>
+					</div>
+				</div>
+			</div>
+		</a>
+	</div>
+</div>
+</div>
+<div class="comment"><div id="comments"></div></div>
+<footer>
+  <div>
+  Copyright &copy; 2019.<a href="/">Sebastian Kennedy</a><br>Powered by <a href="https://hexo.io" target="_blank">Hexo</a> | Theme <a href="https://lx.blleng.cn" target="_blank">Lx</a><br>
+  </div>
+</footer>
+</div>
+<a href="javascript:;" class="popup-trigger"><i class="menu-item-icon fa fa-search fa-fw"></i></a>
+<div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="Search..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+<button class="menu-trigger"></button>
+<div class="menu">
+  <div class="menu-head">
+    <span class="layer">
+      <div class="col">
+        <div class="row for-pic">
+          <div class="profile-pic">
+            <a href="/"><img src="https://sebastian-1256190695.cos.ap-guangzhou.myqcloud.com/person_1.jpg" alt="Sebastian Kennedy"></a>
+          </div>
+        </div>
+        <div class="row for-name">
+          <p>Sebastian Kennedy</p>
+          <span class="tagline">人类的悲欢并不相通，我只觉得他们吵闹。</span>
+        </div>
+      </div>
+    </span>
+  </div>
+  <nav class="menu-container">
+  <ul class="menu-items">
+    <li><a href="/"><i class="fa fa-home fa-fw"></i>首页</a></li>
+    <li><a href="/archives/"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+    <li class="has-sub"><span class="dropdown-heading">
+      <i class="fa fa-bookmark fa-fw"></i>页面</span>
+        <ul>
+          <li><a href="/guestbook">留言</a></li>
+        <li><a href="/about">关于</a></li>
+        </ul>
+    </li>
+    <li class="has-sub"><span class="dropdown-heading">
+      <i class="fa fa-link fa-fw"></i>友链</span>
+        <ul>
+          <li> <a href="https://lx.blleng.cn" target="_blank">Theme-Lx</a></li>
+        </ul>
+    </li>
+  </ul>
+  </nav>
+</div>
+
+<div class="gototop js-top">
+  <a href="#" class="js-gotop"><i class="fa fa-arrow-up"></i></a>
+</div>
+<script src="/js/jquery.easing.min.js"></script>
+<script src="/js/jquery.waypoints.min.js"></script>
+<script src="/js/jquery.stellar.min.js"></script>
+<script src="/js/main.js"></script>
+<script src="/js/local.search.js"></script>
+
+
+</body>
+</html>

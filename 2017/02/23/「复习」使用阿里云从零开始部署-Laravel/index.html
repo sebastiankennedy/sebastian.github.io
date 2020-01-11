@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>「复习」使用阿里云从零开始部署 Laravel | “人类的悲欢并不相通，我只觉得他们吵闹。”</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="author" content="Sebastian Kennedy">
+  <meta name="keywords" content="Sebastian Kennedy Blog PHP Laravel Yii">
+  <meta name="description" content="Sebastian Kennedy Blog PHP Laravel Yii">
+  <script id="hexo-configurations">
+  var CONFIG = {
+    root: '/',
+    theme: 'lx',
+    version: '1.4.5',
+    localsearch:{
+      "enable": true,
+      "trigger": "auto",
+      "top_n_per_article": 1,
+      "unescape": false,
+      "preload": false
+      },
+    path: 'search.xml'
+  };
+</script>
+
+  <link rel="shortcut icon" href="https://sebastian-1256190695.cos.ap-guangzhou.myqcloud.com/person_1.jpg">
+  <link rel="stylesheet" href="/css/main.css">
+  <script src="/js/jquery.min.js"></script>
+  <script src="/js/jquery.jside.menu.js"></script>
+	<script>
+	$(document).ready(function(){
+	$(".menu-container").jSideMenu({
+	    jSidePosition: "position-right",
+	    jSideSticky: true,
+	    jSideSkin: "black-grey",
+	     });
+	}); 
+	</script>
+  <!--Google_Analytics-->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-150354789-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'UA-150354789-1');
+</script>
+
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:300|Noto+Serif+SC&amp;display=swap">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/font-awesome@4/css/font-awesome.min.css">
+</head>
+<body>
+<div class="single">
+<div id="page">
+<div id="lx-aside" style="background-image: url(https://sebastian-1256190695.cos.ap-guangzhou.myqcloud.com/page-cover.jpg)" data-stellar-background-ratio="0.5">
+  <div class="overlay">
+  <div class="page-title">
+    <div class="avatar"><a href="/"><img src="https://sebastian-1256190695.cos.ap-guangzhou.myqcloud.com/person_1.jpg"></a></div>
+    <span>2017-02-23</span>
+    <h2>「复习」使用阿里云从零开始部署 Laravel</h2>
+    <div class="tags"><i class="fa fa-tag"></i><a class="tag-link" href="/tags/AliCloud/">AliCloud</a></div>
+    </div>
+</div>
+</div>
+<div id="lx-main-content">
+  <div class="lx-post">
+    <div class="lx-entry padding">
+      <div>
+        <h2 id="准备"><a class="header-anchor" href="#准备"></a>准备</h2>
+<p>更新 Yum</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum update</span><br></pre></td></tr></table></figure>
+<p>更新 Yum 源</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">rpm -Uvh http://rpms.famillecollet.com/enterprise/remi-release-7.rpm</span><br><span class="line">rpm -Uvh https://mirror.webtatic.com/yum/el7/webtatic-release.rpm</span><br><span class="line">rpm -Uvh http://repo.mysql.com/mysql-community-release-el7-5.noarch.rpm</span><br></pre></td></tr></table></figure>
+<p>安装 Git</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install -y git</span><br></pre></td></tr></table></figure>
+<p>安装 Htop</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install -y htop</span><br></pre></td></tr></table></figure>
+<p>安装 Vim</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install -y vim</span><br></pre></td></tr></table></figure>
+<h2 id="nginx"><a class="header-anchor" href="#nginx"></a>Nginx</h2>
+<p>安装 Nginx 代码仓库</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install -y epel-release</span><br></pre></td></tr></table></figure>
+<p>安装 Nginx</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install -y nginx</span><br></pre></td></tr></table></figure>
+<p>启动 Nginx</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl start nginx</span><br></pre></td></tr></table></figure>
+<p>开机启动 Nginx</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl enable nginx</span><br></pre></td></tr></table></figure>
+<p>Nginx 配置文件</p>
+<ul>
+<li>/usr/share/nginx/html 默认的代码目录</li>
+<li>/etc/nginx/conf.d/default.conf 默认的配置文件</li>
+</ul>
+<h2 id="mariadb"><a class="header-anchor" href="#mariadb"></a>MariaDB</h2>
+<p>安装 MariaDB</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install -y mariadb-server mariadb</span><br></pre></td></tr></table></figure>
+<p>启动 MariaDB</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl start mariadb</span><br></pre></td></tr></table></figure>
+<p>初始化 MariaDB</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql_secure_installation</span><br></pre></td></tr></table></figure>
+<p>开机启动 MariaDB</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl enable mariadb</span><br></pre></td></tr></table></figure>
+<h2 id="php"><a class="header-anchor" href="#php"></a>PHP</h2>
+<p>安装 PHP</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install -y php71w php71w-mysql php71w-xml php71w-soap php71w-xmlrpc php71w-mbstring php71w-json php71w-gd php71w-mcrypt php71w-fpm php71w-pdo php71w-pecl-redis</span><br></pre></td></tr></table></figure>
+<p>启动 PHP-FPM</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl start php-fpm</span><br></pre></td></tr></table></figure>
+<p>开机启动</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl enable php-fpm</span><br></pre></td></tr></table></figure>
+<p>配置 PHP 关联 Nginx，编辑 Nginx 配置文件如下：</p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">server&#123;</span><br><span class="line">    <span class="attribute">listen</span>       <span class="number">80</span>;</span><br><span class="line">    <span class="attribute">server_name</span>  cowcat.cc;</span><br><span class="line"></span><br><span class="line">    <span class="comment"># note that these lines are originally from the "location /" block</span></span><br><span class="line">    <span class="attribute">root</span>   /usr/share/nginx/html;</span><br><span class="line">    <span class="attribute">index</span> index.php index.html index.htm;</span><br><span class="line"></span><br><span class="line">    <span class="attribute">location</span> / &#123;</span><br><span class="line">        <span class="attribute">try_files</span> <span class="variable">$uri</span> <span class="variable">$uri</span>/ =<span class="number">404</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="attribute">error_page</span> <span class="number">404</span> /<span class="number">404</span>.html;</span><br><span class="line">    <span class="attribute">error_page</span> <span class="number">500</span> <span class="number">502</span> <span class="number">503</span> <span class="number">504</span> /50x.html;</span><br><span class="line">    <span class="attribute">location</span> = /50x.html &#123;</span><br><span class="line">        <span class="attribute">root</span> /usr/share/nginx/html;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="attribute">location</span> <span class="regexp">~ \.php$</span> &#123;</span><br><span class="line">        <span class="attribute">try_files</span> <span class="variable">$uri</span> =<span class="number">404</span>;</span><br><span class="line">        <span class="attribute">fastcgi_pass</span> <span class="number">127.0.0.1:9000</span>;</span><br><span class="line">        <span class="attribute">fastcgi_index</span> index.php;</span><br><span class="line">        <span class="attribute">fastcgi_param</span> SCRIPT_FILENAME <span class="variable">$document_root</span><span class="variable">$fastcgi_script_name</span>;</span><br><span class="line">        <span class="attribute">include</span> fastcgi_params;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在 <code>/usr/share/nginx/html</code> 新增文件 <code>index.php</code>，编辑代码如下：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">phpinfo();</span><br></pre></td></tr></table></figure>
+<p>输入域名，检查 PHP 是否与 Nginx 关联起来</p>
+<h2 id="redis"><a class="header-anchor" href="#redis"></a>Redis</h2>
+<p>安装 Redis</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">wget http://dl.fedoraproject.org/pub/epel/7/x86_64/e/epel-release-7-9.noarch.rpm</span><br><span class="line">rpm -ivh epel-release-7-9.noarch.rpm</span><br><span class="line">yum install -y redis</span><br></pre></td></tr></table></figure>
+<p>启动 Redis</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl start redis</span><br></pre></td></tr></table></figure>
+<p>开机启动 Redis</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl enable redis</span><br></pre></td></tr></table></figure>
+<h2 id="beanstalkd"><a class="header-anchor" href="#beanstalkd"></a>Beanstalkd</h2>
+<p>安装 Beanstalkd</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">wget http://cbs.centos.org/kojifiles/packages/beanstalkd/1.9/3.el7/x86_64/beanstalkd-1.9-3.el7.x86_64.rpm</span><br><span class="line">wget http://cbs.centos.org/kojifiles/packages/beanstalkd/1.9/3.el7/x86_64/beanstalkd-debuginfo-1.9-3.el7.x86_64.rpm</span><br><span class="line">rpm -ivh beanstalkd-1.9-3.el7.x86_64.rpm</span><br><span class="line">rpm -ivh beanstalkd-debuginfo-1.9-3.el7.x86_64.rpm</span><br><span class="line">yum install -y beanstalkd</span><br></pre></td></tr></table></figure>
+<p>启动 Beanstalkd</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl start beanstalkd</span><br></pre></td></tr></table></figure>
+<p>开机启动</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl enable beanstalkd</span><br></pre></td></tr></table></figure>
+<h2 id="composer"><a class="header-anchor" href="#composer"></a>Composer</h2>
+<p>安装 Composer</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">curl -sS https://getcomposer.org/installer | php</span><br><span class="line">mv composer.phar /usr/local/bin/composer</span><br><span class="line">composer -v</span><br></pre></td></tr></table></figure>
+<p>全局设置国内镜像</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">composer config -g repo.packagist composer https://packagist.phpcomposer.com</span><br></pre></td></tr></table></figure>
+<h2 id="node-js"><a class="header-anchor" href="#node-js"></a>Node.js</h2>
+<p>安装 Node.js</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">yum install -y gcc-c++ make</span><br><span class="line">yum install -y nodejs</span><br></pre></td></tr></table></figure>
+<p>安装 webpack、gulp、bower</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">npm install bower -g</span><br><span class="line">npm install gulp -g</span><br><span class="line">npm install webpack -g</span><br></pre></td></tr></table></figure>
+<h2 id="gogs"><a class="header-anchor" href="#gogs"></a>Gogs</h2>
+<p>设置子域名</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hostnamectl set-hostname git.cowcat.cc</span><br></pre></td></tr></table></figure>
+<p>禁用 SELinux 相关选项</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sed -i /etc/selinux/config -r -e &apos;s/^SELINUX=.*/SELINUX=disabled/g&apos;</span><br><span class="line">systemctl reboot</span><br></pre></td></tr></table></figure>
+<p>创建 gogs 数据库</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">CREATE DATABASE IF NOT EXISTS gogs CHARACTER SET utf8 COLLATE utf8_general_ci;</span><br><span class="line">use gogs;</span><br><span class="line">SET default_storage_engine=INNODB;</span><br></pre></td></tr></table></figure>
+<p>安装 Go</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install -y go</span><br></pre></td></tr></table></figure>
+<p>安装 Gogs</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">// 下载二进制包</span><br><span class="line">wget http://7d9nal.com2.z0.glb.qiniucdn.com/0.10rc/linux_amd64.zip</span><br><span class="line"></span><br><span class="line">// 解压</span><br><span class="line">unzip linux_amd64.zip</span><br><span class="line"></span><br><span class="line">cd gogs/</span><br><span class="line">// 后台运行</span><br><span class="line">nohup ./gogs web &amp;</span><br><span class="line">tail -f nohup.out</span><br></pre></td></tr></table></figure>
+<p>访问 URL 进行安装，安装 URL 是主机 IP 地址加上 3000 端口。</p>
+<p>以守护进程的形式运行 Gogs：<a href="https://github.com/gogits/gogs/blob/master/scripts/init/centos/gogs" target="_blank" rel="noopener">https://github.com/gogits/gogs/blob/master/scripts/init/centos/gogs</a></p>
+<h2 id="walle"><a class="header-anchor" href="#walle"></a>Walle</h2>
+<p>进入 MySQL，新增数据库如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">create database walle default character set utf8 COLLATE utf8_general_ci;</span><br></pre></td></tr></table></figure>
+<p>安装依赖</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install ansible</span><br></pre></td></tr></table></figure>
+<p>代码检出</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mkdir -p /data/www/                                     # 新建目录</span><br><span class="line">git clone https://github.com/meolu/walle-web.git        # 代码检出</span><br></pre></td></tr></table></figure>
+<p>连接数据库</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">cd walle-web/</span><br><span class="line">vim config/local.php</span><br><span class="line"></span><br><span class="line">// 修改 PHP 数组</span><br><span class="line">&apos;db&apos; =&gt; [</span><br><span class="line">    &apos;dsn&apos;       =&gt; &apos;mysql:host=127.0.0.1;dbname=walle&apos;, # 新建数据库walle</span><br><span class="line">    &apos;username&apos;  =&gt; &apos;username&apos;,                          # 连接的用户名</span><br><span class="line">    &apos;password&apos;  =&gt; &apos;password&apos;,                          # 连接的密码</span><br><span class="line">],</span><br></pre></td></tr></table></figure>
+<p>安装 vendor</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd /data/www/walle-web</span><br><span class="line">composer install --prefer-dist --no-dev --optimize-autoloader -vvvv</span><br></pre></td></tr></table></figure>
+<p>初始化项目</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd /data/www/walle-web</span><br><span class="line">./yii walle/setup</span><br></pre></td></tr></table></figure>
+<p>配置 Nginx</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">    listen       80;</span><br><span class="line">    server_name  walle.compony.com; # 改你的host</span><br><span class="line">    root /the/dir/of/walle-web/web; # 根目录为web</span><br><span class="line">    index index.php;</span><br><span class="line"></span><br><span class="line">    # 建议放内网</span><br><span class="line">    # allow 192.168.0.0/24;</span><br><span class="line">    # deny all;</span><br><span class="line"></span><br><span class="line">    location / &#123;</span><br><span class="line">        try_files $uri $uri/ /index.php$is_args$args;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    location ~ \.php$ &#123;</span><br><span class="line">        try_files $uri = 404;</span><br><span class="line">        fastcgi_pass   127.0.0.1:9000;</span><br><span class="line">        fastcgi_param  SCRIPT_FILENAME  $document_root$fastcgi_script_name;</span><br><span class="line">        include        fastcgi_params;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>然后访问你配置好的域名或服务器地址，管理员默认账号密码是 <code>admin/admin</code>，开发者默认账号密码是 <code>demo/demo</code>。</p>
+<p>有些错误 walle 捕捉不到，默认操作日志在 /tmp/walle/ 下，具体可在 config/local.php 里 log.dir 配置路径，tail 着日志，部署看日志。</p>
+<p>如果发现 /tmp/walle 下没有日志，很有可能是因为 CentOs 7 yum 安装的 php-fpm 默认 /tmp 目录不可写：/usr/lib/systemd/system/php-fpm.service 中的 PrivateTmp=true 禁止了向tmp目录写日志，解决方法如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">vi /usr/lib/systemd/system/php-fpm.service</span><br><span class="line">PrivateTmp=false</span><br><span class="line"></span><br><span class="line">systemctl daemon-reload</span><br><span class="line">systemctl reload php-fpm</span><br></pre></td></tr></table></figure>
+<h2 id="supervisor"><a class="header-anchor" href="#supervisor"></a>Supervisor</h2>
+<p>安装 Supervisor</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h2 id="alias-常用进程命令"><a class="header-anchor" href="#alias-常用进程命令"></a>Alias 常用进程命令</h2>
+<ul>
+<li>Nginx
+<ul>
+<li>alias nginx.start=‘systemctl start nginx’</li>
+<li>alias nginx.restart=‘systemctl restart nginx’</li>
+<li>alias nginx.stop=‘systemctl stop nginx’</li>
+<li>alias nginx.status=‘systemctl status nginx’</li>
+</ul>
+</li>
+<li>Mysql
+<ul>
+<li>alias mysql.start=‘systemctl start mysql’</li>
+<li>alias mysql.restart=‘systemctl restart mysql’</li>
+<li>alias mysql.stop=‘systemctl stop mysql’</li>
+<li>alias mysql.status=‘systemctl status mysql’</li>
+</ul>
+</li>
+<li>PHP-FPM
+<ul>
+<li>alias php-fpm.start=‘systemctl start php-fpm’</li>
+<li>alias php-fpm.restart=‘systemctl restart php-fpm’</li>
+<li>alias php-fpm.stop=‘systemctl stop php-fpm’</li>
+<li>alias php-fpm.status=‘systemctl status php-fpm’</li>
+</ul>
+</li>
+<li>Redis
+<ul>
+<li>alias redis.start=‘systemctl start redis’</li>
+<li>alias redis.restart=‘systemctl restart redis’</li>
+<li>alias redis.stop=‘systemctl stop redis’</li>
+<li>alias redis.status=‘systemctl status redis’</li>
+</ul>
+</li>
+<li>Beanstalkd
+<ul>
+<li>alias beanstalkd.start=‘systemctl start beanstalkd’</li>
+<li>alias beanstalkd.restart=‘systemctl restart beanstalkd’</li>
+<li>alias beanstalkd.stop=‘systemctl stop beanstalkd’</li>
+<li>alias beanstalkd.status=‘systemctl status beanstalkd’</li>
+</ul>
+</li>
+<li>Gogs
+<ul>
+<li>alias gogs.start=’/etc/rc.d/init.d/gogs start’</li>
+<li>alias gogs.stop=’/etc/rc.d/init.d/gogs stop’</li>
+<li>alias gogs.restart=’/etc/rc.d/init.d/gogs restart’</li>
+<li>alias gogs.status=’/etc/rc.d/init.d/gogs status’</li>
+</ul>
+</li>
+</ul>
+
+      </div>
+    </div>
+  </div>
+</div>
+<div class="lx-navigation">
+	<div class="lx-cover prev lx-cover-sm" style="background-image: url(https://sebastian-1256190695.cos.ap-guangzhou.myqcloud.com/footer_2.jpg)">
+		<div class="overlay"></div>
+		<a class="copy" href="/2017/02/28/使用-Yii2-构建-RESTFul-API/">
+			<div class="display-t">
+				<div class="display-tc">
+					<div>
+						<span>Next</span>
+						<h3>使用 Yii2 构建 RESTFul API</h3>
+					</div>
+				</div>
+			</div>
+		</a>
+	</div>
+        <div class="lx-cover next lx-cover-sm" style="background-image: url(https://sebastian-1256190695.cos.ap-guangzhou.myqcloud.com/footer_1.jpg)">
+		<div class="overlay"></div>
+		<a class="copy" href="/2017/02/17/学习-UML（二）/">
+			<div class="display-t">
+				<div class="display-tc">
+					<div>
+						<span>Prev</span>
+						<h3>学习 UML（二）</h3>
+					</div>
+				</div>
+			</div>
+		</a>
+	</div>
+</div>
+</div>
+<div class="comment"><div id="comments"></div></div>
+<footer>
+  <div>
+  Copyright &copy; 2019.<a href="/">Sebastian Kennedy</a><br>Powered by <a href="https://hexo.io" target="_blank">Hexo</a> | Theme <a href="https://lx.blleng.cn" target="_blank">Lx</a><br>
+  </div>
+</footer>
+</div>
+<a href="javascript:;" class="popup-trigger"><i class="menu-item-icon fa fa-search fa-fw"></i></a>
+<div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="Search..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+<button class="menu-trigger"></button>
+<div class="menu">
+  <div class="menu-head">
+    <span class="layer">
+      <div class="col">
+        <div class="row for-pic">
+          <div class="profile-pic">
+            <a href="/"><img src="https://sebastian-1256190695.cos.ap-guangzhou.myqcloud.com/person_1.jpg" alt="Sebastian Kennedy"></a>
+          </div>
+        </div>
+        <div class="row for-name">
+          <p>Sebastian Kennedy</p>
+          <span class="tagline">人类的悲欢并不相通，我只觉得他们吵闹。</span>
+        </div>
+      </div>
+    </span>
+  </div>
+  <nav class="menu-container">
+  <ul class="menu-items">
+    <li><a href="/"><i class="fa fa-home fa-fw"></i>首页</a></li>
+    <li><a href="/archives/"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+    <li class="has-sub"><span class="dropdown-heading">
+      <i class="fa fa-bookmark fa-fw"></i>页面</span>
+        <ul>
+          <li><a href="/guestbook">留言</a></li>
+        <li><a href="/about">关于</a></li>
+        </ul>
+    </li>
+    <li class="has-sub"><span class="dropdown-heading">
+      <i class="fa fa-link fa-fw"></i>友链</span>
+        <ul>
+          <li> <a href="https://lx.blleng.cn" target="_blank">Theme-Lx</a></li>
+        </ul>
+    </li>
+  </ul>
+  </nav>
+</div>
+
+<div class="gototop js-top">
+  <a href="#" class="js-gotop"><i class="fa fa-arrow-up"></i></a>
+</div>
+<script src="/js/jquery.easing.min.js"></script>
+<script src="/js/jquery.waypoints.min.js"></script>
+<script src="/js/jquery.stellar.min.js"></script>
+<script src="/js/main.js"></script>
+<script src="/js/local.search.js"></script>
+
+
+</body>
+</html>

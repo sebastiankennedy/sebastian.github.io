@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>使用阿里云从零开始部署 Laravel | “人类的悲欢并不相通，我只觉得他们吵闹。”</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="author" content="Sebastian Kennedy">
+  <meta name="keywords" content="Sebastian Kennedy Blog PHP Laravel Yii">
+  <meta name="description" content="Sebastian Kennedy Blog PHP Laravel Yii">
+  <script id="hexo-configurations">
+  var CONFIG = {
+    root: '/',
+    theme: 'lx',
+    version: '1.4.5',
+    localsearch:{
+      "enable": true,
+      "trigger": "auto",
+      "top_n_per_article": 1,
+      "unescape": false,
+      "preload": false
+      },
+    path: 'search.xml'
+  };
+</script>
+
+  <link rel="shortcut icon" href="https://sebastian-1256190695.cos.ap-guangzhou.myqcloud.com/person_1.jpg">
+  <link rel="stylesheet" href="/css/main.css">
+  <script src="/js/jquery.min.js"></script>
+  <script src="/js/jquery.jside.menu.js"></script>
+	<script>
+	$(document).ready(function(){
+	$(".menu-container").jSideMenu({
+	    jSidePosition: "position-right",
+	    jSideSticky: true,
+	    jSideSkin: "black-grey",
+	     });
+	}); 
+	</script>
+  <!--Google_Analytics-->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-150354789-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'UA-150354789-1');
+</script>
+
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:300|Noto+Serif+SC&amp;display=swap">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/font-awesome@4/css/font-awesome.min.css">
+</head>
+<body>
+<div class="single">
+<div id="page">
+<div id="lx-aside" style="background-image: url(https://sebastian-1256190695.cos.ap-guangzhou.myqcloud.com/page-cover.jpg)" data-stellar-background-ratio="0.5">
+  <div class="overlay">
+  <div class="page-title">
+    <div class="avatar"><a href="/"><img src="https://sebastian-1256190695.cos.ap-guangzhou.myqcloud.com/person_1.jpg"></a></div>
+    <span>2016-08-31</span>
+    <h2>使用阿里云从零开始部署 Laravel</h2>
+    <div class="tags"><i class="fa fa-tag"></i><a class="tag-link" href="/tags/AliCloud/">AliCloud</a></div>
+    </div>
+</div>
+</div>
+<div id="lx-main-content">
+  <div class="lx-post">
+    <div class="lx-entry padding">
+      <div>
+        <h2 id="阿里云-ecs-选购"><a class="header-anchor" href="#阿里云-ecs-选购"></a>阿里云 ECS 选购</h2>
+<ul>
+<li>地域
+<ul>
+<li>地域：华南 1</li>
+<li>可用区：华南 1 可用区 A</li>
+</ul>
+</li>
+<li>网络
+<ul>
+<li>网络类型：经典网络</li>
+</ul>
+</li>
+<li>实例
+<ul>
+<li>实例系列：系列 I</li>
+<li>实力规格：1 核 1GB</li>
+</ul>
+</li>
+<li>带宽：
+<ul>
+<li>公网带宽：按固定带宽</li>
+<li>带宽：1 Mbps</li>
+</ul>
+</li>
+<li>镜像：
+<ul>
+<li>镜像类型：公共镜像</li>
+<li>公共镜像：CentOS 6.5 32位</li>
+</ul>
+</li>
+<li>存储
+<ul>
+<li>系统盘：40 GB</li>
+</ul>
+</li>
+<li>收费模式
+<ul>
+<li>包年包月</li>
+<li>每月 68 元</li>
+</ul>
+</li>
+</ul>
+<h2 id="阿里云域名选购解析"><a class="header-anchor" href="#阿里云域名选购解析"></a>阿里云域名选购解析</h2>
+<ul>
+<li><a href="http://xn--eqr31enth05q.cc" target="_blank" rel="noopener">国际域名.cc</a>
+<ul>
+<li>名称：<a href="http://cowcat.cc" target="_blank" rel="noopener">cowcat.cc</a></li>
+<li>价格：16 元一年</li>
+</ul>
+</li>
+<li>实名认证：
+<ul>
+<li>输入身份证号码</li>
+<li>提交身份证正面照片</li>
+</ul>
+</li>
+<li>域名解析：
+<ul>
+<li>输入阿里云 ECS 公网 IP 地址</li>
+</ul>
+</li>
+</ul>
+<h2 id="centos-6-5-搭建-lnmp"><a class="header-anchor" href="#centos-6-5-搭建-lnmp"></a>CentOS 6.5 搭建 LNMP</h2>
+<h3 id="搭建准备"><a class="header-anchor" href="#搭建准备"></a>搭建准备</h3>
+<p>查看 <code>CentOS</code> 版本</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat /etc/centos-release</span><br></pre></td></tr></table></figure>
+<p>安装 <code>epel</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install -y epel-release</span><br></pre></td></tr></table></figure>
+<p>安装 <code>vim</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install -y vim</span><br></pre></td></tr></table></figure>
+<p>安装 <code>htop</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install -y htop</span><br></pre></td></tr></table></figure>
+<p>安装 <code>git</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install -y git</span><br></pre></td></tr></table></figure>
+<h3 id="安装-nginx"><a class="header-anchor" href="#安装-nginx"></a>安装 Nginx</h3>
+<p>修改 yum 源：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 进入 `/etc/yum.repos.d` 目录</span></span><br><span class="line">cd /etc/yum.repos.d/</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 创建一个 `nginx.repo` 文件</span></span><br><span class="line">vim nginx.repo</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 写入内容如下</span></span><br><span class="line">[nginx]</span><br><span class="line">name=nginx repo</span><br><span class="line">baseurl=http://nginx.org/packages/centos/$releasever/$basearch/</span><br><span class="line">gpgcheck=0</span><br><span class="line">enabled=1</span><br></pre></td></tr></table></figure>
+<p>更新 yum 源</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum update</span><br></pre></td></tr></table></figure>
+<p>安装 Nginx</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install nginx</span><br></pre></td></tr></table></figure>
+<p>查看 Nginx 版本</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># nginx version: nginx/1.10.1</span><br><span class="line">nginx -v</span><br></pre></td></tr></table></figure>
+<p>启动 Nginx</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">service nginx start</span><br></pre></td></tr></table></figure>
+<p>开机启动 Nginx</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chkconfig nginx on</span><br></pre></td></tr></table></figure>
+<h3 id="安装-mysql"><a class="header-anchor" href="#安装-mysql"></a>安装 MySQL</h3>
+<p>官网下载源码包</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget http://dev.mysql.com/get/mysql57-community-release-el6-7.noarch.rpm</span><br></pre></td></tr></table></figure>
+<p>安装 MySQL 的 yum 源</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rpm -Uvh mysql57-community-release-el6-7.noarch.rpm</span><br></pre></td></tr></table></figure>
+<p>打开 mysql-community.repo 看关于mysql的内容，确定 mysql57 的 enable 是打开的</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/yum.repos.d/mysql-community.repo</span><br></pre></td></tr></table></figure>
+<p>安装 MySQL</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install mysql-community-server</span><br></pre></td></tr></table></figure>
+<p>启动 MySQL</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">service mysqld start</span><br></pre></td></tr></table></figure>
+<p>启动 MySQL 后，查看自动生成的密码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">grep &quot;password&quot; /var/log/mysqld.log</span><br></pre></td></tr></table></figure>
+<p>修改 MySQL初始化密码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql_secure_installation</span><br></pre></td></tr></table></figure>
+<p>MySQL 登录验证</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql -uroot -p</span><br></pre></td></tr></table></figure>
+<p>MySQL 的配制文件默认在 <code>/etc/my.cnf</code></p>
+<p>开机启动 MySQL</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chkconfig mysqld on</span><br></pre></td></tr></table></figure>
+<h3 id="安装-php"><a class="header-anchor" href="#安装-php"></a>安装 PHP</h3>
+<p>删除之前的 PHP</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum remove php* php-common</span><br></pre></td></tr></table></figure>
+<p>更新 yum 源</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">wget https://dl.fedoraproject.org/pub/epel/epel-release-latest-6.noarch.rpm</span><br><span class="line">wget http://rpms.remirepo.net/enterprise/remi-release-6.rpm</span><br><span class="line">rpm -Uvh https://mirror.webtatic.com/yum/el6/latest.rpm</span><br></pre></td></tr></table></figure>
+<p>安装 PHP 7</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install php70w php70w-fpm php70w-cli php70w-mysql php70w-pdo php70w-mbstring php70w-mcrypt php70w-pear php70w-opcache php70w-bcmath php70w-xml php70w-pecl-redis</span><br></pre></td></tr></table></figure>
+<p>查看 PHP 7 的版本与扩展</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">php -v</span><br><span class="line">php -m</span><br></pre></td></tr></table></figure>
+<p>简单修改一些配置</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"># 打开 PHP 配置文件</span><br><span class="line">vim /etc/php.ini</span><br><span class="line"></span><br><span class="line"># 修改 PHP 配置参数</span><br><span class="line">date.timezone = Asia/Shanghai</span><br><span class="line">upload_max_filesize = 20M</span><br><span class="line">post_max_size = 20M</span><br><span class="line">display_errors = Off</span><br><span class="line">expose_php = Off</span><br></pre></td></tr></table></figure>
+<p>重启 PHP 7</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">service php-fpm restart</span><br></pre></td></tr></table></figure>
+<p>开机启动 PHP 7</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chkconfig php-fpm on</span><br></pre></td></tr></table></figure>
+<h3 id="安装-composer"><a class="header-anchor" href="#安装-composer"></a>安装 Composer</h3>
+<p>安装 Composer</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">php -r &quot;copy(&apos;https://getcomposer.org/installer&apos;, &apos;composer-setup.php&apos;);&quot;</span><br><span class="line"></span><br><span class="line">php -r &quot;if (hash_file(&apos;SHA384&apos;, &apos;composer-setup.php&apos;) === &apos;e115a8dc7871f15d853148a7fbac7da27d6c0030b848d9b3dc09e2a0388afed865e6a3d6b3c0fad45c48e2b5fc1196ae&apos;) &#123; echo &apos;Installer verified&apos;; &#125; else &#123; echo &apos;Installer corrupt&apos;; unlink(&apos;composer-setup.php&apos;); &#125; echo PHP_EOL;&quot;</span><br><span class="line"></span><br><span class="line">php composer-setup.php --install-dir=/usr/bin --filename=composer</span><br><span class="line"></span><br><span class="line">php -r &quot;unlink(&apos;composer-setup.php&apos;);&quot;</span><br></pre></td></tr></table></figure>
+<p>查看 Composer 版本</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">composer -v</span><br></pre></td></tr></table></figure>
+<p>全局设置国内镜像</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">composer config -g repo.packagist composer https://packagist.phpcomposer.com</span><br></pre></td></tr></table></figure>
+<h3 id="安装-node-js-4-5-lts"><a class="header-anchor" href="#安装-node-js-4-5-lts"></a>安装 Node.js (4.5 LTS)</h3>
+<p>编译安装 Node.js</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">wget https://nodejs.org/dist/v4.5.0/node-v4.5.0.tar.gz</span><br><span class="line">tar zxf node-v4.5.0.tar.gz</span><br><span class="line">cd node-v4.5.0</span><br><span class="line">./configure</span><br><span class="line">make</span><br><span class="line">make install</span><br></pre></td></tr></table></figure>
+<p>如果提示 gcc 版本过低，需要进行升级，执行命令如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sudo rpm --import http://ftp.scientificlinux.org/linux/scientific/5x/x86_64/RPM-GPG-KEYs/RPM-GPG-KEY-cern</span><br><span class="line">wget -O /etc/yum.repos.d/slc6-devtoolset.repo http://linuxsoft.cern.ch/cern/devtoolset/slc6-devtoolset.repo</span><br><span class="line">sudo yum install devtoolset-2</span><br><span class="line">scl enable devtoolset-2 bash</span><br></pre></td></tr></table></figure>
+<p>然后查看版本</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">gcc --version</span><br><span class="line">g++ --version</span><br><span class="line">gfortran --version</span><br></pre></td></tr></table></figure>
+<h3 id="安装-redis"><a class="header-anchor" href="#安装-redis"></a>安装 Redis</h3>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">rpm -Uvh http://rpms.famillecollet.com/enterprise/remi-release-6.rpm</span><br><span class="line">yum --enablerepo=remi,remi-test install redis</span><br></pre></td></tr></table></figure>
+<p>开启 Redis</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">chkconfig --add redis</span><br><span class="line">chkconfig --level 345 redis on</span><br><span class="line">service redis start</span><br></pre></td></tr></table></figure>
+<h3 id="配置-nginx-与-php-7"><a class="header-anchor" href="#配置-nginx-与-php-7"></a>配置 Nginx 与 PHP 7</h3>
+<p>Nginx 安装完毕之后，默认的网站根目录是在 <code>/usr/share/nginx/html/</code></p>
+<p>虚拟主机的配置在 <code>/etc/nginx/conf.d</code>，如果要配置新的域名在这里就可以了。</p>
+<p>默认有一个 <code>default.conf</code> 的配置，可以在里面配置以下参数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">server&#123;</span><br><span class="line">    listen 80;</span><br><span class="line">    server_name www.cowcat.cc;</span><br><span class="line"></span><br><span class="line">    # 日志记录</span><br><span class="line">    access_log  /var/log/nginx/cowcat.cc.access.log  main;</span><br><span class="line">    error_log /var/log/nginx/cowcat.cc.error.log;</span><br><span class="line"></span><br><span class="line">    location / &#123;</span><br><span class="line">        root /data/www/cowcat/public;</span><br><span class="line">        try_files $uri $uri/ /index.php?$query_string;</span><br><span class="line">        index index.php index.html index.htm;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    # 错误页面</span><br><span class="line">    error_page 404              /404.html;</span><br><span class="line">    error_page 500 502 503 504  /50x.html;</span><br><span class="line">    location = /50x.html &#123;</span><br><span class="line">        root   /usr/share/nginx/html;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    #PHP 脚本请求全部转发到 FastCGI 处理. 使用 FastCGI 默认配置.</span><br><span class="line">    location ~ \.php$ &#123;</span><br><span class="line">        root /data/www/cowcat/public;</span><br><span class="line">        fastcgi_pass   127.0.0.1:9000;</span><br><span class="line">        fastcgi_index  index.php;</span><br><span class="line">        fastcgi_param  SCRIPT_FILENAME  $document_root$fastcgi_script_name;</span><br><span class="line">        include        fastcgi_params;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+      </div>
+    </div>
+  </div>
+</div>
+<div class="lx-navigation">
+	<div class="lx-cover prev lx-cover-sm" style="background-image: url(https://sebastian-1256190695.cos.ap-guangzhou.myqcloud.com/footer_2.jpg)">
+		<div class="overlay"></div>
+		<a class="copy" href="/2016/09/01/查看-Eloquent-模型关联时执行的-SQL-语句/">
+			<div class="display-t">
+				<div class="display-tc">
+					<div>
+						<span>Next</span>
+						<h3>查看 Eloquent 模型关联时执行的 SQL 语句</h3>
+					</div>
+				</div>
+			</div>
+		</a>
+	</div>
+        <div class="lx-cover next lx-cover-sm" style="background-image: url(https://sebastian-1256190695.cos.ap-guangzhou.myqcloud.com/footer_1.jpg)">
+		<div class="overlay"></div>
+		<a class="copy" href="/2016/08/25/使用-Laravel-编写自定义命令/">
+			<div class="display-t">
+				<div class="display-tc">
+					<div>
+						<span>Prev</span>
+						<h3>使用 Laravel 编写自定义命令</h3>
+					</div>
+				</div>
+			</div>
+		</a>
+	</div>
+</div>
+</div>
+<div class="comment"><div id="comments"></div></div>
+<footer>
+  <div>
+  Copyright &copy; 2019.<a href="/">Sebastian Kennedy</a><br>Powered by <a href="https://hexo.io" target="_blank">Hexo</a> | Theme <a href="https://lx.blleng.cn" target="_blank">Lx</a><br>
+  </div>
+</footer>
+</div>
+<a href="javascript:;" class="popup-trigger"><i class="menu-item-icon fa fa-search fa-fw"></i></a>
+<div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="Search..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+<button class="menu-trigger"></button>
+<div class="menu">
+  <div class="menu-head">
+    <span class="layer">
+      <div class="col">
+        <div class="row for-pic">
+          <div class="profile-pic">
+            <a href="/"><img src="https://sebastian-1256190695.cos.ap-guangzhou.myqcloud.com/person_1.jpg" alt="Sebastian Kennedy"></a>
+          </div>
+        </div>
+        <div class="row for-name">
+          <p>Sebastian Kennedy</p>
+          <span class="tagline">人类的悲欢并不相通，我只觉得他们吵闹。</span>
+        </div>
+      </div>
+    </span>
+  </div>
+  <nav class="menu-container">
+  <ul class="menu-items">
+    <li><a href="/"><i class="fa fa-home fa-fw"></i>首页</a></li>
+    <li><a href="/archives/"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+    <li class="has-sub"><span class="dropdown-heading">
+      <i class="fa fa-bookmark fa-fw"></i>页面</span>
+        <ul>
+          <li><a href="/guestbook">留言</a></li>
+        <li><a href="/about">关于</a></li>
+        </ul>
+    </li>
+    <li class="has-sub"><span class="dropdown-heading">
+      <i class="fa fa-link fa-fw"></i>友链</span>
+        <ul>
+          <li> <a href="https://lx.blleng.cn" target="_blank">Theme-Lx</a></li>
+        </ul>
+    </li>
+  </ul>
+  </nav>
+</div>
+
+<div class="gototop js-top">
+  <a href="#" class="js-gotop"><i class="fa fa-arrow-up"></i></a>
+</div>
+<script src="/js/jquery.easing.min.js"></script>
+<script src="/js/jquery.waypoints.min.js"></script>
+<script src="/js/jquery.stellar.min.js"></script>
+<script src="/js/main.js"></script>
+<script src="/js/local.search.js"></script>
+
+
+</body>
+</html>

@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Swagger-PHP 基础使用 | “人类的悲欢并不相通，我只觉得他们吵闹。”</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="author" content="Sebastian Kennedy">
+  <meta name="keywords" content="Sebastian Kennedy Blog PHP Laravel Yii">
+  <meta name="description" content="Sebastian Kennedy Blog PHP Laravel Yii">
+  <script id="hexo-configurations">
+  var CONFIG = {
+    root: '/',
+    theme: 'lx',
+    version: '1.4.5',
+    localsearch:{
+      "enable": true,
+      "trigger": "auto",
+      "top_n_per_article": 1,
+      "unescape": false,
+      "preload": false
+      },
+    path: 'search.xml'
+  };
+</script>
+
+  <link rel="shortcut icon" href="https://sebastian-1256190695.cos.ap-guangzhou.myqcloud.com/person_1.jpg">
+  <link rel="stylesheet" href="/css/main.css">
+  <script src="/js/jquery.min.js"></script>
+  <script src="/js/jquery.jside.menu.js"></script>
+	<script>
+	$(document).ready(function(){
+	$(".menu-container").jSideMenu({
+	    jSidePosition: "position-right",
+	    jSideSticky: true,
+	    jSideSkin: "black-grey",
+	     });
+	}); 
+	</script>
+  <!--Google_Analytics-->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-150354789-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'UA-150354789-1');
+</script>
+
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:300|Noto+Serif+SC&amp;display=swap">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/font-awesome@4/css/font-awesome.min.css">
+</head>
+<body>
+<div class="single">
+<div id="page">
+<div id="lx-aside" style="background-image: url(https://sebastian-1256190695.cos.ap-guangzhou.myqcloud.com/page-cover.jpg)" data-stellar-background-ratio="0.5">
+  <div class="overlay">
+  <div class="page-title">
+    <div class="avatar"><a href="/"><img src="https://sebastian-1256190695.cos.ap-guangzhou.myqcloud.com/person_1.jpg"></a></div>
+    <span>2017-03-02</span>
+    <h2>Swagger-PHP 基础使用</h2>
+    <div class="tags"><i class="fa fa-tag"></i><a class="tag-link" href="/tags/Swagger/">Swagger</a></div>
+    </div>
+</div>
+</div>
+<div id="lx-main-content">
+  <div class="lx-post">
+    <div class="lx-entry padding">
+      <div>
+        <h2 id="swagger-php-的基本语法"><a class="header-anchor" href="#swagger-php-的基本语法"></a>Swagger-PHP 的基本语法</h2>
+<h4 id="参考文档"><a class="header-anchor" href="#参考文档"></a>参考文档</h4>
+<ul>
+<li><a href="http://zircote.com/swagger-php/1.x/index.html" target="_blank" rel="noopener">Swagger-Annotations</a></li>
+<li><a href="http://bfanger.nl/swagger-explained/" target="_blank" rel="noopener">Swagger-Explained</a></li>
+</ul>
+<h4 id="常用属性"><a class="header-anchor" href="#常用属性"></a>常用属性</h4>
+<p>红色为必写的字段，蓝色为封装的字段。</p>
+<ul>
+<li><font color="blue">@SWG\Swagger</font>
+<ul>
+<li>swagger</li>
+<li><font color="red">info</font>: <font color="blue">@SWG\Info</font></li>
+<li>host - 接口域名</li>
+<li>basePath - 接口前缀路径</li>
+<li>schemes: [“http”, “https”, “ws”, “wss”]</li>
+<li>consumes - 请求 Mime Types</li>
+<li>produces - 响应 Mime Types</li>
+<li>paths: <font color="blue">@SWG\Path</font></li>
+</ul>
+</li>
+<li><font color="blue">@SWG\Info</font>
+<ul>
+<li>title - 文档标题</li>
+<li>description - 文档描述</li>
+<li>termsOfService - 所属团队</li>
+<li>contact: <font color="blue">@SWG\Contact</font> - 联系方式</li>
+</ul>
+</li>
+<li><font color="blue">@SWG\Contact</font>
+<ul>
+<li>url - 联系链接</li>
+<li>name - 联系名称</li>
+<li>email - 联系邮箱</li>
+</ul>
+</li>
+<li><font color="blue">@SWG\License</font>
+<ul>
+<li><font color="red">name</font> - 开源许可证</li>
+<li>url - 许可证地址</li>
+</ul>
+</li>
+<li><font color="blue">@SWG\Path</font>
+<ul>
+<li>get: <font color="blue">@SWG\Get</font> - HTTP Get 请求</li>
+<li>put: <font color="blue">@SWG\Put</font> - HTTP Put 请求</li>
+<li>post: <font color="blue">@SWG\Post</font> - HTTP Post 请求</li>
+<li>delete: <font color="blue">@SWG\Delete</font> - HTTP Delete 请求</li>
+<li>options: <font color="blue">@SWG\Options</font> - HTTP Options 请求</li>
+</ul>
+</li>
+<li><font color="blue">@SWG\GET</font>
+<ul>
+<li>tags - 请求分类</li>
+<li>summary - 请求简介</li>
+<li>description - 请求描述</li>
+<li>operationId - 请求编号，要求唯一</li>
+<li>consumes - 请求 Mime Types</li>
+<li>produces - 响应 Mime Types</li>
+<li>parameters: <font color="blue">@SWG\Parameter</font> - 请求参数</li>
+<li><font color="red">responses</font>: <font color="blue">@SWG\Response</font> - 请求响应</li>
+<li>schemes: [“http”,“https”,“ws”,“wss”] - 请求协议</li>
+<li>deprecated - 是否弃用</li>
+</ul>
+</li>
+<li><font color="blue">@SWG\Parameter</font>
+<ul>
+<li><font color="red">name</font> - 请求参数名称</li>
+<li><font color="red">in</font>: [“query”,“header”,“path”,“formData”,“body”] - 请求参数存放方式</li>
+<li>description - 请求参数描述</li>
+<li>required - 是否要求</li>
+<li><font color="red">schema</font> - 当 <code>in</code> 为 <code>body</code> 时可以使用，用于描述参数</li>
+<li><font color="red">type</font>: [“string”, “number”, “integer”, “boolean”, “array”, “file”] - 请求参数类型</li>
+<li>format: [“int32”, “int64”, “float”, “double”, “byte”, “date”, “date-time”] - 请求参数格式</li>
+<li>allowEmptyValue - 是否允许空值</li>
+<li>items - 当 <code>type</code> 为 <code>array</code>,<code>items</code> 为 <code>required</code>，描述参数数组</li>
+<li>collectionFormat</li>
+<li>default - 请求参数默认值</li>
+</ul>
+</li>
+<li><font color="blue">@SWG\Response</font>
+<ul>
+<li><font color="red">default</font>
+<ul>
+<li>response object<br>
+- <font color="red">description</font> - 响应描述<br>
+- schema: <font color="blue">@SWG\Schema</font><br>
+- headers: <font color="blue">@SWG\Header</font> - 响应头部<br>
+- example: <font color="blue">@SWG\Example</font> - 响应数据例子</li>
+<li>reference object
+<ul>
+<li><font color="red">$ref</font></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>HTTP Status Code
+<ul>
+<li>response object<br>
+- <font color="red">description</font><br>
+- schema: <font color="blue">@SWG\Schema</font><br>
+- headers: <font color="blue">@SWG\Header</font><br>
+- example: <font color="blue">@SWG\Example</font></li>
+<li>reference object
+<ul>
+<li><font color="red">$ref</font></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><font color="blue">@SWG\Definition</font>
+<ul>
+<li>definition</li>
+<li>required</li>
+<li><font color="blue">@SWG\Property</font></li>
+</ul>
+</li>
+<li><font color="blue">@SWG\Property</font>
+<ul>
+<li>property - 模型成员属性</li>
+<li>type: [“string”, “number”, “integer”, “boolean”, “array”, “file”] - 模型参数类型</li>
+<li>format: [“int32”, “int64”, “float”, “double”, “byte”, “date”, “date-time”] - 模型参数格式</li>
+</ul>
+</li>
+<li><font color="blue">@SWG\Header</font>
+<ul>
+<li>header - 头部名称</li>
+<li>type - 头部数值类型</li>
+<li>description - 头部简介</li>
+</ul>
+</li>
+</ul>
+<h2 id="模块文件上使用"><a class="header-anchor" href="#模块文件上使用"></a>模块文件上使用</h2>
+<p>打开文件 <code>api/modules/v1/module.php</code>，添加代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * v1 module definition class</span><br><span class="line"> *</span><br><span class="line"> * @SWG\Swagger(</span><br><span class="line"> *   swagger=&quot;2.0&quot;,</span><br><span class="line"> *   @SWG\Info(</span><br><span class="line"> *      title=&quot;安乐窝商品库 API(标题)&quot;,</span><br><span class="line"> *      description=&quot;安乐窝商品库 API(描述)&quot;,</span><br><span class="line"> *      termsOfService=&quot;安乐窝开发团队&quot;,</span><br><span class="line"> *      version=&quot;1.0.0(版本号)&quot;,</span><br><span class="line"> *      @SWG\Contact(</span><br><span class="line"> *          email=&quot;2794408425@qq.com(邮件)&quot;,</span><br><span class="line"> *          name=&quot;安乐窝(联系称呼)&quot;,</span><br><span class="line"> *          url=&quot;http://api.app/v1/swagger-ui/dist/index.html&quot;</span><br><span class="line"> *      ),</span><br><span class="line"> *      @SWG\License(</span><br><span class="line"> *          name=&quot;MIT&quot;,</span><br><span class="line"> *          url=&quot;http://github.com/gruntjs/grunt/blob/master/LICENSE-MIT&quot;</span><br><span class="line"> *      ),</span><br><span class="line"> *  ),</span><br><span class="line"> *  host=&quot;api.app/&quot;,</span><br><span class="line"> *  basePath=&quot;v1/&quot;,</span><br><span class="line"> *  schemes=&#123;&quot;http&quot;&#125;,</span><br><span class="line"> *  produces=&#123;&quot;application/json&quot;&#125;,</span><br><span class="line"> *  consumes=&#123;&quot;application/json&quot;&#125;,</span><br><span class="line"> *      @SWG\Definition(</span><br><span class="line"> *          definition=&quot;ErrorModel&quot;,</span><br><span class="line"> *          required=&#123;&quot;code&quot;, &quot;message&quot;&#125;,</span><br><span class="line"> *          @SWG\Property(</span><br><span class="line"> *              property=&quot;code&quot;,</span><br><span class="line"> *              type=&quot;integer&quot;,</span><br><span class="line"> *              format=&quot;int32&quot;</span><br><span class="line"> *          ),</span><br><span class="line"> *          @SWG\Property(</span><br><span class="line"> *              property=&quot;message&quot;,</span><br><span class="line"> *              type=&quot;string&quot;</span><br><span class="line"> *          )</span><br><span class="line"> *      ),</span><br><span class="line"> * )</span><br><span class="line"> */</span><br></pre></td></tr></table></figure>
+<p>上述代码生成文档时的效果如下图：</p>
+<p><img src="http://o93kt6djh.bkt.clouddn.com/swagger-php-module.png" alt></p>
+<h2 id="控制器文件上使用"><a class="header-anchor" href="#控制器文件上使用"></a>控制器文件上使用</h2>
+<p>打开文件 <code>api/modules/v1/controllers/MenuController.php</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * @SWG\Get(</span><br><span class="line"> *     path=&quot;/menu&quot;,</span><br><span class="line"> *     tags=&#123;&quot;菜单接口&quot;&#125;,</span><br><span class="line"> *     description=&quot;获取菜单列表&quot;,</span><br><span class="line"> *     operationId=&quot;menu/index&quot;,</span><br><span class="line"> *     @SWG\Parameter(</span><br><span class="line"> *         name=&quot;access-token&quot;,</span><br><span class="line"> *         in=&quot;query&quot;,</span><br><span class="line"> *         description=&quot;Access Token&quot;,</span><br><span class="line"> *         required=true,</span><br><span class="line"> *         type=&quot;string&quot;,</span><br><span class="line"> *         default=&quot;HelloWorld&quot;</span><br><span class="line"> *     ),</span><br><span class="line"> *     @SWG\Response(</span><br><span class="line"> *          response=200,</span><br><span class="line"> *          description=&quot;Success Response&quot;,</span><br><span class="line"> *          @SWG\Header(header=&quot;x-pagination-per-page&quot;, type=&quot;string&quot;, description=&quot;Per Page&quot;),</span><br><span class="line"> *          @SWG\Header(header=&quot;x-pagination-page-count&quot;, type=&quot;string&quot;, description=&quot;Page Count&quot;),</span><br><span class="line"> *          @SWG\Header(header=&quot;x-pagination-total-count&quot;, type=&quot;string&quot;, description=&quot;Total Count&quot;),</span><br><span class="line"> *          @SWG\Header(header=&quot;x-pagination-current-page&quot;, type=&quot;string&quot;, description=&quot;Current Page&quot;),</span><br><span class="line"> *          @SWG\Schema(</span><br><span class="line"> *              @SWG\Property(</span><br><span class="line"> *                  property=&quot;items&quot;,</span><br><span class="line"> *                  type=&quot;array&quot;,</span><br><span class="line"> *                  @SWG\Items(</span><br><span class="line"> *                      type=&quot;object&quot;,</span><br><span class="line"> *                      @SWG\Property(property=&quot;id&quot;, type=&quot;integer&quot;, example=1),</span><br><span class="line"> *                      @SWG\Property(property=&quot;name&quot;, type=&quot;string&quot;, example=&quot;权限管理&quot;),</span><br><span class="line"> *                      @SWG\Property(property=&quot;route&quot;, type=&quot;string&quot;, example=&quot;/admin/permission/index&quot;)</span><br><span class="line"> *                  )</span><br><span class="line"> *              ),</span><br><span class="line"> *              @SWG\Property(</span><br><span class="line"> *                  property=&quot;_links&quot;,</span><br><span class="line"> *                  type=&quot;object&quot;,</span><br><span class="line"> *                  @SWG\Property(</span><br><span class="line"> *                      property=&quot;self&quot;,</span><br><span class="line"> *                      type=&quot;object&quot;,</span><br><span class="line"> *                      @SWG\Property(</span><br><span class="line"> *                          property=&quot;href&quot;, type=&quot;string&quot;, example=&quot;http://api.app/v1/menu?access-token=HelloWorld&amp;page=1&quot;</span><br><span class="line"> *                      )</span><br><span class="line"> *                  ),</span><br><span class="line"> *              ),</span><br><span class="line"> *              @SWG\Property(</span><br><span class="line"> *                  property=&quot;_meta&quot;,</span><br><span class="line"> *                  type=&quot;object&quot;,</span><br><span class="line"> *                  @SWG\Property(property=&quot;totalCount&quot;, type=&quot;integer&quot;, example=20),</span><br><span class="line"> *                  @SWG\Property(property=&quot;pageCount&quot;, type=&quot;integer&quot;, example=1),</span><br><span class="line"> *                  @SWG\Property(property=&quot;currentPage&quot;, type=&quot;integer&quot;, example=1),</span><br><span class="line"> *                  @SWG\Property(property=&quot;perPage&quot;, type=&quot;integer&quot;, example=20),</span><br><span class="line"> *              )</span><br><span class="line"> *          )</span><br><span class="line"> *      ),</span><br><span class="line"> *      @SWG\Response(</span><br><span class="line"> *         response=&quot;404&quot;,</span><br><span class="line"> *         description=&quot;HTTP 404 Error&quot;,</span><br><span class="line"> *         @SWG\Schema(ref=&quot;#/definitions/ErrorModel&quot;)</span><br><span class="line"> *      ),</span><br><span class="line"> *     @SWG\Response(</span><br><span class="line"> *         response=&quot;500&quot;,</span><br><span class="line"> *         description=&quot;HTTP 500 Error&quot;,</span><br><span class="line"> *         @SWG\Schema(ref=&quot;#/definitions/ErrorModel&quot;)</span><br><span class="line"> *     )</span><br><span class="line"> * )</span><br><span class="line"> */</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * @SWG\Post(</span><br><span class="line"> *     path=&quot;/menu&quot;,</span><br><span class="line"> *     tags=&#123;&quot;菜单接口&quot;&#125;,</span><br><span class="line"> *     operationId=&quot;menu/create&quot;,</span><br><span class="line"> *     description=&quot;新增菜单&quot;,</span><br><span class="line"> *     @SWG\Parameter(</span><br><span class="line"> *         name=&quot;body&quot;,</span><br><span class="line"> *         in=&quot;body&quot;,</span><br><span class="line"> *         description=&quot;新增菜单所需的参数&quot;,</span><br><span class="line"> *         required=true,</span><br><span class="line"> *         @SWG\Schema(ref=&quot;#/definitions/MenuModel&quot;)</span><br><span class="line"> *     ),</span><br><span class="line"> *     @SWG\Parameter(</span><br><span class="line"> *         in=&quot;query&quot;,</span><br><span class="line"> *         name=&quot;access-token&quot;,</span><br><span class="line"> *         default=&quot;HelloWorld&quot;,</span><br><span class="line"> *         description=&quot;Access-Token&quot;,</span><br><span class="line"> *         required=true,</span><br><span class="line"> *         type=&quot;string&quot;,</span><br><span class="line"> *         format=&quot;string&quot;</span><br><span class="line"> *     ),</span><br><span class="line"> *     @SWG\Response(</span><br><span class="line"> *          response=201,</span><br><span class="line"> *          description=&quot;pet response&quot;,</span><br><span class="line"> *          @SWG\Schema(</span><br><span class="line"> *              type=&quot;object&quot;,</span><br><span class="line"> *              @SWG\Property(property=&quot;id&quot;, type=&quot;integer&quot;, example=1),</span><br><span class="line"> *              @SWG\Property(property=&quot;name&quot;, type=&quot;string&quot;, example=&quot;歪理兔&quot;),</span><br><span class="line"> *              @SWG\Property(property=&quot;route&quot;, type=&quot;string&quot;, example=&quot;/admin/very/too&quot;),</span><br><span class="line"> *          )</span><br><span class="line"> *     ),</span><br><span class="line"> *     @SWG\Response(</span><br><span class="line"> *         response=&quot;default&quot;,</span><br><span class="line"> *         description=&quot;unexpected error&quot;,</span><br><span class="line"> *         @SWG\Schema(ref=&quot;#/definitions/ErrorModel&quot;)</span><br><span class="line"> *     )</span><br><span class="line"> * )</span><br><span class="line"> */</span><br></pre></td></tr></table></figure>
+<p>上述代码生成文档时的效果如下图：</p>
+<p><img src="http://o93kt6djh.bkt.clouddn.com/swagger-php-controller1.png" alt></p>
+<h2 id="模型文件上使用"><a class="header-anchor" href="#模型文件上使用"></a>模型文件上使用</h2>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * @SWG\Definition(</span><br><span class="line"> *      definition=&quot;MenuModel&quot;,</span><br><span class="line"> *      required=&#123;&quot;id&quot;, &quot;name&quot;, &quot;route&quot;&#125;,</span><br><span class="line"> *      @SWG\Property(</span><br><span class="line"> *          property=&quot;id&quot;,</span><br><span class="line"> *          type=&quot;integer&quot;,</span><br><span class="line"> *          format=&quot;int32&quot;</span><br><span class="line"> *      ),</span><br><span class="line"> *      @SWG\Property(</span><br><span class="line"> *          property=&quot;name&quot;,</span><br><span class="line"> *          type=&quot;string&quot;</span><br><span class="line"> *      ),</span><br><span class="line"> *      @SWG\Property(</span><br><span class="line"> *          property=&quot;route&quot;,</span><br><span class="line"> *          type=&quot;string&quot;</span><br><span class="line"> *      ),</span><br><span class="line"> *      @SWG\Property(</span><br><span class="line"> *          property=&quot;parent&quot;,</span><br><span class="line"> *          type=&quot;integer&quot;</span><br><span class="line"> *      ),</span><br><span class="line"> *      @SWG\Property(</span><br><span class="line"> *          property=&quot;order&quot;,</span><br><span class="line"> *          type=&quot;integer&quot;</span><br><span class="line"> *      ),</span><br><span class="line"> *      @SWG\Property(</span><br><span class="line"> *          property=&quot;data&quot;,</span><br><span class="line"> *          type=&quot;string&quot;</span><br><span class="line"> *      )</span><br><span class="line"> * )</span><br><span class="line"> */</span><br></pre></td></tr></table></figure>
+
+      </div>
+    </div>
+  </div>
+</div>
+<div class="lx-navigation">
+	<div class="lx-cover prev lx-cover-sm" style="background-image: url(https://sebastian-1256190695.cos.ap-guangzhou.myqcloud.com/footer_2.jpg)">
+		<div class="overlay"></div>
+		<a class="copy" href="/2017/03/15/「Tips」PHP-7-1-命名空间的新特性和使用方法/">
+			<div class="display-t">
+				<div class="display-tc">
+					<div>
+						<span>Next</span>
+						<h3>「Tips」PHP 7.1 命名空间的新特性和使用方法</h3>
+					</div>
+				</div>
+			</div>
+		</a>
+	</div>
+        <div class="lx-cover next lx-cover-sm" style="background-image: url(https://sebastian-1256190695.cos.ap-guangzhou.myqcloud.com/footer_1.jpg)">
+		<div class="overlay"></div>
+		<a class="copy" href="/2017/02/28/使用-Yii2-构建-RESTFul-API/">
+			<div class="display-t">
+				<div class="display-tc">
+					<div>
+						<span>Prev</span>
+						<h3>使用 Yii2 构建 RESTFul API</h3>
+					</div>
+				</div>
+			</div>
+		</a>
+	</div>
+</div>
+</div>
+<div class="comment"><div id="comments"></div></div>
+<footer>
+  <div>
+  Copyright &copy; 2019.<a href="/">Sebastian Kennedy</a><br>Powered by <a href="https://hexo.io" target="_blank">Hexo</a> | Theme <a href="https://lx.blleng.cn" target="_blank">Lx</a><br>
+  </div>
+</footer>
+</div>
+<a href="javascript:;" class="popup-trigger"><i class="menu-item-icon fa fa-search fa-fw"></i></a>
+<div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="Search..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+<button class="menu-trigger"></button>
+<div class="menu">
+  <div class="menu-head">
+    <span class="layer">
+      <div class="col">
+        <div class="row for-pic">
+          <div class="profile-pic">
+            <a href="/"><img src="https://sebastian-1256190695.cos.ap-guangzhou.myqcloud.com/person_1.jpg" alt="Sebastian Kennedy"></a>
+          </div>
+        </div>
+        <div class="row for-name">
+          <p>Sebastian Kennedy</p>
+          <span class="tagline">人类的悲欢并不相通，我只觉得他们吵闹。</span>
+        </div>
+      </div>
+    </span>
+  </div>
+  <nav class="menu-container">
+  <ul class="menu-items">
+    <li><a href="/"><i class="fa fa-home fa-fw"></i>首页</a></li>
+    <li><a href="/archives/"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+    <li class="has-sub"><span class="dropdown-heading">
+      <i class="fa fa-bookmark fa-fw"></i>页面</span>
+        <ul>
+          <li><a href="/guestbook">留言</a></li>
+        <li><a href="/about">关于</a></li>
+        </ul>
+    </li>
+    <li class="has-sub"><span class="dropdown-heading">
+      <i class="fa fa-link fa-fw"></i>友链</span>
+        <ul>
+          <li> <a href="https://lx.blleng.cn" target="_blank">Theme-Lx</a></li>
+        </ul>
+    </li>
+  </ul>
+  </nav>
+</div>
+
+<div class="gototop js-top">
+  <a href="#" class="js-gotop"><i class="fa fa-arrow-up"></i></a>
+</div>
+<script src="/js/jquery.easing.min.js"></script>
+<script src="/js/jquery.waypoints.min.js"></script>
+<script src="/js/jquery.stellar.min.js"></script>
+<script src="/js/main.js"></script>
+<script src="/js/local.search.js"></script>
+
+
+</body>
+</html>

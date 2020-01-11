@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Linux 服务管理 | “人类的悲欢并不相通，我只觉得他们吵闹。”</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="author" content="Sebastian Kennedy">
+  <meta name="keywords" content="Sebastian Kennedy Blog PHP Laravel Yii">
+  <meta name="description" content="Sebastian Kennedy Blog PHP Laravel Yii">
+  <script id="hexo-configurations">
+  var CONFIG = {
+    root: '/',
+    theme: 'lx',
+    version: '1.4.5',
+    localsearch:{
+      "enable": true,
+      "trigger": "auto",
+      "top_n_per_article": 1,
+      "unescape": false,
+      "preload": false
+      },
+    path: 'search.xml'
+  };
+</script>
+
+  <link rel="shortcut icon" href="https://sebastian-1256190695.cos.ap-guangzhou.myqcloud.com/person_1.jpg">
+  <link rel="stylesheet" href="/css/main.css">
+  <script src="/js/jquery.min.js"></script>
+  <script src="/js/jquery.jside.menu.js"></script>
+	<script>
+	$(document).ready(function(){
+	$(".menu-container").jSideMenu({
+	    jSidePosition: "position-right",
+	    jSideSticky: true,
+	    jSideSkin: "black-grey",
+	     });
+	}); 
+	</script>
+  <!--Google_Analytics-->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-150354789-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'UA-150354789-1');
+</script>
+
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:300|Noto+Serif+SC&amp;display=swap">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/font-awesome@4/css/font-awesome.min.css">
+</head>
+<body>
+<div class="single">
+<div id="page">
+<div id="lx-aside" style="background-image: url(https://sebastian-1256190695.cos.ap-guangzhou.myqcloud.com/page-cover.jpg)" data-stellar-background-ratio="0.5">
+  <div class="overlay">
+  <div class="page-title">
+    <div class="avatar"><a href="/"><img src="https://sebastian-1256190695.cos.ap-guangzhou.myqcloud.com/person_1.jpg"></a></div>
+    <span>2016-09-23</span>
+    <h2>Linux 服务管理</h2>
+    <div class="tags"><i class="fa fa-tag"></i><a class="tag-link" href="/tags/Linux/">Linux</a></div>
+    </div>
+</div>
+</div>
+<div id="lx-main-content">
+  <div class="lx-post">
+    <div class="lx-entry padding">
+      <div>
+        <h2 id="linux-服务管理"><a class="header-anchor" href="#linux-服务管理"></a>Linux 服务管理</h2>
+<h3 id="简介与分类"><a class="header-anchor" href="#简介与分类"></a>简介与分类</h3>
+<ul>
+<li>
+<h4 id="系统的运行级别"><a class="header-anchor" href="#系统的运行级别"></a>系统的运行级别</h4>
+<ul>
+<li>查看运行级别命令：<code>runlevel</code></li>
+<li>修改运行级别命令：<code>init 运行级别</code></li>
+<li>系统开机进入级别：<code>vim /etc/inittab</code> ~ <code>id:3initdefault:</code></li>
+</ul>
+</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>运行级别</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>关机</td>
+</tr>
+<tr>
+<td>1</td>
+<td>单用户模式，主要用于系统修复</td>
+</tr>
+<tr>
+<td>2</td>
+<td>不完全的命令行模式，不含 NFS 服务</td>
+</tr>
+<tr>
+<td>3</td>
+<td>完全的命令行模式，就是标准字符界面</td>
+</tr>
+<tr>
+<td>4</td>
+<td>系统保留</td>
+</tr>
+<tr>
+<td>5</td>
+<td>图形模式</td>
+</tr>
+<tr>
+<td>6</td>
+<td>重启动</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>
+<h4 id="服务的分类"><a class="header-anchor" href="#服务的分类"></a>服务的分类</h4>
+<ul>
+<li>Linux 服务
+<ul>
+<li>PRM 包默认安装的服务
+<ul>
+<li>独立的服务
+<ul>
+<li>默认配置文件位置
+<ul>
+<li>/etc/init.d/ 启动脚本位置</li>
+<li>/etc/sysconfig/ 初始化环境配置文件位置</li>
+<li>/etc/ 配置文件位置</li>
+<li>/etc/xinetd.conf xinetd 配置文件</li>
+<li>/etc/xinetd.d/ 基于 xineted 服务的启动脚本</li>
+<li>/var/lib/ 服务产生的数据放在这里</li>
+<li>/var/log/ 日志</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>基于 xinetd 服务</li>
+</ul>
+</li>
+<li>源码包安装的服务
+<ul>
+<li>源码包安装位置，一般是 <code>/usr/local</code> 下</li>
+</ul>
+</li>
+<li>PRM 包安装和源码包安装的区别：两者服务安装的位置不同</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<h4 id="服务与端口"><a class="header-anchor" href="#服务与端口"></a>服务与端口</h4>
+<ul>
+<li>概念：如果把 IP 地址比作一间房子，端口就是出入这间房子的门。真正的房子只有几个门，但是一个 IP 地址的端口可以有 65536 个</li>
+<li>服务与端口的对应：<code>cat /etc/services</code></li>
+<li>查询系统中开启的服务：<code>netstat [选项]</code>
+<ul>
+<li>-t 列出 TCP 数据</li>
+<li>-u 列出 UDP 数据</li>
+<li>-l 列出正在监听的网络服务（不包含已经连接的网络服务）</li>
+<li>-n 用端口号来显示服务，而不是用服务名</li>
+<li>-p 列出该服务的进程 ID</li>
+</ul>
+</li>
+<li>chkconfig 和 netstat 的区别
+<ul>
+<li><code>chkconfig</code> 查看自启动命令</li>
+<li><code>netstat</code> 查看启动命令</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<h4 id="服务启动与自启动"><a class="header-anchor" href="#服务启动与自启动"></a>服务启动与自启动</h4>
+<ul>
+<li>独立服务的自启动
+<ul>
+<li><code>ntsysv</code> 命令图形界面管理自启动</li>
+<li><code>/etc/rc.d/rc.local</code> 文件修改管理自启动</li>
+<li><code>chkconfig --list</code> 查看服务自启动状态，可以看到所有 RPM 包安装的服务</li>
+<li><code>chkconfig [--level 运行级别] [独立服务名] [on|off]</code> 修改服务自启动状态</li>
+</ul>
+</li>
+<li>独立服务的启动
+<ul>
+<li><code>/etc/init.d/独立服务名 start、stop、status、restart</code></li>
+<li><code>service 独立服务名 start、stop、status、restart</code></li>
+</ul>
+</li>
+<li>源码包安装服务的启动
+<ul>
+<li>使用绝对路径，调用启动脚本来启动。不同的源码包的启动脚本不同。可以查看源码包的安装说明，查看启动脚本的方法。</li>
+<li>用法：<code>/usr/local/apache2/bin/apachectl start</code></li>
+</ul>
+</li>
+<li>源码包服务的自启动
+<ul>
+<li><code>vi /etc/rc.d/rc.local</code> 加入 <code>/usr/local/apache2/bin/apachectl start</code></li>
+</ul>
+</li>
+<li>源码包的 Apache 服务能被 Service 命令管理启动
+<ul>
+<li><code>ln -s /usr/local/apache2/bin/apachectl /etc/init.d/apache</code></li>
+</ul>
+</li>
+<li>源码包的 Apache 服务能被 chkconfig 与 ntsysv 命令管理自启动
+<ul>
+<li><code>vi /etc/init.d/apache</code> 加入 <code># chkconfig:35 86 76</code> 和 <code>description:source package apache</code></li>
+<li><code>chkconfig --add apache</code> 把源码包 apache 加入 chkconfig 命令</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+      </div>
+    </div>
+  </div>
+</div>
+<div class="lx-navigation">
+	<div class="lx-cover prev lx-cover-sm" style="background-image: url(https://sebastian-1256190695.cos.ap-guangzhou.myqcloud.com/footer_2.jpg)">
+		<div class="overlay"></div>
+		<a class="copy" href="/2016/09/24/Linux-系统管理/">
+			<div class="display-t">
+				<div class="display-tc">
+					<div>
+						<span>Next</span>
+						<h3>Linux 系统管理</h3>
+					</div>
+				</div>
+			</div>
+		</a>
+	</div>
+        <div class="lx-cover next lx-cover-sm" style="background-image: url(https://sebastian-1256190695.cos.ap-guangzhou.myqcloud.com/footer_1.jpg)">
+		<div class="overlay"></div>
+		<a class="copy" href="/2016/09/22/Linux-Shell-基础之正则表达式/">
+			<div class="display-t">
+				<div class="display-tc">
+					<div>
+						<span>Prev</span>
+						<h3>Linux-Shell-基础之正则表达式</h3>
+					</div>
+				</div>
+			</div>
+		</a>
+	</div>
+</div>
+</div>
+<div class="comment"><div id="comments"></div></div>
+<footer>
+  <div>
+  Copyright &copy; 2019.<a href="/">Sebastian Kennedy</a><br>Powered by <a href="https://hexo.io" target="_blank">Hexo</a> | Theme <a href="https://lx.blleng.cn" target="_blank">Lx</a><br>
+  </div>
+</footer>
+</div>
+<a href="javascript:;" class="popup-trigger"><i class="menu-item-icon fa fa-search fa-fw"></i></a>
+<div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="Search..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+<button class="menu-trigger"></button>
+<div class="menu">
+  <div class="menu-head">
+    <span class="layer">
+      <div class="col">
+        <div class="row for-pic">
+          <div class="profile-pic">
+            <a href="/"><img src="https://sebastian-1256190695.cos.ap-guangzhou.myqcloud.com/person_1.jpg" alt="Sebastian Kennedy"></a>
+          </div>
+        </div>
+        <div class="row for-name">
+          <p>Sebastian Kennedy</p>
+          <span class="tagline">人类的悲欢并不相通，我只觉得他们吵闹。</span>
+        </div>
+      </div>
+    </span>
+  </div>
+  <nav class="menu-container">
+  <ul class="menu-items">
+    <li><a href="/"><i class="fa fa-home fa-fw"></i>首页</a></li>
+    <li><a href="/archives/"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+    <li class="has-sub"><span class="dropdown-heading">
+      <i class="fa fa-bookmark fa-fw"></i>页面</span>
+        <ul>
+          <li><a href="/guestbook">留言</a></li>
+        <li><a href="/about">关于</a></li>
+        </ul>
+    </li>
+    <li class="has-sub"><span class="dropdown-heading">
+      <i class="fa fa-link fa-fw"></i>友链</span>
+        <ul>
+          <li> <a href="https://lx.blleng.cn" target="_blank">Theme-Lx</a></li>
+        </ul>
+    </li>
+  </ul>
+  </nav>
+</div>
+
+<div class="gototop js-top">
+  <a href="#" class="js-gotop"><i class="fa fa-arrow-up"></i></a>
+</div>
+<script src="/js/jquery.easing.min.js"></script>
+<script src="/js/jquery.waypoints.min.js"></script>
+<script src="/js/jquery.stellar.min.js"></script>
+<script src="/js/main.js"></script>
+<script src="/js/local.search.js"></script>
+
+
+</body>
+</html>

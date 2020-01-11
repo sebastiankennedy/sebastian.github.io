@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>复习使用 MySQL（三） | “人类的悲欢并不相通，我只觉得他们吵闹。”</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="author" content="Sebastian Kennedy">
+  <meta name="keywords" content="Sebastian Kennedy Blog PHP Laravel Yii">
+  <meta name="description" content="Sebastian Kennedy Blog PHP Laravel Yii">
+  <script id="hexo-configurations">
+  var CONFIG = {
+    root: '/',
+    theme: 'lx',
+    version: '1.4.5',
+    localsearch:{
+      "enable": true,
+      "trigger": "auto",
+      "top_n_per_article": 1,
+      "unescape": false,
+      "preload": false
+      },
+    path: 'search.xml'
+  };
+</script>
+
+  <link rel="shortcut icon" href="https://sebastian-1256190695.cos.ap-guangzhou.myqcloud.com/person_1.jpg">
+  <link rel="stylesheet" href="/css/main.css">
+  <script src="/js/jquery.min.js"></script>
+  <script src="/js/jquery.jside.menu.js"></script>
+	<script>
+	$(document).ready(function(){
+	$(".menu-container").jSideMenu({
+	    jSidePosition: "position-right",
+	    jSideSticky: true,
+	    jSideSkin: "black-grey",
+	     });
+	}); 
+	</script>
+  <!--Google_Analytics-->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-150354789-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'UA-150354789-1');
+</script>
+
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:300|Noto+Serif+SC&amp;display=swap">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/font-awesome@4/css/font-awesome.min.css">
+</head>
+<body>
+<div class="single">
+<div id="page">
+<div id="lx-aside" style="background-image: url(https://sebastian-1256190695.cos.ap-guangzhou.myqcloud.com/page-cover.jpg)" data-stellar-background-ratio="0.5">
+  <div class="overlay">
+  <div class="page-title">
+    <div class="avatar"><a href="/"><img src="https://sebastian-1256190695.cos.ap-guangzhou.myqcloud.com/person_1.jpg"></a></div>
+    <span>2016-09-04</span>
+    <h2>复习使用 MySQL（三）</h2>
+    <div class="tags"><i class="fa fa-tag"></i><a class="tag-link" href="/tags/MySQL/">MySQL</a></div>
+    </div>
+</div>
+</div>
+<div id="lx-main-content">
+  <div class="lx-post">
+    <div class="lx-entry padding">
+      <div>
+        <h2 id="环境"><a class="header-anchor" href="#环境"></a>环境</h2>
+<ul>
+<li>MySQL 5.7.13</li>
+</ul>
+<h2 id="mysql-优化：硬件"><a class="header-anchor" href="#mysql-优化：硬件"></a>MySQL 优化：硬件</h2>
+<ul>
+<li>CPU：使用多核 CPU，能够充分发挥新版 MySQL 多核下的效果，建议 4 核以上</li>
+<li>内存：如果数据量比较大，建议使用不要低于 20 G 内存的服务器</li>
+<li>硬盘：SSD 硬盘，提高 TPS，选择适合的 RAID 方案</li>
+<li>网卡：保证足够的吞吐量，建议千兆网卡</li>
+</ul>
+<h2 id="mysql-优化：软件"><a class="header-anchor" href="#mysql-优化：软件"></a>MySQL 优化：软件</h2>
+<ul>
+<li>OS 类型
+<ul>
+<li>Linux</li>
+<li>FreeBSD</li>
+</ul>
+</li>
+<li>Linux 关键配置
+<ul>
+<li>文件打开描述符：/etc/security/limits.conf 中 nofile、/proc/sys/fs/nr_open</li>
+<li>可分配文件句柄数：/etc/sysctl.conf 中 fs.file-max、/proc/sys/fs/file-max</li>
+<li>进程数：/etc/security/limits.conf 中的 nproc</li>
+<li>线程数：/proc/sys/kernel/thread-max</li>
+<li>其他 TCP 和网络相关选项：/etc/sysctl.conf</li>
+<li>这些都可以通过ulimit 或 直接调整 /proc 中变量进行临时修改</li>
+<li>建议关闭 SWAP 分区（内存要足够大才行）；如果数据太大，为了防止夯死主机，可以设置 2G 左右的 SWAP 分区</li>
+</ul>
+</li>
+</ul>
+<h2 id="mysql-优化：基础配置"><a class="header-anchor" href="#mysql-优化：基础配置"></a>MySQL 优化：基础配置</h2>
+<p>基础配置 &amp; MyISAM 配置</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">max_connections=<span class="number">3000</span></span><br><span class="line">max_user_connections=<span class="number">2800</span></span><br><span class="line">max_connect_errors=<span class="number">10</span></span><br><span class="line">max_allowed_packet=<span class="number">64</span>M</span><br><span class="line">max_heap_table_size=<span class="number">512</span>M</span><br><span class="line">tmp_table_size=<span class="number">512</span>M</span><br><span class="line">max_length_for_sort_data=<span class="number">16</span>k</span><br><span class="line">wait_timeout=<span class="number">172800</span></span><br><span class="line">interactive_timeout=<span class="number">172800</span></span><br><span class="line"></span><br><span class="line">net_buffer_length=<span class="number">8</span>K</span><br><span class="line">read_buffer_size=<span class="number">4</span>M</span><br><span class="line">read_rnd_buffer_size=<span class="number">1</span>M</span><br><span class="line">sort_buffer_size=<span class="number">256</span>K</span><br><span class="line">join_buffer_size=<span class="number">2</span>M</span><br><span class="line">table_open_cache=<span class="number">512</span></span><br><span class="line">thread_cache_size=<span class="number">512</span></span><br><span class="line">query_cache_type=<span class="number">1</span></span><br><span class="line">query_cache_size=<span class="number">256</span>M</span><br></pre></td></tr></table></figure>
+<p>InnoDB 配置</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">innodb_file_per_table=<span class="number">1</span></span><br><span class="line">innodb_open_files=<span class="number">7168</span></span><br><span class="line">innodb_use_sys_malloc=<span class="number">1</span></span><br><span class="line">innodb_additional_mem_pool_size=<span class="number">64</span>M</span><br><span class="line">innodb_buffer_pool_instances=<span class="number">4</span></span><br><span class="line">innodb_buffer_pool_size=<span class="number">20</span>G</span><br><span class="line">innodb_data_home_dir=/home/work/data</span><br><span class="line">innodb_data_file_path=ibdata1:<span class="number">1024</span>M:autoextend</span><br><span class="line">innodb_autoextend_increment=<span class="number">128</span></span><br><span class="line">innodb_thread_concurrency=<span class="number">0</span></span><br><span class="line">innodb_flush_log_at_trx_commit=<span class="number">1</span></span><br><span class="line">innodb_fast_shutdown=<span class="number">1</span></span><br><span class="line">innodb_force_recovery=<span class="number">0</span></span><br><span class="line"></span><br><span class="line">innodb_log_buffer_size=<span class="number">16</span>M</span><br><span class="line">innodb_log_file_size=<span class="number">128</span>M</span><br><span class="line">innodb_log_files_in_group=<span class="number">4</span></span><br><span class="line">innodb_log_group_home_dir=/home/work/data</span><br><span class="line">innodb_max_dirty_pages_pct=<span class="number">60</span></span><br><span class="line">innodb_purge_threads=<span class="number">0</span></span><br><span class="line">innodb_lock_wait_timeout=<span class="number">50</span></span><br><span class="line">innodb_rollback_on_timeout=<span class="number">1</span></span><br><span class="line">innodb_commit_concurrency=<span class="number">0</span></span><br><span class="line">innodb_concurrency_tickets=<span class="number">1024</span></span><br><span class="line">innodb_autoinc_lock_mode=<span class="number">2</span></span><br><span class="line">innodb_change_buffering=all</span><br></pre></td></tr></table></figure>
+<h2 id="mysql-优化：表设计原则"><a class="header-anchor" href="#mysql-优化：表设计原则"></a>MySQL 优化：表设计原则</h2>
+<ul>
+<li>互联网业务的特点：数据量大、读写操作多、业务模式相对简单</li>
+<li>单表字段不宜过多，尽量不按照第三范式去设计表结构，</li>
+<li>尽量减少表关联，适当的冗余保证不联表查询</li>
+<li>表名和字段尽量采用小写字母+下划线的命名规则，尽量使用英文，例如：user_score</li>
+<li>每个表一定要有主键，一般建议自增ID；单表索引不宜过多，一般5~6个索引</li>
+<li>字段尽量使用高效类型，比如数字或时间，IP地址、手机号等都可以使用数字类型存储，非不得已采用字符</li>
+</ul>
+<h2 id="mysql-优化：查询语句"><a class="header-anchor" href="#mysql-优化：查询语句"></a>MySQL 优化：查询语句</h2>
+<ul>
+<li>不要写太复杂的SQL语句，尽量简单，能够让业务去做的，就不要让数据库区操作</li>
+<li>尽量避免：子查询、group by、distinct 等操作（子查询可以用left join替代）</li>
+<li>where、order by 等关键字段一定要建立索引，where里多个条件经常使用的可以建立联合索引（注意建立索引的数据必须是尽量分布多并且具备单调性，重复率低）</li>
+<li>把数据当做神一样来供着，能够缓存的尽量缓存（redis、memcached等），能够多次查询的就不要关联查询</li>
+<li>所有的变更操作（update、delete）必须有where条件！</li>
+<li>不适合使用MySQL服务的数据功能操作，尽量采用别的第三方服务支持，比如全文检索功能</li>
+</ul>
+<h2 id="mysql-优化：sql-优化实例"><a class="header-anchor" href="#mysql-优化：sql-优化实例"></a>MySQL 优化：SQL 优化实例</h2>
+<ul>
+<li>Like 优化</li>
+<li>Limit 优化</li>
+<li>InnoDB 中 count 优化</li>
+<li>定期使用 Explain 查看执行计划</li>
+</ul>
+<h2 id="php-与-mysql-交互"><a class="header-anchor" href="#php-与-mysql-交互"></a>PHP 与 MySQL 交互</h2>
+<ul>
+<li>
+<p>扩展层</p>
+</li>
+<li>
+<p>代码层</p>
+<ul>
+<li>为防止mysql太慢夯住PHP，建议设置SQL超时，或者设置execute_time等超时设置</li>
+<li>$mysqli-&gt;options(MYSQL_OPT_READ_TIMEOUT, 3);</li>
+<li>$mysqli-&gt;options(MYSQL_OPT_WRITE_TIMEOUT, 1);</li>
+<li>务必在代码里记录相关SQL语句执行性能和时间等信息，方便后续优化</li>
+</ul>
+</li>
+<li>
+<p>超时设置</p>
+<ul>
+<li>PHP代码连接后端的超时设置</li>
+<li>php.ini中execute_time设置</li>
+<li>php-fpm中request_terminate_timeout，request_slowlog_timeout</li>
+<li>nginx upstream相关超时设置</li>
+</ul>
+</li>
+</ul>
+<h2 id="php-与-mysql-安全"><a class="header-anchor" href="#php-与-mysql-安全"></a>PHP 与 MySQL 安全</h2>
+<ul>
+<li>SQL 注入</li>
+<li>MySQL 服务端</li>
+<li>备份机制</li>
+</ul>
+
+      </div>
+    </div>
+  </div>
+</div>
+<div class="lx-navigation">
+	<div class="lx-cover prev lx-cover-sm" style="background-image: url(https://sebastian-1256190695.cos.ap-guangzhou.myqcloud.com/footer_2.jpg)">
+		<div class="overlay"></div>
+		<a class="copy" href="/2016/09/07/与-MySQL-的零距离接触（一）/">
+			<div class="display-t">
+				<div class="display-tc">
+					<div>
+						<span>Next</span>
+						<h3>与 MySQL 的零距离接触（一）</h3>
+					</div>
+				</div>
+			</div>
+		</a>
+	</div>
+        <div class="lx-cover next lx-cover-sm" style="background-image: url(https://sebastian-1256190695.cos.ap-guangzhou.myqcloud.com/footer_1.jpg)">
+		<div class="overlay"></div>
+		<a class="copy" href="/2016/09/04/复习使用-MySQL（二）/">
+			<div class="display-t">
+				<div class="display-tc">
+					<div>
+						<span>Prev</span>
+						<h3>复习使用 MySQL（二）</h3>
+					</div>
+				</div>
+			</div>
+		</a>
+	</div>
+</div>
+</div>
+<div class="comment"><div id="comments"></div></div>
+<footer>
+  <div>
+  Copyright &copy; 2019.<a href="/">Sebastian Kennedy</a><br>Powered by <a href="https://hexo.io" target="_blank">Hexo</a> | Theme <a href="https://lx.blleng.cn" target="_blank">Lx</a><br>
+  </div>
+</footer>
+</div>
+<a href="javascript:;" class="popup-trigger"><i class="menu-item-icon fa fa-search fa-fw"></i></a>
+<div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="Search..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+<button class="menu-trigger"></button>
+<div class="menu">
+  <div class="menu-head">
+    <span class="layer">
+      <div class="col">
+        <div class="row for-pic">
+          <div class="profile-pic">
+            <a href="/"><img src="https://sebastian-1256190695.cos.ap-guangzhou.myqcloud.com/person_1.jpg" alt="Sebastian Kennedy"></a>
+          </div>
+        </div>
+        <div class="row for-name">
+          <p>Sebastian Kennedy</p>
+          <span class="tagline">人类的悲欢并不相通，我只觉得他们吵闹。</span>
+        </div>
+      </div>
+    </span>
+  </div>
+  <nav class="menu-container">
+  <ul class="menu-items">
+    <li><a href="/"><i class="fa fa-home fa-fw"></i>首页</a></li>
+    <li><a href="/archives/"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+    <li class="has-sub"><span class="dropdown-heading">
+      <i class="fa fa-bookmark fa-fw"></i>页面</span>
+        <ul>
+          <li><a href="/guestbook">留言</a></li>
+        <li><a href="/about">关于</a></li>
+        </ul>
+    </li>
+    <li class="has-sub"><span class="dropdown-heading">
+      <i class="fa fa-link fa-fw"></i>友链</span>
+        <ul>
+          <li> <a href="https://lx.blleng.cn" target="_blank">Theme-Lx</a></li>
+        </ul>
+    </li>
+  </ul>
+  </nav>
+</div>
+
+<div class="gototop js-top">
+  <a href="#" class="js-gotop"><i class="fa fa-arrow-up"></i></a>
+</div>
+<script src="/js/jquery.easing.min.js"></script>
+<script src="/js/jquery.waypoints.min.js"></script>
+<script src="/js/jquery.stellar.min.js"></script>
+<script src="/js/main.js"></script>
+<script src="/js/local.search.js"></script>
+
+
+</body>
+</html>

@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Linux 定时任务 | “人类的悲欢并不相通，我只觉得他们吵闹。”</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="author" content="Sebastian Kennedy">
+  <meta name="keywords" content="Sebastian Kennedy Blog PHP Laravel Yii">
+  <meta name="description" content="Sebastian Kennedy Blog PHP Laravel Yii">
+  <script id="hexo-configurations">
+  var CONFIG = {
+    root: '/',
+    theme: 'lx',
+    version: '1.4.5',
+    localsearch:{
+      "enable": true,
+      "trigger": "auto",
+      "top_n_per_article": 1,
+      "unescape": false,
+      "preload": false
+      },
+    path: 'search.xml'
+  };
+</script>
+
+  <link rel="shortcut icon" href="https://sebastian-1256190695.cos.ap-guangzhou.myqcloud.com/person_1.jpg">
+  <link rel="stylesheet" href="/css/main.css">
+  <script src="/js/jquery.min.js"></script>
+  <script src="/js/jquery.jside.menu.js"></script>
+	<script>
+	$(document).ready(function(){
+	$(".menu-container").jSideMenu({
+	    jSidePosition: "position-right",
+	    jSideSticky: true,
+	    jSideSkin: "black-grey",
+	     });
+	}); 
+	</script>
+  <!--Google_Analytics-->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-150354789-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'UA-150354789-1');
+</script>
+
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:300|Noto+Serif+SC&amp;display=swap">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/font-awesome@4/css/font-awesome.min.css">
+</head>
+<body>
+<div class="single">
+<div id="page">
+<div id="lx-aside" style="background-image: url(https://sebastian-1256190695.cos.ap-guangzhou.myqcloud.com/page-cover.jpg)" data-stellar-background-ratio="0.5">
+  <div class="overlay">
+  <div class="page-title">
+    <div class="avatar"><a href="/"><img src="https://sebastian-1256190695.cos.ap-guangzhou.myqcloud.com/person_1.jpg"></a></div>
+    <span>2016-09-26</span>
+    <h2>Linux 定时任务</h2>
+    <div class="tags"><i class="fa fa-tag"></i><a class="tag-link" href="/tags/Linux/">Linux</a></div>
+    </div>
+</div>
+</div>
+<div id="lx-main-content">
+  <div class="lx-post">
+    <div class="lx-entry padding">
+      <div>
+        <h2 id="linux-定时任务"><a class="header-anchor" href="#linux-定时任务"></a>Linux 定时任务</h2>
+<ul>
+<li>at 一次性定时任务</li>
+<li>crontab 循环定时任务</li>
+<li>crontab 设置</li>
+<li>anacron 配置</li>
+</ul>
+<h2 id="at-一次性定时任务"><a class="header-anchor" href="#at-一次性定时任务"></a>at 一次性定时任务</h2>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span> at 服务是否安装</span><br><span class="line">chkconfig --list | grep atd</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> at 服务的启动</span><br><span class="line">service atd restart</span><br></pre></td></tr></table></figure>
+<p>at 的访问控制</p>
+<ul>
+<li>如果系统中有 /etc/at.allow 文件，那么只有写入 /etc/at.allow （白名单）文件中的用户可以使用 at 命令（/etc/at.deny 文件会被忽略）</li>
+<li>如果系统中没有 /etc/at.allow 文件，只有 /etc/at.deny 文件，那么写入 /etc/at.deny （黑名单）文件中的用户不能使用 at 命令。对 root 不起作用</li>
+<li>如果系统中这两个文件都不存在，那么只有 root 用户可以使用 at 命令</li>
+</ul>
+<p>at 命令</p>
+<ul>
+<li>at
+<ul>
+<li><code>at [选项] 时间</code>
+<ul>
+<li>选项：
+<ul>
+<li>-m 当 at 工作完成后，无论命令是否有输出，都用 email 通知执行 at 命令的用户</li>
+<li>-c 工作号：显示该 at 工作的实际内容</li>
+</ul>
+</li>
+<li>时间：
+<ul>
+<li>HH:MM 02:30</li>
+<li>HH:MM YYYY-MM-DD 02:30 2013-07-25</li>
+<li>HH:MM[am|pm] [month] [date] 02:30 July 25</li>
+<li>HH:MM[am|pm] + [minutes|hours|days|weeks] now + 5 minutes</li>
+</ul>
+</li>
+<li>例子：
+<ul>
+<li><code>at now + 2 minutes</code> &amp;&amp; <code>/root/hello.sh &gt;&gt; /root/hello.log</code></li>
+<li><code>at 02:00 2013-07-26</code> &amp;&amp; <code>/bin/sync</code> &amp;&amp; <code>/sbin/shutdown -r now</code></li>
+</ul>
+</li>
+<li>其他：
+<ul>
+<li><code>atq</code> 查询当前服务器上的 at 工作</li>
+<li><code>atrm [工作号]</code> 删除指定的 at 任务</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="anncron"><a class="header-anchor" href="#anncron"></a>anncron</h2>
+<p>anacron 是用来保证在系统关机的时候错过的定时任务，可以在系统开机之后再执行</p>
+<p>anacron 检测周期</p>
+<ul>
+<li>anacron 会使用一天，七天，一个月作为检测周期</li>
+<li>在系统的 /var/spool/anacron/ 目录中存在 cron.{daily，weekly，monthly} 文件，用于记录上次执行的 cron 的时间</li>
+<li>和当前时间做比较，如果两个时间的差值超过了 anacron 的指定时间差值，证明有 cron 任务被漏执行</li>
+</ul>
+<p>anacron 配置文件</p>
+<ul>
+<li>vim /etc/anacrontab
+<ul>
+<li><code>RANDOM_DELAY=45</code> 最大随机延迟</li>
+<li><code>START_HOURS_RANGE=3-22</code> anacron 的执行时间范围是 3:00 - 22:00</li>
+<li><code>1	5	cron.daily 		nice run-parts /etc/cron.daily</code> 天数 强制延迟（分钟） 工作名称 实际执行的命令</li>
+</ul>
+</li>
+</ul>
+<p>anacron 执行过程（以 cron.daily 为例）</p>
+<ul>
+<li>首先读取 /var/spool/anacron/cron.daily 中的上一次 anacron 执行的时间</li>
+<li>和当前时间比较，如果两个时间的差值超过 1 天，就执行 cron.daily 工作</li>
+<li>执行这个工作只能在 03:00-22:00 之间</li>
+<li>执行工作时强制延迟时间为 5 分钟，再随机延迟 0-45 分钟时间</li>
+<li>使用 nice 命令指定默认优先级，使用 run-parts 脚本执行 /etc/cron.daily 目录中的所有可执行文件</li>
+</ul>
+<h2 id="crontab-简介"><a class="header-anchor" href="#crontab-简介"></a>Crontab 简介</h2>
+<p>业务场景</p>
+<ul>
+<li>每分钟需要执行一个程序检查系统运行状态</li>
+<li>每天凌晨需要对过去一天的业务数据进行统计</li>
+<li>每个星期需要把日志文件备份</li>
+<li>每个月需要把数据库进行备份</li>
+</ul>
+<p>概念理解</p>
+<p><strong>Crontab 是一个用于设置周期性被执行的任务的工具。</strong></p>
+<h2 id="crontab-实践"><a class="header-anchor" href="#crontab-实践"></a>Crontab 实践</h2>
+<ul>
+<li>相关工具
+<ul>
+<li>Mac OS 自带 SSH</li>
+</ul>
+</li>
+<li>安装并检查 Crontab 服务
+<ul>
+<li>检查 cron 服务
+<ul>
+<li>检查 Crontab 工具是否安装：<code>crontab -l</code></li>
+<li>检查 Crontab 可执行的命令：<code>service crond</code></li>
+<li>检查 Crontab 服务是否启动：<code>service crond status</code></li>
+<li>删除当前用户所有的定时任务： <code>crontab -r</code></li>
+<li>打开定时任务列表，进行编辑：<code>crontab -e</code>
+<ul>
+<li>实际上在修改目录 <code>/var/spool/cron/root</code> 下用户对应的文件</li>
+<li><code>crontab 文件名</code> 会把（crontab -e）文件里的内容都覆盖，使用时需要注意</li>
+</ul>
+</li>
+<li>启动 Crontab 服务：<code>service crond start</code></li>
+</ul>
+</li>
+<li>安装 Crontab 服务（依次执行）
+<ul>
+<li><code>yum install vixie-cron</code></li>
+<li><code>yum install crontabs</code></li>
+</ul>
+</li>
+<li><code>tail</code> 命令
+<ul>
+<li>作用：按照要求将指定的文件的最后部分输出到标准设备，如果文件有更新，tail 会主动刷新，确保你看到最新的文件内容</li>
+<li>选项
+<ul>
+<li>-f 循环读取</li>
+<li>-q 不显示处理信息</li>
+<li>-v 显示详细的处理信息</li>
+<li>-c [数目] 显示的字节数</li>
+<li>-n [行数] 显示行数</li>
+<li>-s 与-f合用,表示在每次反复的间隔休眠 s 秒</li>
+<li>-q 从不输出给出文件名的首部</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Crontab 的基本组成
+<ul>
+<li>配置文件</li>
+<li>系统服务 Crond</li>
+<li>配置工具 Crontab</li>
+</ul>
+</li>
+<li>Crontab 的配置文件格式
+<ul>
+<li><code>* * * * * Command</code>
+<ul>
+<li>第一个星号：分钟 0~59</li>
+<li>第二个星号：小时 0~23</li>
+<li>第三个星号：日期 1~31</li>
+<li>第四个星号：月份 1~12</li>
+<li>第五个星号：星期 0~7（0、7 都是星期天）</li>
+</ul>
+</li>
+<li>用法：
+<ul>
+<li>每晚的 21:30 重启 apache
+<ul>
+<li><strong><code>30 21 * * * service httpd restart</code></strong></li>
+</ul>
+</li>
+<li>每月 1 到 10 日的 4:45 重启 apache
+<ul>
+<li><strong><code>45 4 1-10 * * service httpd restart</code></strong></li>
+</ul>
+</li>
+<li>每月 1、10、22 日的 4:45 重启 apache
+<ul>
+<li><strong><code>45 4 1,10,22 * * service httpd restart</code></strong></li>
+</ul>
+</li>
+<li>每隔两分钟重启 apache 服务器
+<ul>
+<li><strong><code>*/2 * * * * service httpd restart</code></strong></li>
+</ul>
+</li>
+<li>晚上 11 点到早上 7 点之间，每隔一小时重启 apache
+<ul>
+<li><strong><code>0 23-7/1 * * * service httpd restart</code></strong></li>
+</ul>
+</li>
+<li>每天 18:00 至 23:00 之间每隔 30 分钟重启 apache
+<ul>
+<li><strong><code>0,30 18-23 * * * service httpd restart</code></strong></li>
+<li><strong><code>0-59/30 18-23 * * * service httpd restart</code></strong></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>总结：
+<ul>
+<li>* 表示任何时候都匹配</li>
+<li>可以用 “A,B,C” 表示 A 或者 B 或者 C 时执行命令</li>
+<li>可以用 “A-B” 表示 A 到 B 之间时执行命令</li>
+<li>可以用 “*/A” 表示每 A 时间执行一次命令</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Crontab 配置文件
+<ul>
+<li>全局配置文件
+<ul>
+<li><code>/etc/crontab</code> 查看系统级别的 Crontab</li>
+</ul>
+</li>
+<li>用户配置文件
+<ul>
+<li><code>/var/spool/cron/用户名称</code> 查看用户级别的 Crontab</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Crontab 的日志
+<ul>
+<li>监听 Crontab 执行日志：<code>tail -f /var/log/cron</code>，可以看到用户级别和系统级别的 Crontab</li>
+<li>查看每天的 Crontab 日志：<code>ls /var/log/cron*</code></li>
+</ul>
+</li>
+<li>Crontab 常见错误
+<ul>
+<li>环境变量：涉及到文件路径时写全局路径。注意声明 <code>#!/bin/bash</code> 确保脚本中环境变量能够被识别</li>
+<li>第三和第五个域之间执行的是 “或” 操作
+<ul>
+<li>四月的第一个星期日早晨 1 时 59 分运行 <a href="http://a.sh" target="_blank" rel="noopener">a.sh</a>：<code>59 1 1-7 4 * test 'date + \%w -eq 0 &amp;&amp; /root/a.sh'</code></li>
+</ul>
+</li>
+<li>两个小时运行一次
+<ul>
+<li>错误例子：<code>* 0,2,4,6,8,10,12,14,16,18,20,22 * * * date</code></li>
+<li>正确例子：<code>0 */2 * * * date</code></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Crontab 补充
+<ul>
+<li>半分钟执行命令
+<ul>
+<li><code>date &amp;&amp; sleep 0.5s &amp;&amp; date</code></li>
+</ul>
+</li>
+<li>Crontab 最小时间是 1 分钟，控制 1 分钟执行多次，本应该是同时执行，但第二条被推迟了30s执行，效果就是1分钟执行了2次
+<ul>
+<li><code>*/1 * * * * date &gt;&gt; /root/test/half.log</code></li>
+<li><code>*/1 * * * * sleep 30s; date &gt;&gt; /root/test/half.log</code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+      </div>
+    </div>
+  </div>
+</div>
+<div class="lx-navigation">
+	<div class="lx-cover prev lx-cover-sm" style="background-image: url(https://sebastian-1256190695.cos.ap-guangzhou.myqcloud.com/footer_2.jpg)">
+		<div class="overlay"></div>
+		<a class="copy" href="/2016/09/27/Linux-软件安装/">
+			<div class="display-t">
+				<div class="display-tc">
+					<div>
+						<span>Next</span>
+						<h3>Linux 软件安装</h3>
+					</div>
+				</div>
+			</div>
+		</a>
+	</div>
+        <div class="lx-cover next lx-cover-sm" style="background-image: url(https://sebastian-1256190695.cos.ap-guangzhou.myqcloud.com/footer_1.jpg)">
+		<div class="overlay"></div>
+		<a class="copy" href="/2016/09/24/Linux-系统管理/">
+			<div class="display-t">
+				<div class="display-tc">
+					<div>
+						<span>Prev</span>
+						<h3>Linux 系统管理</h3>
+					</div>
+				</div>
+			</div>
+		</a>
+	</div>
+</div>
+</div>
+<div class="comment"><div id="comments"></div></div>
+<footer>
+  <div>
+  Copyright &copy; 2019.<a href="/">Sebastian Kennedy</a><br>Powered by <a href="https://hexo.io" target="_blank">Hexo</a> | Theme <a href="https://lx.blleng.cn" target="_blank">Lx</a><br>
+  </div>
+</footer>
+</div>
+<a href="javascript:;" class="popup-trigger"><i class="menu-item-icon fa fa-search fa-fw"></i></a>
+<div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="Search..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+<button class="menu-trigger"></button>
+<div class="menu">
+  <div class="menu-head">
+    <span class="layer">
+      <div class="col">
+        <div class="row for-pic">
+          <div class="profile-pic">
+            <a href="/"><img src="https://sebastian-1256190695.cos.ap-guangzhou.myqcloud.com/person_1.jpg" alt="Sebastian Kennedy"></a>
+          </div>
+        </div>
+        <div class="row for-name">
+          <p>Sebastian Kennedy</p>
+          <span class="tagline">人类的悲欢并不相通，我只觉得他们吵闹。</span>
+        </div>
+      </div>
+    </span>
+  </div>
+  <nav class="menu-container">
+  <ul class="menu-items">
+    <li><a href="/"><i class="fa fa-home fa-fw"></i>首页</a></li>
+    <li><a href="/archives/"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+    <li class="has-sub"><span class="dropdown-heading">
+      <i class="fa fa-bookmark fa-fw"></i>页面</span>
+        <ul>
+          <li><a href="/guestbook">留言</a></li>
+        <li><a href="/about">关于</a></li>
+        </ul>
+    </li>
+    <li class="has-sub"><span class="dropdown-heading">
+      <i class="fa fa-link fa-fw"></i>友链</span>
+        <ul>
+          <li> <a href="https://lx.blleng.cn" target="_blank">Theme-Lx</a></li>
+        </ul>
+    </li>
+  </ul>
+  </nav>
+</div>
+
+<div class="gototop js-top">
+  <a href="#" class="js-gotop"><i class="fa fa-arrow-up"></i></a>
+</div>
+<script src="/js/jquery.easing.min.js"></script>
+<script src="/js/jquery.waypoints.min.js"></script>
+<script src="/js/jquery.stellar.min.js"></script>
+<script src="/js/main.js"></script>
+<script src="/js/local.search.js"></script>
+
+
+</body>
+</html>

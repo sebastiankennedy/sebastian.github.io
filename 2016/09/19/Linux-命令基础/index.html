@@ -1,0 +1,1086 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Linux 命令基础 | “人类的悲欢并不相通，我只觉得他们吵闹。”</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="author" content="Sebastian Kennedy">
+  <meta name="keywords" content="Sebastian Kennedy Blog PHP Laravel Yii">
+  <meta name="description" content="Sebastian Kennedy Blog PHP Laravel Yii">
+  <script id="hexo-configurations">
+  var CONFIG = {
+    root: '/',
+    theme: 'lx',
+    version: '1.4.5',
+    localsearch:{
+      "enable": true,
+      "trigger": "auto",
+      "top_n_per_article": 1,
+      "unescape": false,
+      "preload": false
+      },
+    path: 'search.xml'
+  };
+</script>
+
+  <link rel="shortcut icon" href="https://sebastian-1256190695.cos.ap-guangzhou.myqcloud.com/person_1.jpg">
+  <link rel="stylesheet" href="/css/main.css">
+  <script src="/js/jquery.min.js"></script>
+  <script src="/js/jquery.jside.menu.js"></script>
+	<script>
+	$(document).ready(function(){
+	$(".menu-container").jSideMenu({
+	    jSidePosition: "position-right",
+	    jSideSticky: true,
+	    jSideSkin: "black-grey",
+	     });
+	}); 
+	</script>
+  <!--Google_Analytics-->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-150354789-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'UA-150354789-1');
+</script>
+
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:300|Noto+Serif+SC&amp;display=swap">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/font-awesome@4/css/font-awesome.min.css">
+</head>
+<body>
+<div class="single">
+<div id="page">
+<div id="lx-aside" style="background-image: url(https://sebastian-1256190695.cos.ap-guangzhou.myqcloud.com/page-cover.jpg)" data-stellar-background-ratio="0.5">
+  <div class="overlay">
+  <div class="page-title">
+    <div class="avatar"><a href="/"><img src="https://sebastian-1256190695.cos.ap-guangzhou.myqcloud.com/person_1.jpg"></a></div>
+    <span>2016-09-19</span>
+    <h2>Linux 命令基础</h2>
+    <div class="tags"><i class="fa fa-tag"></i><a class="tag-link" href="/tags/Linux/">Linux</a></div>
+    </div>
+</div>
+</div>
+<div id="lx-main-content">
+  <div class="lx-post">
+    <div class="lx-entry padding">
+      <div>
+        <h2 id="命令基本格式及文件处理命令"><a class="header-anchor" href="#命令基本格式及文件处理命令"></a>命令基本格式及文件处理命令</h2>
+<h3 id="命令提示符"><a class="header-anchor" href="#命令提示符"></a>命令提示符</h3>
+<p>命令提示符例子：<code>[root@localhost ~]#</code>，参数意义如下：</p>
+<ul>
+<li>root：当前登录用户名称</li>
+<li>@：分隔用户名称和主机名称</li>
+<li>localhost：主机名称</li>
+<li>~：当前所在目录</li>
+<li>#：超级用户提示符，普通用户提示符是 $</li>
+</ul>
+<h3 id="命令格式"><a class="header-anchor" href="#命令格式"></a>命令格式</h3>
+<blockquote>
+<p>命令 [选项] [参数]</p>
+</blockquote>
+<ul>
+<li>个别命令使用不遵循此格式</li>
+<li>当有多个选项时，可以写在一起</li>
+<li>简化选项与完整选项：-a 等于 --all</li>
+</ul>
+<h3 id="查询目录中内容：ls"><a class="header-anchor" href="#查询目录中内容：ls"></a>查询目录中内容：ls</h3>
+<blockquote>
+<p>ls [选项] [文件或目录]</p>
+</blockquote>
+<p>选项：</p>
+<ul>
+<li>-a：显示所有文件，包括隐藏文件</li>
+<li>-l：显示详细信息</li>
+<li>-d：查看目录属性</li>
+<li>-h：人性化显示文件大小</li>
+<li>-i：显示 inode</li>
+</ul>
+<p>命令 <code>ls -l</code> 等于命令 <code>ll</code></p>
+<h3 id="目录处理命令"><a class="header-anchor" href="#目录处理命令"></a>目录处理命令</h3>
+<ul>
+<li>新建目录：mkdir
+<ul>
+<li><code>mkdir -p [目录名称]</code></li>
+<li>-p 递归创建</li>
+<li>命令英文原意：make directories</li>
+</ul>
+</li>
+<li>切换所在目录：cd
+<ul>
+<li><code>cd [目录名称]</code>
+<ul>
+<li>cd ~ ：进入当前用户的家目录</li>
+<li>cd - ：进入上次目录</li>
+<li>cd . ：进入当前目录</li>
+<li>cd … ：进入上一级目录</li>
+</ul>
+</li>
+<li>命令英文原意：change directory</li>
+<li>相对路径：参照当前所在目录，进行查找</li>
+<li>绝对路径：从根目录开始制定，一级一级递归查找。在任何目录下，都能进入指定目录</li>
+</ul>
+</li>
+<li>查询所在目录位置：pwd
+<ul>
+<li><code>pwd</code></li>
+<li>命令英文原意：print working directory</li>
+</ul>
+</li>
+<li>删除空目录：rmdir
+<ul>
+<li><code>rmdir [目录名称]</code></li>
+<li>命令英文原意：remove empty directories</li>
+</ul>
+</li>
+<li>删除文件或目录：rm
+<ul>
+<li><code>rm -rf [文件或目录]</code>
+<ul>
+<li>-r ：删除目录</li>
+<li>-f ：强制</li>
+</ul>
+</li>
+<li>命令英文原意：remove</li>
+</ul>
+</li>
+<li>复制命令：cp
+<ul>
+<li><code>cp [选项] [原文件或目录] [目标目录]</code>
+<ul>
+<li>-r ：复制目录</li>
+<li>-p ：连带文件属性复制</li>
+<li>-d ：若源文件是链接文件，则复制链接属性</li>
+<li>-a ：相当于 -pdr</li>
+</ul>
+</li>
+<li>命令英文原意：copy</li>
+</ul>
+</li>
+<li>剪切或重命名命令：mv
+<ul>
+<li><code>mv [原文件或目录] [目标目录]</code></li>
+<li>命令英文原意：move</li>
+</ul>
+</li>
+</ul>
+<h3 id="常见目录作用"><a class="header-anchor" href="#常见目录作用"></a>常见目录作用</h3>
+<ul>
+<li>/ ：根目录</li>
+<li>/bin ：命令保存目录</li>
+<li>/dev ：设备文件保存目录</li>
+<li>/etc ：配置文件保存目录</li>
+<li>/lib ：系统保存目录</li>
+<li>/mnt ：系统挂载目录</li>
+<li>/tmp ：临时目录</li>
+<li>/sys ：</li>
+<li>/var ：系统相关文档内容</li>
+<li>/usr ：系统软件资源目录
+<ul>
+<li>/usr/bin ：系统命令（普通用户）</li>
+<li>/usr/sbin ：系统命令（超级用户）</li>
+</ul>
+</li>
+<li>/boot ：启动目录，启动相关文件</li>
+<li>/home ：普通用户的家目录</li>
+<li>/root ：超级用户的家目录</li>
+<li>/sbin ：命令保存目录</li>
+<li>/proc ：直接写入内存的</li>
+<li>/media ： 挂载目录</li>
+</ul>
+<h3 id="链接命令"><a class="header-anchor" href="#链接命令"></a>链接命令</h3>
+<ul>
+<li>链接命令：ln
+<ul>
+<li><code>ln [参数] [原文件] [目标文件]</code>
+<ul>
+<li>-s ：创建软链接</li>
+<li>默认创建硬链接</li>
+</ul>
+</li>
+<li>命令英文原意：link</li>
+<li>功能描述：生成链接文件</li>
+</ul>
+</li>
+<li>硬链接特征：
+<ul>
+<li>拥有相同的 I 节点和存储 Block 块，可以看做是同一个文件</li>
+<li>可通过 I 节点识别</li>
+<li>不能跨分区</li>
+<li>不能针对目录使用</li>
+</ul>
+</li>
+<li>软连接特征：
+<ul>
+<li>类似 Windows 快捷方式</li>
+<li>软链接拥有自己的 I 节点和 Block 块，但是数据块中只保存原文件的文件名和 I 节点号，并没有实际的文件数据</li>
+<li>软连接文件权限都为：rwxrwxrwx</li>
+<li>修改任意文件，另一个都改变</li>
+<li>删除原文件，软链接不能使用</li>
+</ul>
+</li>
+</ul>
+<h2 id="文件搜索命令"><a class="header-anchor" href="#文件搜索命令"></a>文件搜索命令</h2>
+<h3 id="文件搜索命令-locate"><a class="header-anchor" href="#文件搜索命令-locate"></a>文件搜索命令 locate</h3>
+<ul>
+<li><code>locate 文件名</code>（只能搜索文件名）
+<ul>
+<li>在后台数据库中按文件名搜索，搜索速度更快</li>
+</ul>
+</li>
+<li><code>/var/lib/mlocate</code>
+<ul>
+<li>locate 命令所搜索的后台数据库</li>
+</ul>
+</li>
+<li><code>updatedb</code>
+<ul>
+<li>更新数据库</li>
+</ul>
+</li>
+<li><code>/etc/updatedb.conf</code> 配置文件
+<ul>
+<li>PRUNE_BIND_MOUNTS = “yes” (开启搜索限制)</li>
+<li>PRUNEFS = （搜索时，不搜索的文件系统）</li>
+<li>PRUNENAMES = （搜索时，不搜索的文件类型）</li>
+<li>PRUNEPATHS = （搜索时，不搜索的路径）</li>
+</ul>
+</li>
+</ul>
+<h3 id="命令搜索命令-whereis-与-which"><a class="header-anchor" href="#命令搜索命令-whereis-与-which"></a>命令搜索命令 whereis 与 which</h3>
+<ul>
+<li>whereis
+<ul>
+<li>搜索命令所在路径及帮助文档所在位置</li>
+<li>选项
+<ul>
+<li>-b	只查找可执行文件</li>
+<li>-m	只查找帮助文件</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>which （能看到命令的别名，只能看到命令的所在位置）</li>
+</ul>
+<h3 id="文件搜索命令-find"><a class="header-anchor" href="#文件搜索命令-find"></a>文件搜索命令 find</h3>
+<ul>
+<li><code>find [搜索范围] [搜索条件]</code>
+<ul>
+<li>搜索文件</li>
+</ul>
+</li>
+<li><code>find / -name install.log</code>
+<ul>
+<li>避免大范围搜索，会非常耗费系统资源</li>
+<li>find 是在系统当中搜索符合条件的文件名。如果需要匹配，使用通配符匹配，通配符是完全匹配</li>
+<li>Linux 中的通配符
+<ul>
+<li>
+<ul>
+<li>匹配任意内容</li>
+</ul>
+</li>
+<li>?  匹配任意一个字符</li>
+<li>[] 匹配任意一个中括号内的字符</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><code>find /root -iname install.log</code> 不区分大小写</li>
+<li><code>find /root -user root</code> 按照所有者搜索</li>
+<li><code>find /root -nouser</code> 查找没有所有者的文件</li>
+<li><code>find /var/log/ -mtime +10</code> 查找 10 天前修改的文件
+<ul>
+<li>10 10 天当天修改的文件</li>
+<li>-10 10 天内修改文件</li>
+<li>+10 10 天前修改的文件</li>
+<li>atime 文件访问时间</li>
+<li>ctime 改变文件属性</li>
+<li>mtime 修改文件内容</li>
+</ul>
+</li>
+<li><code>find . -size 25k</code> 查找文件大小是 25 KB 的文件
+<ul>
+<li>25K 等于 25 KB的文件</li>
+<li>-25K 小于 25 KB的文件</li>
+<li>+25K 大于 25KB 的文件</li>
+</ul>
+</li>
+<li><code>find . -inum 262422</code> 查找 i 节点是 262422 的文件</li>
+<li><code>find /etc -size +20k -a -size -50k</code> 查找 /etc/ 目录下，大于 20 KB 并且小于 50 KB 的文件
+<ul>
+<li>-a and 逻辑与，两个条件都满足</li>
+<li>-o or 逻辑或，两个条件满足一个即可</li>
+</ul>
+</li>
+<li><code>find /etc -size +20k -a -size -50k -exec ls -lh {} \;</code> 查找 /etc/，大于 20 KB 并且小于 50 KB 的文件，并显示详细信息，-exec/ -ok 命令 {}; 对搜索结果执行操作</li>
+</ul>
+<h3 id="字符串搜索命令-grep"><a class="header-anchor" href="#字符串搜索命令-grep"></a>字符串搜索命令 grep</h3>
+<ul>
+<li><code>grep [选项] 字符串 文件名</code> 在文件当中匹配符合条件的字符串
+<ul>
+<li>-i 忽略大小写</li>
+<li>-v 排除指定字符串</li>
+</ul>
+</li>
+</ul>
+<h3 id="find-命令与-grep-命令的区别"><a class="header-anchor" href="#find-命令与-grep-命令的区别"></a>find 命令与 grep 命令的区别</h3>
+<p>find 命令：在系统当中搜索符合条件的文件名，如果需要匹配，使用通配符匹配，通配符是完全匹配。</p>
+<p>grep 命令：在文件当中搜索符合条件的字符串，如果需要匹配，使用正则表达式进行匹配，正则表达式时包含匹配。</p>
+<h2 id="帮助命令"><a class="header-anchor" href="#帮助命令"></a>帮助命令</h2>
+<h3 id="帮助命令-man"><a class="header-anchor" href="#帮助命令-man"></a>帮助命令 man</h3>
+<ul>
+<li><code>man 命令</code>  获取指定命令的帮助</li>
+<li><code>man -f 命令</code> 相当于 <code>whatis 命令</code> 查看命令的帮助级别</li>
+<li><code>man -k 命令</code> 相当于 <code>apropos 命令</code> 查看和命令相关的所有帮助</li>
+<li>man 的级别
+<ul>
+<li>1 ： 查看命令的帮助</li>
+<li>2 ： 查看可被内核调用的函数的帮助</li>
+<li>3 ： 查看函数和函数库的帮助</li>
+<li>4 ： 查看特殊文件的帮助（主要是 /dev 目录下的文件）</li>
+<li>5 ： 查看配置文件的帮助</li>
+<li>6 ： 查看游戏的帮助</li>
+<li>7 ： 查看其他杂项的帮助</li>
+<li>8 ： 查看系统管理员可用命令的帮助</li>
+<li>9 ： 查看和内核相关文件的帮助</li>
+</ul>
+</li>
+</ul>
+<h3 id="其他帮助命令"><a class="header-anchor" href="#其他帮助命令"></a>其他帮助命令</h3>
+<ul>
+<li><code>命令 --help</code> 获取命令选项的帮助
+<ul>
+<li><code>ls --help</code></li>
+</ul>
+</li>
+<li><code>help shell 内部命令</code> 获取 shell 内部命令的帮助
+<ul>
+<li><code>whereis cd</code> 确定是否是 shell 内部命令</li>
+<li><code>help cd</code> 获取内部命令帮助</li>
+</ul>
+</li>
+<li><code>info 命令</code>
+<ul>
+<li>回车 ： 进入子帮助页面</li>
+<li>u ： 进入上层页面</li>
+<li>n ： 进入下一个帮助小节</li>
+<li>p ： 进入上一个帮助小节</li>
+<li>q ： 退出</li>
+</ul>
+</li>
+</ul>
+<h2 id="压缩命令"><a class="header-anchor" href="#压缩命令"></a>压缩命令</h2>
+<ul>
+<li>常用的压缩格式：
+<ul>
+<li>.zip</li>
+<li>.gz</li>
+<li>.bz2</li>
+<li>.tar.gz</li>
+<li>.tar.bz2</li>
+</ul>
+</li>
+<li>.zip 格式
+<ul>
+<li><code>zip 压缩文件名 源文件</code> 压缩文件</li>
+<li><code>zip -r 压缩文件名 源目录</code> 压缩目录</li>
+<li><code>unzip 压缩文件</code> 解压 <code>.zip</code> 文件</li>
+</ul>
+</li>
+<li>.gz 格式
+<ul>
+<li><code>gzip 源文件</code> 压缩为 <code>.gz</code> 格式的压缩文件，源文件消失</li>
+<li><code>gzip -c 源文件 &gt; 压缩文件</code> 压缩为 <code>.gz</code> 格式的压缩文件，源文件保留</li>
+<li><code>gzip -r 目录</code> 压缩目录下所有的子文件，但是不能压缩目录</li>
+<li><code>gzip -d 压缩文件</code> 解压文件</li>
+<li><code>gunzip 压缩文件</code> 解压文件</li>
+</ul>
+</li>
+<li>.bz2
+<ul>
+<li><code>bzip2 源文件</code> 压缩为 <code>.bz2</code> 格式的压缩文件，不保留源文件</li>
+<li><code>bzip2 -k 源文件</code> 压缩为 <code>.bz2</code> 格式的压缩文件，保留源文件</li>
+<li><code>bzip2</code> 命令不能压缩目录</li>
+</ul>
+</li>
+<li>tar.gz
+<ul>
+<li><code>tar -cvf 打包文件名 源文件</code>
+<ul>
+<li>选项
+<ul>
+<li>-c ： 打包</li>
+<li>-v ： 显示过程</li>
+<li>-f	： 指定打包后的文件名</li>
+</ul>
+</li>
+<li>举例：<code>tar -cvf longzls.tar longzls</code></li>
+</ul>
+</li>
+<li><code>tar -xvf 打包文件名</code>
+<ul>
+<li>选项
+<ul>
+<li>-x ： 解打包</li>
+</ul>
+</li>
+<li>举例：<code>tar -xvf longzls.tar</code></li>
+</ul>
+</li>
+<li><code>tar -zcvf 压缩包名.tar.gz 源文件</code> 压缩为 <code>.tar.gz</code> 格式的压缩文件</li>
+<li><code>tar -zxvf 压缩包名.tar.gz</code> 解压 <code>.tar.gz</code> 格式的文件</li>
+<li><code>tar -jcvf 压缩包名.tar.bz2 源文件</code> 压缩为 <code>.tar.bz2</code> 格式的压缩文件</li>
+<li><code>tar -jxvf 压缩包名.tar.bz2</code> 解压 <code>.tar.bz2</code> 格式的文件</li>
+</ul>
+</li>
+</ul>
+<h2 id="关机重启命令"><a class="header-anchor" href="#关机重启命令"></a>关机重启命令</h2>
+<ul>
+<li>shutdown 命令
+<ul>
+<li><code>shutdown [选项] 时间</code></li>
+<li>选项
+<ul>
+<li>-c ：取消前一个关机命令</li>
+<li>-h ：关机（尽可能少用）</li>
+<li>-r ：重启</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>其他关机命令
+<ul>
+<li>halt</li>
+<li>poweroff</li>
+<li>init 0</li>
+</ul>
+</li>
+<li>其他重启命令
+<ul>
+<li>reboot</li>
+<li>init 6</li>
+</ul>
+</li>
+<li>系统运行级别
+<ul>
+<li>0 关机</li>
+<li>1 单用户</li>
+<li>2 不完全多用户，不含 NFS 服务</li>
+<li>3 完全多用户</li>
+<li>4 未分配</li>
+<li>5 图形界面</li>
+<li>6 重启</li>
+</ul>
+</li>
+<li><code>cat /etc/inittab</code> 可以修复系统默认运行级别</li>
+<li><code>runlevel</code> 查询系统运行级别</li>
+<li><code>logout</code> 退出登录命令</li>
+</ul>
+<h2 id="挂载命令"><a class="header-anchor" href="#挂载命令"></a>挂载命令</h2>
+<ul>
+<li>查询与自动挂载
+<ul>
+<li><code>mount [-t 文件系统] [-o 特殊选项] 设备 文件名 挂载点</code>
+<ul>
+<li>-t 文件系统：加入文件系统类型来指定挂载的类型，可以 ext3、ext4、iso 9660 等文件系统</li>
+<li>-o 特殊选项：可以指定挂载的额外选项</li>
+</ul>
+</li>
+<li><code>mount</code> 查询系统中已经挂载的设备</li>
+<li><code>mount -a</code> 依据配置文件 /etc/fstab 的内容，自动挂载</li>
+</ul>
+</li>
+<li>光盘的挂载
+<ul>
+<li>挂载光盘
+<ul>
+<li><code>mkdir /mnt/cdrom/</code> 建立挂载点</li>
+<li><code>mount -t iso9660 /dev/cdrom /mnt/cdrom/</code> 挂载光盘</li>
+<li><code>mount /dev/sr0 /mnt/cdrom/</code></li>
+</ul>
+</li>
+<li>卸载命令
+<ul>
+<li><code>umount 设备文件名或挂载点</code></li>
+<li><code>umount /mnt/cdrom</code></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>U 盘的挂载
+<ul>
+<li><code>fdisk -l</code> 查看存储设备文件名</li>
+<li><code>mount -t vfat /dev/sdb1 /mnt/usb/</code></li>
+</ul>
+</li>
+</ul>
+<h2 id="用户登录查看命令"><a class="header-anchor" href="#用户登录查看命令"></a>用户登录查看命令</h2>
+<ul>
+<li>w
+<ul>
+<li>USER ：登录的用户名</li>
+<li>TTY ：登录终端</li>
+<li>FROM ：从哪个 IP 地址登录</li>
+<li>LOGIN@ ：登录时间</li>
+<li>IDLE ：用户闲置时间</li>
+<li>JCPU ：指的是和该终端连接的所有进程占用的时间。这个时间里并不包括过去的后台作业时间，但却包括当前正在运行的后台作业所占用的时间；</li>
+<li>PCPU ：是指当前进程所占用的时间；</li>
+<li>WHAT ：当前正在运行的命令</li>
+</ul>
+</li>
+<li>who
+<ul>
+<li>用户名</li>
+<li>登录终端</li>
+<li>登录时间（登录来源 IP 地址）</li>
+</ul>
+</li>
+<li>last（查询当前登录和过去登录的用户信息）
+<ul>
+<li>last 命令默认是读取 /var/log/wtmp 文件数据</li>
+<li>命令输出
+<ul>
+<li>用户名</li>
+<li>登录终端</li>
+<li>登录 IP</li>
+<li>登录时间</li>
+<li>退出时间（在线时间）</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>lastlog（查看所有用户的最后一次登录时间）
+<ul>
+<li>lastlog 命令默认是读取 /var/log/lastlog 文件内容</li>
+<li>命令输出
+<ul>
+<li>用户名</li>
+<li>登录终端</li>
+<li>登录 IP</li>
+<li>最后一次登录时间</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="shell-基础"><a class="header-anchor" href="#shell-基础"></a>Shell 基础</h2>
+<h3 id="shell-概述"><a class="header-anchor" href="#shell-概述"></a>Shell 概述</h3>
+<p>Shell 是一个命令行解释器，它为用户提供了一个向 Linux 内核发送请求以便运行程序的界面系统级程序，<br>
+用户可以用 Shell 来启动、挂起、停止甚至是编写一些程序。</p>
+<p>Shell 还是一个功能相当强大的编程语言，易编写，易调试，灵活性比较强。<br>
+Shell 是解释执行的脚本语言，在 Shell 中可以直接调用 Linux 的系统命令</p>
+<p>Shell 的分类</p>
+<ul>
+<li>Bourne Shell
+<ul>
+<li>sh、ksh、Bash、psh、zsh</li>
+</ul>
+</li>
+<li>C Shell
+<ul>
+<li>csh、tcsh</li>
+</ul>
+</li>
+</ul>
+<h3 id="脚本执行方式"><a class="header-anchor" href="#脚本执行方式"></a>脚本执行方式</h3>
+<ul>
+<li>echo 输出命令
+<ul>
+<li><code>echo [选项] [输出内容]</code></li>
+<li>选项
+<ul>
+<li>-e ：支持反斜线控制的字符转换</li>
+</ul>
+</li>
+<li>字符转换
+<ul>
+<li>\a 输出警告音</li>
+<li>\b 退格键，也就是向左删除键</li>
+<li>\n 换行符</li>
+<li>\r 回车键</li>
+<li>\t 制表符</li>
+<li>\v 垂直制表符</li>
+<li>\0nnn 按照八进制 ASCII 码表输出字符。其中 0 为数字零，nnn 是三位八进制数</li>
+<li>\xhh 按照十六进制 ASCII 码表输出字符。其中 hh 是两位十六进制数</li>
+</ul>
+</li>
+<li>使用颜色
+<ul>
+<li>30m=黑色</li>
+<li>31m=红色</li>
+<li>32m=绿色</li>
+<li>33m=黄色</li>
+<li>34m=蓝色</li>
+<li>35m=洋红</li>
+<li>36m=青色</li>
+<li>37m=白色</li>
+<li>\e[1;31m \e[0m</li>
+</ul>
+</li>
+<li>例子
+<ul>
+<li><code>echo -e &quot;hell\bo&quot;;</code></li>
+<li><code>echo -e &quot;\x68\t\x65\t\x6c\n\x6c\t\x6f\t&quot;;</code></li>
+<li><code>echo -e &quot;\e[1;31mHello World \e[0m&quot;;</code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="命令别名与快捷键"><a class="header-anchor" href="#命令别名与快捷键"></a>命令别名与快捷键</h3>
+<ul>
+<li><code>alias</code> 查看系统中所有的命令别名</li>
+<li><code>alias 别名='原命令'</code> 设定命令别名
+<ul>
+<li>例子：<code>alias vi='vim'</code></li>
+</ul>
+</li>
+<li><code>vi ~/.bashrc</code> 写入环境变量配置文件</li>
+<li><code>unalias 别名</code> 删除别名</li>
+<li>命令生效顺序
+<ul>
+<li>第一顺位执行用绝对路径或相对路径执行的命令</li>
+<li>第二顺位执行别名</li>
+<li>第三顺位执行 Bash 的内部命令</li>
+<li>第四顺位执行按照 $PATH 环境变量定义的目录查找顺序找到的第一个命令</li>
+</ul>
+</li>
+<li>常用快捷键
+<ul>
+<li><code>Ctrl + c</code> 强制终止当前命令</li>
+<li><code>Ctrl + l</code> 清屏</li>
+<li><code>Ctrl + a</code> 光标移动到命令行首</li>
+<li><code>Ctrl + e</code> 光标移动到命令行尾</li>
+<li><code>Ctrl + u</code> 从光标所在位置删除到行首</li>
+<li><code>Ctrl + z</code> 把命令放入后台</li>
+<li><code>Ctrl + r</code> 在历史命令中搜索</li>
+</ul>
+</li>
+</ul>
+<h3 id="历史命令"><a class="header-anchor" href="#历史命令"></a>历史命令</h3>
+<ul>
+<li><code>history [选项] [历史命令保存文件]</code>
+<ul>
+<li>选项
+<ul>
+<li>-c ：清空历史缓存</li>
+<li>-w ：把缓存中的历史命令写入历史命令保存文件 <code>~/.bash_history</code></li>
+</ul>
+</li>
+<li>历史命令默认会保存 1000 条，可以在环境变量配置文件 <code>/etc/profile</code> 中的 <code>HISTSIZE</code> 进行修改</li>
+<li>历史命令的调用
+<ul>
+<li>使用上、下箭头调用以前的历史命令</li>
+<li>使用 <code>!n</code> 重复执行第 n 条历史命令</li>
+<li>使用 <code>!!</code> 重复执行上一条命令</li>
+<li>使用 <code>!字符</code> 重复执行最后一条以该字符串开头的命令</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="输出重定向"><a class="header-anchor" href="#输出重定向"></a>输出重定向</h3>
+<p>1.标准输入输出</p>
+<table>
+<thead>
+<tr>
+<th>设备</th>
+<th>设备文件名</th>
+<th>文件描述符</th>
+<th>类型</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>键盘</td>
+<td>/dev/stdin</td>
+<td>0</td>
+<td>标准输入</td>
+</tr>
+<tr>
+<td>显示器</td>
+<td>/dev/sdtout</td>
+<td>1</td>
+<td>标准输入</td>
+</tr>
+<tr>
+<td>显示器</td>
+<td>/dev/sdterr</td>
+<td>2</td>
+<td>标准错误输出</td>
+</tr>
+</tbody>
+</table>
+<p>2.输出重定向</p>
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>符号</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>标准输出重定向</td>
+<td>命令 &gt; 文件</td>
+<td>以覆盖的方式，把命令的正确输出，输出到指定的文件或设备中</td>
+</tr>
+<tr>
+<td>标准输出重定向</td>
+<td>命令 &gt;&gt; 文件</td>
+<td>以追加的方式，把命令的正确输出，输出到指定的文件或设备中</td>
+</tr>
+<tr>
+<td>标准错误输出重定向</td>
+<td>错误命令2&gt;文件</td>
+<td>以覆盖的方式，把命令的错误输出，输出到指定的文件或设备中</td>
+</tr>
+<tr>
+<td>标准错误输出重定向</td>
+<td>错误命令2&gt;&gt;文件</td>
+<td>以追加的方式，把命令的错误输出，输出到指定的文件或设备中</td>
+</tr>
+<tr>
+<td>正确输出和错误输出同时保存</td>
+<td>命令 &gt; 文件 2&gt;&amp;1</td>
+<td>以覆盖的方式，把正确输出和错误输出都保存到同一个文件当中</td>
+</tr>
+<tr>
+<td>正确输出和错误输出同时保存</td>
+<td>命令 &gt;&gt; 文件 2&gt;&amp;1</td>
+<td>以追加的方式，把正确输出和错误输出都保存到同一个文件当中</td>
+</tr>
+<tr>
+<td>正确输出和错误输出同时保存</td>
+<td>命令 &amp;&gt;文件</td>
+<td>以覆盖的方式，把正确输出和错误输出都保存都同一个文件当中</td>
+</tr>
+<tr>
+<td>正确输出和错误输出同时保存</td>
+<td>命令 &amp;&gt;&gt;文件</td>
+<td>以追加的方式，把正确输出和错误输出都保存到同一个文件当中</td>
+</tr>
+<tr>
+<td>正确输出和错误输出同时保存</td>
+<td>命令&gt;&gt;文件1 2&gt;&gt;文件2</td>
+<td>把正确的输出追加到文件 1 中，把错误的输出追加到文件 2 中</td>
+</tr>
+</tbody>
+</table>
+<p>3.输入重定向</p>
+<ul>
+<li><code>wc [选项] [文件名]</code> 输入重定向
+<ul>
+<li>选项
+<ul>
+<li>-c ：统计字节数</li>
+<li>-w ：统计单词数</li>
+<li>-i ：统计行数</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="管道符"><a class="header-anchor" href="#管道符"></a>管道符</h3>
+<p>1.多命令顺序执行</p>
+<table>
+<thead>
+<tr>
+<th>多命令执行符</th>
+<th>格式</th>
+<th>作用</th>
+<th>例子</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>;</td>
+<td>命令1;命令2</td>
+<td>多个命令顺序执行，命令之间没有任何逻辑联系，即使报错也会往下执行</td>
+<td>date ; ls ; cd ~; history;</td>
+</tr>
+<tr>
+<td>&amp;&amp;</td>
+<td>命令1&amp;&amp;命令2</td>
+<td>逻辑与，当命令 1 正确执行，则命令 2 才会执行，当命令 1 执行不正确，则命令 2 不会执行</td>
+<td>ls &amp;&amp; echo yes</td>
+</tr>
+<tr>
+<td>II</td>
+<td>命令1 II 命令2</td>
+<td>逻辑或，当命令 1 执行不正确，则命令 2 才会执行，当命令 1 正确执行，则命令 2 不会执行</td>
+<td>lsls II echo no</td>
+</tr>
+</tbody>
+</table>
+<p>2.管道符</p>
+<ul>
+<li>格式：命令 1 | 命令 2</li>
+<li>作用：命令 1 的正确输出作为命令 2 的操作对象</li>
+</ul>
+<h3 id="通配符"><a class="header-anchor" href="#通配符"></a>通配符</h3>
+<p>1.通配符</p>
+<table>
+<thead>
+<tr>
+<th>通配符</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>?</td>
+<td>匹配一个任意字符</td>
+</tr>
+<tr>
+<td>*</td>
+<td>匹配 0 个或任意多个任意字符，也就是可以匹配任何内容</td>
+</tr>
+<tr>
+<td>[]</td>
+<td>匹配中括号中任意一个字符，例如：[abc] 代表一定匹配一个字符，或是 a,或是 b,或是 c</td>
+</tr>
+<tr>
+<td>[-]</td>
+<td>匹配中括号中任意一个字符，- 代表一个范围，例如：[a-z] 代表匹配一个小写字母</td>
+</tr>
+<tr>
+<td>[^]</td>
+<td>逻辑非，表示匹配不是中括号内的一个字符，例如：[^0-9] 代表匹配一个不是数字的字符</td>
+</tr>
+</tbody>
+</table>
+<p>通配符执行例子</p>
+<ul>
+<li>存在文件夹<code>dzp</code>,<code>dzp2</code>,<code>dzp3</code>,<code>dzp34</code>,<code>dzpa</code>，<code>dzpbols</code>,<code>dzpcang</code></li>
+<li>执行命令 <code>ls dzp</code>，显示文件夹 <code>dzp</code></li>
+<li>执行命令 <code>ls dzp?</code>，显示文件夹 <code>dzp2</code>，<code>dzp3</code></li>
+<li>执行命令 <code>ls dzp[0-9]</code>，显示文件夹 <code>dzp2</code>，<code>dzp3</code></li>
+<li>执行命令 <code>ls dzp[0-9][0-9]</code>，显示文件夹 <code>dzp34</code></li>
+<li>执行命令 <code>ls dzp[^0-9]</code>，显示文件夹 <code>dzpa</code></li>
+<li>执行命令 <code>ls dzp[^0-9]*</code>，显示文件夹 <code>dzpa</code>，<code>dzpbols</code>，<code>dzpcang</code></li>
+</ul>
+<p>2.Bash 中其他特殊符号</p>
+<table>
+<thead>
+<tr>
+<th>符号</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>‘’</td>
+<td>单引号。在单引号中所有特殊符号，如 $ 和 ` 都没有特殊含义。</td>
+</tr>
+<tr>
+<td>“”</td>
+<td>双引号。在双引号中特殊符号都没有特殊含义，但是 $ 、`、\ 是例外，拥有<em>调用变量值</em>，<em>引用命令</em>，<em>转义符</em>的特殊含义</td>
+</tr>
+<tr>
+<td>``</td>
+<td>反引号。反引号包括起来的内容是系统命令，在 Bash 中会先执行它。和 $() 作用一样，不过推荐使用 $()，因为反引号非常容易看错。</td>
+</tr>
+<tr>
+<td>$()</td>
+<td>和反引号作用一样，用来引用系统命令</td>
+</tr>
+<tr>
+<td>#</td>
+<td>在 Shell 脚本中，# 开头的行代表注释</td>
+</tr>
+<tr>
+<td>$</td>
+<td>用于调用变量的值，如需要调用变量 name 的值时，需要用 $name 的方式得到变量的值</td>
+</tr>
+<tr>
+<td>\</td>
+<td>转义符，跟在 \ 之后的</td>
+</tr>
+</tbody>
+</table>
+<h2 id="用户管理"><a class="header-anchor" href="#用户管理"></a>用户管理</h2>
+<h3 id="用户和用户组的概念"><a class="header-anchor" href="#用户和用户组的概念"></a>用户和用户组的概念</h3>
+<ul>
+<li>用户：使用操作系统的人</li>
+<li>用户组：具有相同系统权限的一组用户</li>
+<li><code>/etc/group</code> 存储当前系统中所有用户组信息
+<ul>
+<li>Group❌499:root,luis,daemon</li>
+<li>组名称：组密码占位符：组编号：组中用户名列表</li>
+</ul>
+</li>
+<li><code>/etc/gshadow</code> 存储当前系统中用户组的密码信息
+<ul>
+<li>Group:*:	:root,luis</li>
+<li>组名称：组密码：组管理者：组中用户名列表</li>
+</ul>
+</li>
+<li><code>/etc/passwd</code> 存储当前系统中所有用户的账号信息
+<ul>
+<li>root❌0:0:root:/root:/bin/bash</li>
+<li>用户名：密码占位符：用户编号：用户组编号：用户注释信息：用户主目录：Shell 类型</li>
+</ul>
+</li>
+<li><code>/etc/shadow</code> 存储当前系统中所有用户的密码信息
+<ul>
+<li>root:$6$tBDREHKV$JfcEQ/hTxaOWI8QKoRPARviOq3etqaE.szqFoqW8/Uxh6nAkCvlQzp8nRhg4kRM4ySRjpsfyS7kxXfa5cOlLa.:17044:0:99999:7:::</li>
+<li>用户名:密码:::</li>
+</ul>
+</li>
+</ul>
+<h3 id="用户和用户组的基本命令"><a class="header-anchor" href="#用户和用户组的基本命令"></a>用户和用户组的基本命令</h3>
+<ul>
+<li>用户组基本命令
+<ul>
+<li>新增用户组：<code>groupadd 用户组名称</code></li>
+<li>新增用户组并指定编号：<code>groupadd -g 数字编号 用户组名称</code></li>
+<li>修改用户组名称：<code>groupmod -n 新名称 旧名称</code></li>
+<li>修改用户组编号：<code>groupmod -g 数字编号 用户组名称</code></li>
+<li>删除用户组：<code>groupdel 用户组名称</code></li>
+</ul>
+</li>
+<li>用户基本命令
+<ul>
+<li>删除用户：<code>userdel 用户名称</code></li>
+<li>删除用户并删除个人文件夹：<code>userdel -r 用户名称</code></li>
+<li>新增用户并指定用户组：<code>useradd -g 用户组名称 用户名称</code></li>
+<li>新增用户并指定用户个人文件夹：<code>useradd -d 目录路径 用户名称</code></li>
+<li>修改用户名称：<code>usermod -l 新名称 旧名称</code></li>
+<li>修改用户备注信息：<code>usermod -c 备注信息 用户名称</code></li>
+<li>修改用户的用户组信息：<code>usermod -g 用户组名称 用户名称</code></li>
+<li>指定用户新的个人文件夹：<code>usermod -d 目录路径 用户名称</code></li>
+</ul>
+</li>
+<li>其他命令
+<ul>
+<li>切换用户：<code>su</code></li>
+<li>锁定用户：<code>passwd -l 用户名称</code></li>
+<li>解锁用户：<code>passwd -u 用户名称</code></li>
+<li>无密码登录：<code>passwd -d 用户名称</code></li>
+<li>设置组密码：<code>gpasswd 用户组名称</code></li>
+<li>显示用户详情:
+<ul>
+<li>显示当前登录用户名：<code>whoami</code></li>
+<li>显示用户信息和组信息：<code>id 用户名称</code></li>
+<li>显示用户所在的所有组：<code>groups 用户名称</code></li>
+</ul>
+</li>
+<li>设置用户资料：<code>chfn 用户名称</code></li>
+<li>新增用户附属组：<code>gpasswd -a 用户名称 用户组名称</code>（在 Linux 当中，一个用户可以属于多个用户组，但只能有一个主要组，其余都是附属组）</li>
+<li>删除用户附属组：<code>gpasswd -d 用户名称</code></li>
+<li>切换用户附属组：<code>newgrp 用户组名称</code></li>
+<li>新增用户指定主要组和附属组：<code>useradd -g 主要组名称 -G 附属组名称</code></li>
+</ul>
+</li>
+</ul>
+
+      </div>
+    </div>
+  </div>
+</div>
+<div class="lx-navigation">
+	<div class="lx-cover prev lx-cover-sm" style="background-image: url(https://sebastian-1256190695.cos.ap-guangzhou.myqcloud.com/footer_2.jpg)">
+		<div class="overlay"></div>
+		<a class="copy" href="/2016/09/20/Linux-网络基础/">
+			<div class="display-t">
+				<div class="display-tc">
+					<div>
+						<span>Next</span>
+						<h3>Linux 网络基础</h3>
+					</div>
+				</div>
+			</div>
+		</a>
+	</div>
+        <div class="lx-cover next lx-cover-sm" style="background-image: url(https://sebastian-1256190695.cos.ap-guangzhou.myqcloud.com/footer_1.jpg)">
+		<div class="overlay"></div>
+		<a class="copy" href="/2016/09/12/MySQL-5-7-版本新特性/">
+			<div class="display-t">
+				<div class="display-tc">
+					<div>
+						<span>Prev</span>
+						<h3>MySQL 5.7 版本新特性</h3>
+					</div>
+				</div>
+			</div>
+		</a>
+	</div>
+</div>
+</div>
+<div class="comment"><div id="comments"></div></div>
+<footer>
+  <div>
+  Copyright &copy; 2019.<a href="/">Sebastian Kennedy</a><br>Powered by <a href="https://hexo.io" target="_blank">Hexo</a> | Theme <a href="https://lx.blleng.cn" target="_blank">Lx</a><br>
+  </div>
+</footer>
+</div>
+<a href="javascript:;" class="popup-trigger"><i class="menu-item-icon fa fa-search fa-fw"></i></a>
+<div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="Search..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+<button class="menu-trigger"></button>
+<div class="menu">
+  <div class="menu-head">
+    <span class="layer">
+      <div class="col">
+        <div class="row for-pic">
+          <div class="profile-pic">
+            <a href="/"><img src="https://sebastian-1256190695.cos.ap-guangzhou.myqcloud.com/person_1.jpg" alt="Sebastian Kennedy"></a>
+          </div>
+        </div>
+        <div class="row for-name">
+          <p>Sebastian Kennedy</p>
+          <span class="tagline">人类的悲欢并不相通，我只觉得他们吵闹。</span>
+        </div>
+      </div>
+    </span>
+  </div>
+  <nav class="menu-container">
+  <ul class="menu-items">
+    <li><a href="/"><i class="fa fa-home fa-fw"></i>首页</a></li>
+    <li><a href="/archives/"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+    <li class="has-sub"><span class="dropdown-heading">
+      <i class="fa fa-bookmark fa-fw"></i>页面</span>
+        <ul>
+          <li><a href="/guestbook">留言</a></li>
+        <li><a href="/about">关于</a></li>
+        </ul>
+    </li>
+    <li class="has-sub"><span class="dropdown-heading">
+      <i class="fa fa-link fa-fw"></i>友链</span>
+        <ul>
+          <li> <a href="https://lx.blleng.cn" target="_blank">Theme-Lx</a></li>
+        </ul>
+    </li>
+  </ul>
+  </nav>
+</div>
+
+<div class="gototop js-top">
+  <a href="#" class="js-gotop"><i class="fa fa-arrow-up"></i></a>
+</div>
+<script src="/js/jquery.easing.min.js"></script>
+<script src="/js/jquery.waypoints.min.js"></script>
+<script src="/js/jquery.stellar.min.js"></script>
+<script src="/js/main.js"></script>
+<script src="/js/local.search.js"></script>
+
+
+</body>
+</html>

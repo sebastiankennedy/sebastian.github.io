@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Linux Shell 基础之变量 | “人类的悲欢并不相通，我只觉得他们吵闹。”</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="author" content="Sebastian Kennedy">
+  <meta name="keywords" content="Sebastian Kennedy Blog PHP Laravel Yii">
+  <meta name="description" content="Sebastian Kennedy Blog PHP Laravel Yii">
+  <script id="hexo-configurations">
+  var CONFIG = {
+    root: '/',
+    theme: 'lx',
+    version: '1.4.5',
+    localsearch:{
+      "enable": true,
+      "trigger": "auto",
+      "top_n_per_article": 1,
+      "unescape": false,
+      "preload": false
+      },
+    path: 'search.xml'
+  };
+</script>
+
+  <link rel="shortcut icon" href="https://sebastian-1256190695.cos.ap-guangzhou.myqcloud.com/person_1.jpg">
+  <link rel="stylesheet" href="/css/main.css">
+  <script src="/js/jquery.min.js"></script>
+  <script src="/js/jquery.jside.menu.js"></script>
+	<script>
+	$(document).ready(function(){
+	$(".menu-container").jSideMenu({
+	    jSidePosition: "position-right",
+	    jSideSticky: true,
+	    jSideSkin: "black-grey",
+	     });
+	}); 
+	</script>
+  <!--Google_Analytics-->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-150354789-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'UA-150354789-1');
+</script>
+
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:300|Noto+Serif+SC&amp;display=swap">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/font-awesome@4/css/font-awesome.min.css">
+</head>
+<body>
+<div class="single">
+<div id="page">
+<div id="lx-aside" style="background-image: url(https://sebastian-1256190695.cos.ap-guangzhou.myqcloud.com/page-cover.jpg)" data-stellar-background-ratio="0.5">
+  <div class="overlay">
+  <div class="page-title">
+    <div class="avatar"><a href="/"><img src="https://sebastian-1256190695.cos.ap-guangzhou.myqcloud.com/person_1.jpg"></a></div>
+    <span>2016-10-04</span>
+    <h2>Linux Shell 基础之变量</h2>
+    <div class="tags"><i class="fa fa-tag"></i><a class="tag-link" href="/tags/Linux/">Linux</a></div>
+    </div>
+</div>
+</div>
+<div id="lx-main-content">
+  <div class="lx-post">
+    <div class="lx-entry padding">
+      <div>
+        <h2 id="shell-变量概述"><a class="header-anchor" href="#shell-变量概述"></a>Shell 变量概述</h2>
+<p>Shell 与其他语言的对比</p>
+<ul>
+<li>PHP 和 JAVA 主要实现功能</li>
+<li>Shell 简化管理操作</li>
+</ul>
+<p>什么是变量</p>
+<ul>
+<li>变量是计算机内存的单元，其中存放的值可以改变</li>
+<li>变量让你能够把程序中准备使用的每一段数据都赋给一个简短、易于记忆的名字，因此它们十分有用</li>
+</ul>
+<p>变量命名规则</p>
+<ul>
+<li>变量名必须以字母或下划线开头，名字中间只能由字母、数字和下划线组成</li>
+<li>变量名的长度不得超过 255 个字符</li>
+<li>变量名在有效的范围内必须是唯一的</li>
+<li>在 Bash 中，变量的默认类型都是字符串型</li>
+</ul>
+<p>变量存储类型</p>
+<ul>
+<li>整型</li>
+<li>浮点型</li>
+<li>日期型</li>
+<li>字符串型</li>
+</ul>
+<p>变量定义分类</p>
+<ul>
+<li>用户自定义变量：用户自定义的变量</li>
+<li>环境变量：这种变量中主要保存的是和系统操作环境相关的数据。变量可以自定义，但是对系统生效的环境变量名和变量作用是固定的。</li>
+<li>位置参数变量：这种变量主要是用来向脚本当中传递参数或数据的。变量名不能自定义，变量作用固定。</li>
+<li>预定义变量：是 Bash 中已经定义好的变量，变量名不能自定义，变量作用也是固定的。</li>
+</ul>
+<h2 id="shell-变量与变量分类"><a class="header-anchor" href="#shell-变量与变量分类"></a>Shell 变量与变量分类</h2>
+<ul>
+<li>
+<p>用户自定义变量</p>
+<ul>
+<li>变量定义
+<ul>
+<li><code>变量名=变量值</code>
+<ul>
+<li><code>x=5</code></li>
+<li><code>name=&quot;Luis&quot;</code></li>
+</ul>
+</li>
+<li>变量赋值时候，变量名与变量值之间不能有空格</li>
+</ul>
+</li>
+<li>变量调用
+<ul>
+<li><code>echo $x</code></li>
+<li><code>echo $name</code></li>
+</ul>
+</li>
+<li>变量叠加
+<ul>
+<li>x=123</li>
+<li>x=&quot;$x&quot;456</li>
+<li>x=${x}789</li>
+</ul>
+</li>
+<li>变量查看
+<ul>
+<li>set
+<ul>
+<li>-u 如果设定此选项，调用未声明变量时会报错（默认无任何显示）</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>变量删除
+<ul>
+<li><code>unset 变量名</code></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>环境变量</p>
+<ul>
+<li>用户自定义环境变量
+<ul>
+<li>设置环境变量
+<ul>
+<li><code>export 变量名=变量值</code></li>
+<li><code>变量名=变量值;export 变量名</code></li>
+</ul>
+</li>
+<li>查看环境变量
+<ul>
+<li><code>set</code> 查看所有变量</li>
+<li><code>env</code> 查看环境变量</li>
+</ul>
+</li>
+<li>删除环境变量
+<ul>
+<li><code>unset 变量名</code></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>系统常用的环境变量
+<ul>
+<li>HOSTNAME 主机名</li>
+<li>SHELL 当前的 Shell</li>
+<li>TERM 终端环境</li>
+<li>HISTSIZE 历史命令条数</li>
+<li>SSH_CLIENT 当前操作环境是用 ssh 连接的，这里记录客户端 IP</li>
+<li>SSH_TTY ssh 连接的终端时 pts/1</li>
+<li>USER 当前登录的用户</li>
+<li>PATH 系统查找命令的路径
+<ul>
+<li><code>echo $PATH</code> 查看 PATH 环境变量</li>
+<li><code>PATH=&quot;$PATH&quot;:/root/sh</code> 增加 PATH 变量的值</li>
+</ul>
+</li>
+<li>PS1 变量 命令提示符设置
+<ul>
+<li>\d 显示日期，格式为&quot;星期 月 日&quot;</li>
+<li>\H 显示完整的主机名，如默认主机名 “localhost.localdomain”</li>
+<li>\t 显示 24 小时制时间，格式为 “HH:MM:SS”</li>
+<li>\A 显示 24 小时制时间，格式为 “HH:MM”</li>
+<li>\u 显示当前用户名</li>
+<li>\w 显示当前所在目录的完整名称</li>
+<li>\W 显示当前所在目录的最后一个目录</li>
+<li>\$ 提示符。如果是 root 用户会显示提示符为 “#”，如果是普通用户会显示提示符为 “$”</li>
+<li>例子 <code>PS1='[\u@\A \w]\$ '</code></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>语系变量
+<ul>
+<li><code>locale</code> 查询当前系统语系（<code>echo $LANG</code>）
+<ul>
+<li>LANG 定义系统主语系的变量</li>
+<li>LC_ALL 定义整体语系的变量</li>
+</ul>
+</li>
+<li><code>locale -a | more</code> 查看 Linux 支持的所有语系</li>
+<li><code>cat /etc/sysconfig/i18n</code> 查询系统默认语系（下次开机语系变量）</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>位置参数变量</p>
+<table>
+<thead>
+<tr>
+<th>置参数变量</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>n</td>
+<td>n 为数字，$0 代表命令本身，$1-$9 代表第一到第九个参数，十以上的参数需要用大括号包含，如 ${10}</td>
+</tr>
+<tr>
+<td>*</td>
+<td>这个变量代表命令行中所有的参数，$* 把所有的参数看成一个整体</td>
+</tr>
+<tr>
+<td>@</td>
+<td>这个变量代表命令行中所有的参数，不过 $@ 把每个参数区分对待</td>
+</tr>
+<tr>
+<td>#</td>
+<td>这个变量代表命令行中所有参数的个数</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p>预定义变量</p>
+<table>
+<thead>
+<tr>
+<th>定义变量</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>?</td>
+<td>最后一次执行的命令的返回状态。如果这个变量的值为 0，证明上一个命令正确执行；如果这个变量的值为非 0(具体是哪个数，由命令自己决定，则证明上一个命令执行不正确)</td>
+</tr>
+<tr>
+<td>$</td>
+<td>当前进程的进程号</td>
+</tr>
+<tr>
+<td>!</td>
+<td>后台运行的最后一个进程的进程号</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p>接收键盘输入</p>
+<ul>
+<li><code>read [选项] [变量名]</code>
+<ul>
+<li>-p 提示信息：在等待 read 输入时，输出提示信息</li>
+<li>-t 秒数：read 命令会一直等待用户输入，使用此选项可以指定等待时间</li>
+<li>-n 字符数：read 命令只接受指定的字符数，就会执行</li>
+<li>-s 隐藏输入的数据，适用于机密信息的输入</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="shell-变量例子"><a class="header-anchor" href="#shell-变量例子"></a>Shell 变量例子</h2>
+<p>位置参数例子 1</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span>!/bin/bash</span><br><span class="line">num1=$1</span><br><span class="line">num2=$2</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 变量 sum 的和是 num1 加 num2</span><br><span class="line">sum=$(($num1+$num2))</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 打印变量 sum 的值</span><br><span class="line">echo $sum</span><br></pre></td></tr></table></figure>
+<p>位置参数例子 2</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span>!/bin/bash</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 使用 $# 代表所有参数的个数</span><br><span class="line">echo "A total of $# parameters"</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 使用 $* 代表所有的参数</span><br><span class="line">echo "The parameters is:$*"</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 使用 $@ 也代表所有参数</span><br><span class="line">echo "The parameters is:$@"</span><br></pre></td></tr></table></figure>
+<p>位置参数例子 3（$* 与 $@ 的区别）</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span>!/bin/bash</span><br><span class="line"></span><br><span class="line">for i in "$*"</span><br><span class="line"><span class="meta">#</span> $* 中的所有参数看成是一个整体，所以这个 for 循环只会循环一次</span><br><span class="line">do</span><br><span class="line">	echo "The parameters is: $i"</span><br><span class="line">done</span><br><span class="line"></span><br><span class="line">for y in "$@"</span><br><span class="line"><span class="meta">#</span> $@ 中的每个参数都看成是独立的，所以 "$@" 中有几个参数，就会循环几次</span><br><span class="line">do</span><br><span class="line">	echo "Parameter:$y"</span><br><span class="line">done</span><br></pre></td></tr></table></figure>
+<p>接收键盘输入例子 1</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span>!/bin/bash</span><br><span class="line"></span><br><span class="line">read -p "Please input your name: " -t 30 name</span><br><span class="line">echo $name</span><br><span class="line"></span><br><span class="line">read -p "Please input your passwd: " -s passed</span><br><span class="line">echo -e "\n"</span><br><span class="line">echo $passwd</span><br><span class="line"></span><br><span class="line">read -p "Please input your sex [M/F]: " -n 1 sex</span><br><span class="line">echo -e "\n"</span><br><span class="line">echo $sex</span><br></pre></td></tr></table></figure>
+
+      </div>
+    </div>
+  </div>
+</div>
+<div class="lx-navigation">
+	<div class="lx-cover prev lx-cover-sm" style="background-image: url(https://sebastian-1256190695.cos.ap-guangzhou.myqcloud.com/footer_2.jpg)">
+		<div class="overlay"></div>
+		<a class="copy" href="/2016/10/04/Linux-Shell-基础之运算符/">
+			<div class="display-t">
+				<div class="display-tc">
+					<div>
+						<span>Next</span>
+						<h3>Linux Shell 基础之运算符</h3>
+					</div>
+				</div>
+			</div>
+		</a>
+	</div>
+        <div class="lx-cover next lx-cover-sm" style="background-image: url(https://sebastian-1256190695.cos.ap-guangzhou.myqcloud.com/footer_1.jpg)">
+		<div class="overlay"></div>
+		<a class="copy" href="/2016/10/03/Linux-Shell-实战/">
+			<div class="display-t">
+				<div class="display-tc">
+					<div>
+						<span>Prev</span>
+						<h3>Linux Shell 实战</h3>
+					</div>
+				</div>
+			</div>
+		</a>
+	</div>
+</div>
+</div>
+<div class="comment"><div id="comments"></div></div>
+<footer>
+  <div>
+  Copyright &copy; 2019.<a href="/">Sebastian Kennedy</a><br>Powered by <a href="https://hexo.io" target="_blank">Hexo</a> | Theme <a href="https://lx.blleng.cn" target="_blank">Lx</a><br>
+  </div>
+</footer>
+</div>
+<a href="javascript:;" class="popup-trigger"><i class="menu-item-icon fa fa-search fa-fw"></i></a>
+<div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="Search..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+<button class="menu-trigger"></button>
+<div class="menu">
+  <div class="menu-head">
+    <span class="layer">
+      <div class="col">
+        <div class="row for-pic">
+          <div class="profile-pic">
+            <a href="/"><img src="https://sebastian-1256190695.cos.ap-guangzhou.myqcloud.com/person_1.jpg" alt="Sebastian Kennedy"></a>
+          </div>
+        </div>
+        <div class="row for-name">
+          <p>Sebastian Kennedy</p>
+          <span class="tagline">人类的悲欢并不相通，我只觉得他们吵闹。</span>
+        </div>
+      </div>
+    </span>
+  </div>
+  <nav class="menu-container">
+  <ul class="menu-items">
+    <li><a href="/"><i class="fa fa-home fa-fw"></i>首页</a></li>
+    <li><a href="/archives/"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+    <li class="has-sub"><span class="dropdown-heading">
+      <i class="fa fa-bookmark fa-fw"></i>页面</span>
+        <ul>
+          <li><a href="/guestbook">留言</a></li>
+        <li><a href="/about">关于</a></li>
+        </ul>
+    </li>
+    <li class="has-sub"><span class="dropdown-heading">
+      <i class="fa fa-link fa-fw"></i>友链</span>
+        <ul>
+          <li> <a href="https://lx.blleng.cn" target="_blank">Theme-Lx</a></li>
+        </ul>
+    </li>
+  </ul>
+  </nav>
+</div>
+
+<div class="gototop js-top">
+  <a href="#" class="js-gotop"><i class="fa fa-arrow-up"></i></a>
+</div>
+<script src="/js/jquery.easing.min.js"></script>
+<script src="/js/jquery.waypoints.min.js"></script>
+<script src="/js/jquery.stellar.min.js"></script>
+<script src="/js/main.js"></script>
+<script src="/js/local.search.js"></script>
+
+
+</body>
+</html>

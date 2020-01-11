@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Yii2 Working with Databases | “人类的悲欢并不相通，我只觉得他们吵闹。”</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="author" content="Sebastian Kennedy">
+  <meta name="keywords" content="Sebastian Kennedy Blog PHP Laravel Yii">
+  <meta name="description" content="Sebastian Kennedy Blog PHP Laravel Yii">
+  <script id="hexo-configurations">
+  var CONFIG = {
+    root: '/',
+    theme: 'lx',
+    version: '1.4.5',
+    localsearch:{
+      "enable": true,
+      "trigger": "auto",
+      "top_n_per_article": 1,
+      "unescape": false,
+      "preload": false
+      },
+    path: 'search.xml'
+  };
+</script>
+
+  <link rel="shortcut icon" href="https://sebastian-1256190695.cos.ap-guangzhou.myqcloud.com/person_1.jpg">
+  <link rel="stylesheet" href="/css/main.css">
+  <script src="/js/jquery.min.js"></script>
+  <script src="/js/jquery.jside.menu.js"></script>
+	<script>
+	$(document).ready(function(){
+	$(".menu-container").jSideMenu({
+	    jSidePosition: "position-right",
+	    jSideSticky: true,
+	    jSideSkin: "black-grey",
+	     });
+	}); 
+	</script>
+  <!--Google_Analytics-->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-150354789-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'UA-150354789-1');
+</script>
+
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:300|Noto+Serif+SC&amp;display=swap">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/font-awesome@4/css/font-awesome.min.css">
+</head>
+<body>
+<div class="single">
+<div id="page">
+<div id="lx-aside" style="background-image: url(https://sebastian-1256190695.cos.ap-guangzhou.myqcloud.com/page-cover.jpg)" data-stellar-background-ratio="0.5">
+  <div class="overlay">
+  <div class="page-title">
+    <div class="avatar"><a href="/"><img src="https://sebastian-1256190695.cos.ap-guangzhou.myqcloud.com/person_1.jpg"></a></div>
+    <span>2016-12-02</span>
+    <h2>Yii2 Working with Databases</h2>
+    <div class="tags"><i class="fa fa-tag"></i><a class="tag-link" href="/tags/Yii/">Yii</a></div>
+    </div>
+</div>
+</div>
+<div id="lx-main-content">
+  <div class="lx-post">
+    <div class="lx-entry padding">
+      <div>
+        <h2 id="create"><a class="header-anchor" href="#create"></a>Create</h2>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"> <span class="comment">// 单条数据插入</span></span><br><span class="line">Yii::$app-&gt;db-&gt;createCommand()-&gt;insert(<span class="string">'shop_user'</span>, [</span><br><span class="line">    <span class="string">'userName'</span> =&gt; <span class="string">'HelloWorld'</span>,</span><br><span class="line">    <span class="string">'userPass'</span> =&gt; md5(<span class="number">123456</span>),</span><br><span class="line">    <span class="string">'userEmail'</span> =&gt; <span class="string">'hello@world.com'</span>,</span><br><span class="line">    <span class="string">'createdAt'</span> =&gt; time(),</span><br><span class="line">])-&gt;execute();</span><br><span class="line"></span><br><span class="line">$customer = <span class="keyword">new</span> Customer();</span><br><span class="line">$customer-&gt;name = <span class="string">'Ann'</span>;</span><br><span class="line">$customer-&gt;email = <span class="string">'AnnEason@qq.com'</span>;</span><br><span class="line">$customer-&gt;save();</span><br><span class="line"></span><br><span class="line"><span class="comment">// 批量数据插入</span></span><br><span class="line">Yii::$app-&gt;db-&gt;createCommand()-&gt;batchInsert(<span class="string">'shop_user'</span>,</span><br><span class="line">    [<span class="string">'userName'</span>, <span class="string">'userPass'</span>, <span class="string">'userEmail'</span>, <span class="string">'createdAt'</span>],</span><br><span class="line">    [</span><br><span class="line">        [<span class="string">'Ann'</span>, md5(<span class="number">123456</span>), <span class="string">'Ann@qq.com'</span>, time()],</span><br><span class="line">        [<span class="string">'Leon'</span>, md5(<span class="number">123456</span>), <span class="string">'Leon@qq.com'</span>, time()],</span><br><span class="line">        [<span class="string">'bitch'</span>, md5(<span class="number">123456</span>), <span class="string">'bitch@qq.com'</span>, time()],</span><br><span class="line">        [<span class="string">'Linda'</span>, md5(<span class="number">123456</span>), <span class="string">'Linda@qq.com'</span>, time()],</span><br><span class="line">    ]</span><br><span class="line">)-&gt;execute();</span><br></pre></td></tr></table></figure>
+<h2 id="update"><a class="header-anchor" href="#update"></a>Update</h2>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="comment">// 数据更新方法(表名, 字段与值, 条件)</span></span><br><span class="line">Yii::$app-&gt;db-&gt;createCommand()-&gt;update(<span class="string">'shop_user'</span>, [<span class="string">'userName'</span> =&gt; <span class="string">'hello'</span>], <span class="string">'userId = 6'</span>)-&gt;execute();</span><br><span class="line"></span><br><span class="line">$customer = Customer::findOne(<span class="number">123</span>);</span><br><span class="line">$customer-&gt;email = <span class="string">'AnnEason@qq.com'</span>;</span><br><span class="line">$customer-&gt;save();</span><br><span class="line"></span><br><span class="line">$values = [</span><br><span class="line">	<span class="string">'name'</span> =&gt; <span class="string">'Ann'</span>,</span><br><span class="line">	<span class="string">'email'</span> =&gt; <span class="string">'Ann@qq.com'</span></span><br><span class="line">];</span><br><span class="line"></span><br><span class="line">$customer = <span class="keyword">new</span> Customer();</span><br><span class="line">$customer-&gt;attributes = $values;</span><br><span class="line">$customer-&gt;save();</span><br><span class="line"></span><br><span class="line">Customer::updateAll([<span class="string">'status'</span> =&gt; Customer::STATUS_ACTIVE],[<span class="string">'like'</span>,<span class="string">'email'</span>,<span class="string">'@example.com'</span>]);</span><br></pre></td></tr></table></figure>
+<h2 id="retrieve"><a class="header-anchor" href="#retrieve"></a>Retrieve</h2>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="comment">// 存在数据返回二维数组,没有数据返回空数组</span></span><br><span class="line">$orders = Yii::$app-&gt;db-&gt;createCommand(<span class="string">"select * from z_order order by id desc limit 100 ;"</span>)-&gt;queryAll();</span><br><span class="line">$rows = (<span class="keyword">new</span> \yii\db\Query())-&gt;select([<span class="string">'id'</span>,<span class="string">'email'</span>])-&gt;from(<span class="string">'user'</span>) -&gt;all();</span><br><span class="line">$models = Model::find()-&gt;where([<span class="string">'status'</span> =&gt; Model::STATUS])-&gt;all();</span><br><span class="line"></span><br><span class="line"><span class="comment">// 存在数据返回一维数组,没有数据返回 false</span></span><br><span class="line">$order = Yii::$app-&gt;db-&gt;createCommand(<span class="string">"select * from z_order where id = 802478;"</span>)-&gt;queryOne();</span><br><span class="line">$row = (<span class="keyword">new</span> \yii\db\Query())-&gt;from(<span class="string">'user'</span>)-&gt;where([<span class="string">'like'</span>,<span class="string">'username'</span>,<span class="string">'test'</span>])-&gt;one();</span><br><span class="line">$model = Model::find()-&gt;where([<span class="string">'id'</span>=&gt;<span class="number">1</span>])-&gt;one();</span><br><span class="line"></span><br><span class="line"><span class="comment">// 存在数据返回一维数组,没有数据返回空数组</span></span><br><span class="line">$orderNumbers = Yii::$app-&gt;db-&gt;createCommand(<span class="string">"select orderno from z_order order by id desc limit 100"</span>)</span><br><span class="line">-&gt;queryColumn();</span><br><span class="line">$columns = (<span class="keyword">new</span> \yii\db\Query())-&gt;select(<span class="string">'id'</span>)-&gt;from(<span class="string">'user'</span>)-&gt;column()</span><br><span class="line"></span><br><span class="line"><span class="comment">// 存在数据返回标量数值,没有数据返回 false</span></span><br><span class="line">$orderCount = Yii::$app-&gt;db-&gt;createCommand(<span class="string">"select count(orderno) from z_order"</span>)-&gt;queryScalar();</span><br><span class="line">$count = (<span class="keyword">new</span> \yii\db\Query())-&gt;from(<span class="string">'user'</span>)-&gt;where([<span class="string">'like'</span>,<span class="string">'username'</span>,<span class="string">'test'</span>])-&gt;count();</span><br><span class="line">$modelCount = Model::find()-&gt;where([<span class="string">'status'</span>=&gt;<span class="number">1</span>])-&gt;count();</span><br></pre></td></tr></table></figure>
+<h2 id="delete"><a class="header-anchor" href="#delete"></a>Delete</h2>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="comment">// 数据删除方法(表名，条件)</span></span><br><span class="line">Yii::$app-&gt;db-&gt;createCommand()-&gt;delete(<span class="string">'shop_user'</span>, <span class="string">'userName = "HelloWorld"'</span>)-&gt;execute();</span><br><span class="line"></span><br><span class="line">$customer = Customer::findOne(<span class="number">123</span>);</span><br><span class="line">$customer-&gt;delete();</span><br><span class="line"></span><br><span class="line">Customer::deleteAll([<span class="string">'status'</span> =&gt; Customer::STATUS_INACTIVE]);</span><br></pre></td></tr></table></figure>
+<h2 id="where"><a class="header-anchor" href="#where"></a>Where</h2>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="comment">// String Format</span></span><br><span class="line">$query-&gt;where(<span class="string">'status = 1'</span>);</span><br><span class="line">$query-&gt;where(<span class="string">'status = :status'</span>, [<span class="string">':status'</span> =&gt; $status]);</span><br><span class="line">$query-&gt;where(<span class="string">'status = :status'</span>)-&gt;addParams([<span class="string">':status'</span> =&gt; $status]);</span><br><span class="line"></span><br><span class="line"><span class="comment">// Hash Format ...WHERE (`status` = 10) AND (`type` IS NULL) AND (`id` IN (4, 8, 15))</span></span><br><span class="line">$query-&gt;where([</span><br><span class="line">    <span class="string">'status'</span> =&gt; <span class="number">10</span>,</span><br><span class="line">    <span class="string">'type'</span> =&gt; <span class="keyword">null</span>,</span><br><span class="line">    <span class="string">'id'</span> =&gt; [<span class="number">4</span>, <span class="number">8</span>, <span class="number">15</span>],</span><br><span class="line">]);</span><br><span class="line"></span><br><span class="line"><span class="comment">// Operator Format [operator, operand1, operand2, ...]</span></span><br><span class="line">$query-&gt;where([<span class="string">'and'</span>, <span class="string">'id=1'</span>, <span class="string">'id=2'</span>]);</span><br><span class="line">$query-&gt;where([<span class="string">'and'</span>, <span class="string">'type=1'</span>, [<span class="string">'or'</span>, <span class="string">'id=1'</span>, <span class="string">'id=2'</span>]]);</span><br><span class="line"></span><br><span class="line">$query-&gt;where([<span class="string">'between'</span>, <span class="string">'id'</span>, <span class="number">1</span>, <span class="number">10</span>]);</span><br><span class="line">$query-&gt;where([<span class="string">'not between'</span>, <span class="string">'id'</span>, <span class="number">1</span>, <span class="number">10</span>]);</span><br><span class="line"></span><br><span class="line">$query-&gt;where([<span class="string">'in'</span>, <span class="string">'id'</span>, [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>]]);</span><br><span class="line">$query-&gt;where([<span class="string">'not in'</span>, <span class="string">'id'</span>, [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>]]);</span><br><span class="line"></span><br><span class="line">$query-&gt;where([<span class="string">'like'</span>, <span class="string">'name'</span>, <span class="string">'hello'</span>]);</span><br><span class="line">$query-&gt;where([<span class="string">'like'</span>, <span class="string">'name'</span>, [<span class="string">'hello'</span>, <span class="string">'world'</span>]]);</span><br><span class="line"></span><br><span class="line">$query-&gt;where([<span class="string">'&gt;'</span>, <span class="string">'age'</span>, <span class="number">10</span>])</span><br><span class="line">$query-&gt;andWhere([<span class="string">'like'</span>, <span class="string">'title'</span>, <span class="string">'hello-world'</span>]);</span><br><span class="line">$query-&gt;orWhere([<span class="string">'like'</span>,<span class="string">'name'</span>,<span class="string">'LuisEdware'</span>]);</span><br><span class="line"></span><br><span class="line">$query-&gt;filterWhere([<span class="string">'name'</span> =&gt; $name, <span class="string">'email'</span> =&gt; $email]);</span><br><span class="line">$query-&gt;andFilterWhere([<span class="string">'!='</span>, <span class="string">'id'</span>, <span class="number">1</span>]);</span><br><span class="line">$query-&gt;orFilterWhere([<span class="string">'status'</span> =&gt; <span class="number">2</span>]);</span><br><span class="line"></span><br><span class="line">$query-&gt;andFilterCompare(<span class="string">'name'</span>, <span class="string">'John Doe'</span>);</span><br></pre></td></tr></table></figure>
+<h2 id="orderby"><a class="header-anchor" href="#orderby"></a>orderBy</h2>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$query-&gt;orderBy([</span><br><span class="line">	<span class="string">'id'</span> =&gt; SORT_ASC,</span><br><span class="line">	<span class="string">'name'</span> =&gt; SORT_DESC,</span><br><span class="line">]);</span><br><span class="line"></span><br><span class="line">$query-&gt;orderBy(<span class="string">'id ASC, name DESC'</span>);</span><br><span class="line"></span><br><span class="line">$query-&gt;orderBy(<span class="string">'id ASC'</span>)-&gt;addOrderBy(<span class="string">'name DESC'</span>);</span><br></pre></td></tr></table></figure>
+<h2 id="groupby"><a class="header-anchor" href="#groupby"></a>groupBy</h2>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line">$query-&gt;groupBy([<span class="string">'id'</span>,<span class="string">'status'</span>]);</span><br><span class="line"></span><br><span class="line">$query-&gt;groupBy(<span class="string">'id,status'</span>);</span><br><span class="line"></span><br><span class="line">$query-&gt;groupBy([<span class="string">'id'</span>,<span class="string">'status'</span>])-&gt;addGroupBy(<span class="string">'age'</span>);</span><br></pre></td></tr></table></figure>
+<h2 id="having"><a class="header-anchor" href="#having"></a>having</h2>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line">$query-&gt;having([<span class="string">'status'</span>=&gt;<span class="number">1</span>]);</span><br><span class="line"></span><br><span class="line">$query-&gt;having([<span class="string">'status'</span>=&gt;<span class="number">1</span>])-&gt;andHaving([<span class="string">'&gt;'</span>,<span class="string">'age'</span>,<span class="number">30</span>]);</span><br></pre></td></tr></table></figure>
+<h2 id="limit-and-offset"><a class="header-anchor" href="#limit-and-offset"></a>limit and offset</h2>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$query-&gt;limit(<span class="number">10</span>)-&gt;offset(<span class="number">20</span>);</span><br></pre></td></tr></table></figure>
+<h2 id="join"><a class="header-anchor" href="#join"></a>join</h2>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="comment">// ... LEFT JOIN `post` ON `post`.`user_id` = `user`.`id`</span></span><br><span class="line">$query-&gt;join(<span class="string">'LEFT JOIN'</span>,<span class="string">'post'</span>,<span class="string">'post.user_id = user.id'</span>);</span><br></pre></td></tr></table></figure>
+<h2 id="union"><a class="header-anchor" href="#union"></a>union</h2>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$query1 = (<span class="keyword">new</span> \yii\db\Query())</span><br><span class="line">	-&gt;select(<span class="string">'id,category_id AS type, name'</span>)</span><br><span class="line">	-&gt;from(<span class="string">'post'</span>)</span><br><span class="line">	-&gt;limit(<span class="number">10</span>);</span><br><span class="line"></span><br><span class="line">$query2 = (<span class="keyword">new</span> \yii\db\Query())</span><br><span class="line">	-&gt;select(<span class="string">'id,type,name'</span>)</span><br><span class="line">	-&gt;from(<span class="string">'user'</span>)</span><br><span class="line">	-&gt;limit(<span class="number">10</span>);</span><br><span class="line"></span><br><span class="line">$query1-&gt;union($query2);</span><br></pre></td></tr></table></figure>
+<h2 id="find"><a class="header-anchor" href="#find"></a>find</h2>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="comment">// SELECT * FROM customer WHERE id = 123;</span></span><br><span class="line">$customer = Customer::findOne(<span class="number">123</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// SELECT * FROM customer WHERE id IN (1,2,3,4,5)</span></span><br><span class="line">$customers = Customer::findOne([<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>]);</span><br><span class="line"></span><br><span class="line">$customer = Customer::findOne([<span class="string">'id'</span>=&gt;<span class="number">123</span>, <span class="string">'status'</span>=&gt; Customer::STATUS]);</span><br><span class="line">$customers = Customer::findAll([<span class="string">'id'</span>=&gt;<span class="number">123</span>, <span class="string">'status'</span>=&gt; Customer::STATUS_ACTIVE]);</span><br></pre></td></tr></table></figure>
+<h2 id="relations"><a class="header-anchor" href="#relations"></a>Relations</h2>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Order</span> <span class="keyword">extends</span> <span class="title">ActiveRecord</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">getOrderItems</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">$this</span>-&gt;hasMany(OrderItem::className(), [<span class="string">'order_id'</span> =&gt; <span class="string">'id'</span>]);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">getItems</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">$this</span>-&gt;hasMany(Item::className(), [<span class="string">'id'</span> =&gt; <span class="string">'item_id'</span>])</span><br><span class="line">            -&gt;via(<span class="string">'orderItems'</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">$items = $order-&gt;items;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">$customers = Customer::find()-&gt;with(<span class="string">'orders.items'</span>)-&gt;all();</span><br><span class="line"><span class="comment">// no SQL executed</span></span><br><span class="line">$items = $customers[<span class="number">0</span>]-&gt;orders[<span class="number">0</span>]-&gt;items;</span><br></pre></td></tr></table></figure>
+
+      </div>
+    </div>
+  </div>
+</div>
+<div class="lx-navigation">
+	<div class="lx-cover prev lx-cover-sm" style="background-image: url(https://sebastian-1256190695.cos.ap-guangzhou.myqcloud.com/footer_2.jpg)">
+		<div class="overlay"></div>
+		<a class="copy" href="/2016/12/08/学习-UML（一）/">
+			<div class="display-t">
+				<div class="display-tc">
+					<div>
+						<span>Next</span>
+						<h3>学习 UML（一）</h3>
+					</div>
+				</div>
+			</div>
+		</a>
+	</div>
+        <div class="lx-cover next lx-cover-sm" style="background-image: url(https://sebastian-1256190695.cos.ap-guangzhou.myqcloud.com/footer_1.jpg)">
+		<div class="overlay"></div>
+		<a class="copy" href="/2016/11/22/关于-PHP-函数-array-walk-的一些想法/">
+			<div class="display-t">
+				<div class="display-tc">
+					<div>
+						<span>Prev</span>
+						<h3>关于 PHP 函数 array_walk 的一些想法</h3>
+					</div>
+				</div>
+			</div>
+		</a>
+	</div>
+</div>
+</div>
+<div class="comment"><div id="comments"></div></div>
+<footer>
+  <div>
+  Copyright &copy; 2019.<a href="/">Sebastian Kennedy</a><br>Powered by <a href="https://hexo.io" target="_blank">Hexo</a> | Theme <a href="https://lx.blleng.cn" target="_blank">Lx</a><br>
+  </div>
+</footer>
+</div>
+<a href="javascript:;" class="popup-trigger"><i class="menu-item-icon fa fa-search fa-fw"></i></a>
+<div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="Search..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+<button class="menu-trigger"></button>
+<div class="menu">
+  <div class="menu-head">
+    <span class="layer">
+      <div class="col">
+        <div class="row for-pic">
+          <div class="profile-pic">
+            <a href="/"><img src="https://sebastian-1256190695.cos.ap-guangzhou.myqcloud.com/person_1.jpg" alt="Sebastian Kennedy"></a>
+          </div>
+        </div>
+        <div class="row for-name">
+          <p>Sebastian Kennedy</p>
+          <span class="tagline">人类的悲欢并不相通，我只觉得他们吵闹。</span>
+        </div>
+      </div>
+    </span>
+  </div>
+  <nav class="menu-container">
+  <ul class="menu-items">
+    <li><a href="/"><i class="fa fa-home fa-fw"></i>首页</a></li>
+    <li><a href="/archives/"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+    <li class="has-sub"><span class="dropdown-heading">
+      <i class="fa fa-bookmark fa-fw"></i>页面</span>
+        <ul>
+          <li><a href="/guestbook">留言</a></li>
+        <li><a href="/about">关于</a></li>
+        </ul>
+    </li>
+    <li class="has-sub"><span class="dropdown-heading">
+      <i class="fa fa-link fa-fw"></i>友链</span>
+        <ul>
+          <li> <a href="https://lx.blleng.cn" target="_blank">Theme-Lx</a></li>
+        </ul>
+    </li>
+  </ul>
+  </nav>
+</div>
+
+<div class="gototop js-top">
+  <a href="#" class="js-gotop"><i class="fa fa-arrow-up"></i></a>
+</div>
+<script src="/js/jquery.easing.min.js"></script>
+<script src="/js/jquery.waypoints.min.js"></script>
+<script src="/js/jquery.stellar.min.js"></script>
+<script src="/js/main.js"></script>
+<script src="/js/local.search.js"></script>
+
+
+</body>
+</html>

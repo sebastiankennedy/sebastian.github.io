@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>学习 UML（二） | “人类的悲欢并不相通，我只觉得他们吵闹。”</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="author" content="Sebastian Kennedy">
+  <meta name="keywords" content="Sebastian Kennedy Blog PHP Laravel Yii">
+  <meta name="description" content="Sebastian Kennedy Blog PHP Laravel Yii">
+  <script id="hexo-configurations">
+  var CONFIG = {
+    root: '/',
+    theme: 'lx',
+    version: '1.4.5',
+    localsearch:{
+      "enable": true,
+      "trigger": "auto",
+      "top_n_per_article": 1,
+      "unescape": false,
+      "preload": false
+      },
+    path: 'search.xml'
+  };
+</script>
+
+  <link rel="shortcut icon" href="https://sebastian-1256190695.cos.ap-guangzhou.myqcloud.com/person_1.jpg">
+  <link rel="stylesheet" href="/css/main.css">
+  <script src="/js/jquery.min.js"></script>
+  <script src="/js/jquery.jside.menu.js"></script>
+	<script>
+	$(document).ready(function(){
+	$(".menu-container").jSideMenu({
+	    jSidePosition: "position-right",
+	    jSideSticky: true,
+	    jSideSkin: "black-grey",
+	     });
+	}); 
+	</script>
+  <!--Google_Analytics-->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-150354789-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'UA-150354789-1');
+</script>
+
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:300|Noto+Serif+SC&amp;display=swap">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/font-awesome@4/css/font-awesome.min.css">
+</head>
+<body>
+<div class="single">
+<div id="page">
+<div id="lx-aside" style="background-image: url(https://sebastian-1256190695.cos.ap-guangzhou.myqcloud.com/page-cover.jpg)" data-stellar-background-ratio="0.5">
+  <div class="overlay">
+  <div class="page-title">
+    <div class="avatar"><a href="/"><img src="https://sebastian-1256190695.cos.ap-guangzhou.myqcloud.com/person_1.jpg"></a></div>
+    <span>2017-02-17</span>
+    <h2>学习 UML（二）</h2>
+    <div class="tags"><i class="fa fa-tag"></i><a class="tag-link" href="/tags/UML/">UML</a></div>
+    </div>
+</div>
+</div>
+<div id="lx-main-content">
+  <div class="lx-post">
+    <div class="lx-entry padding">
+      <div>
+        <h2 id="类图"><a class="header-anchor" href="#类图"></a>类图</h2>
+<p>类图（class diagram）只是 UML 的一部分，但它们可能是最常用的，因为类图在描述面向对象关系时非常有用。</p>
+<h4 id="类-抽象类-接口"><a class="header-anchor" href="#类-抽象类-接口"></a>类、抽象类、接口</h4>
+<p>类是类图的主要部分。类用带有类名的方框来描述，如下图所示：</p>
+<p><img src="http://olnw31eni.bkt.clouddn.com/uml%E7%B1%BB.png" alt></p>
+<p>抽象类通常使用斜体的类名，或者增加 <code>{abstract}</code> 到类名下来表示，如下图所示：</p>
+<p><img src="http://olnw31eni.bkt.clouddn.com/uml%E6%8A%BD%E8%B1%A1%E7%B1%BB.png" alt></p>
+<p>接口的定义方式和类相同，但接口必须增加 <code>&lt;&lt;interface&gt;&gt;</code> 到类名上来表示，如下图所示：</p>
+<p><img src="http://olnw31eni.bkt.clouddn.com/uml%E6%8E%A5%E5%8F%A3.png" alt></p>
+<h4 id="属性"><a class="header-anchor" href="#属性"></a>属性</h4>
+<p>属性用于描述一个类的属性，属性直接列在类名下面的格子中。属性使用符号来表示类属性的可见性，其中 <code>+</code> 对应 <code>public</code> 、<code>-</code> 对应 <code>private</code>、<code>#</code> 对应 <code>protected</code>，如下图所示：</p>
+<p><img src="http://olnw31eni.bkt.clouddn.com/uml%E5%B1%9E%E6%80%A7.png" alt></p>
+<h4 id="操作"><a class="header-anchor" href="#操作"></a>操作</h4>
+<p>操作用于描述类方法，操作表示类方法可见性的办法与属性一致。类方法有参数，则包含在括号之中；类方法有返回类型，则用冒号来描述，如下图所示：</p>
+<p><img src="http://olnw31eni.bkt.clouddn.com/uml%E6%93%8D%E4%BD%9C.png" alt></p>
+<h4 id="继承"><a class="header-anchor" href="#继承"></a>继承</h4>
+<p>UML 一般用「泛化」来描述继承关系。这个关系用从子类到父类的一条线来标识，线的顶端有一个空心闭合箭头，如下图所示：</p>
+<p><img src="http://olnw31eni.bkt.clouddn.com/uml%E7%BB%A7%E6%89%BF.png" alt></p>
+<h4 id="实现"><a class="header-anchor" href="#实现"></a>实现</h4>
+<p>UML 用「实现」来描述接口和实现接口的类之间的关系。这个关系用从实现接口的类到接口的一条虚线来标识，线的顶端有一个空心闭合箭头，如下图所示：</p>
+<p><img src="http://olnw31eni.bkt.clouddn.com/uml%E5%AE%9E%E7%8E%B0.png" alt></p>
+<h4 id="关联"><a class="header-anchor" href="#关联"></a>关联</h4>
+<p>当一个类的属性保存了对另一个类的一个实例或多个实例的引用时，就产生了关联。类之间的关联有单向关联、双向关联和多个引用关联，如下图所示：</p>
+<p><img src="http://olnw31eni.bkt.clouddn.com/uml%E5%85%B3%E8%81%94.png" alt></p>
+<h4 id="聚合和组合"><a class="header-anchor" href="#聚合和组合"></a>聚合和组合</h4>
+<p>聚合和组合都描述了一个类长期持有其他类的一个或多个实例的情况。通过聚合或组合，被引用的对象实例成为引用对象的一部分。</p>
+<p>聚合的情况下，被包含对象是容器的一个核心部分，但是它们也可以同时被其他对象所包含。聚合关系用一条空心菱形开头的线来说明。</p>
+<p>组合则是一个更强的关系。在组合中，被包含对象只能被它的容器所引用。当容器被删除时，它也应该被删除。组合关系可以用类聚合关系的方式描述，但是菱形必须是实心的。</p>
+<p><img src="http://olnw31eni.bkt.clouddn.com/uml%E8%81%9A%E5%90%88.png" alt><br>
+<img src="http://olnw31eni.bkt.clouddn.com/uml%E7%BB%84%E5%90%88.png" alt></p>
+<h4 id="描述使用"><a class="header-anchor" href="#描述使用"></a>描述使用</h4>
+<p>一个对象使用另一个对象的关系在 UML 中被描述为一个依赖关系。一个被使用的类可以作为类方法的参数传递或者作为方法调用的结果得到。</p>
+<p><img src="http://olnw31eni.bkt.clouddn.com/uml%E6%8F%8F%E8%BF%B0%E4%BD%BF%E7%94%A8.png" alt></p>
+<h4 id="使用注解"><a class="header-anchor" href="#使用注解"></a>使用注解</h4>
+<p>类图可以捕捉到系统的结构，但类图并不能解释类处理任务的过程，可以通过使用注解来补充说明。注解由一个折角的方框组成。它通常包含伪代码片段。注解使类图变得易于理解。</p>
+<p><img src="http://olnw31eni.bkt.clouddn.com/uml%E6%B3%A8%E9%87%8A.png" alt></p>
+
+      </div>
+    </div>
+  </div>
+</div>
+<div class="lx-navigation">
+	<div class="lx-cover prev lx-cover-sm" style="background-image: url(https://sebastian-1256190695.cos.ap-guangzhou.myqcloud.com/footer_2.jpg)">
+		<div class="overlay"></div>
+		<a class="copy" href="/2017/02/23/「复习」使用阿里云从零开始部署-Laravel/">
+			<div class="display-t">
+				<div class="display-tc">
+					<div>
+						<span>Next</span>
+						<h3>「复习」使用阿里云从零开始部署 Laravel</h3>
+					</div>
+				</div>
+			</div>
+		</a>
+	</div>
+        <div class="lx-cover next lx-cover-sm" style="background-image: url(https://sebastian-1256190695.cos.ap-guangzhou.myqcloud.com/footer_1.jpg)">
+		<div class="overlay"></div>
+		<a class="copy" href="/2017/02/14/在-Yii-2-中使用-CodeCeption/">
+			<div class="display-t">
+				<div class="display-tc">
+					<div>
+						<span>Prev</span>
+						<h3>在 Yii 2 中使用 CodeCeption</h3>
+					</div>
+				</div>
+			</div>
+		</a>
+	</div>
+</div>
+</div>
+<div class="comment"><div id="comments"></div></div>
+<footer>
+  <div>
+  Copyright &copy; 2019.<a href="/">Sebastian Kennedy</a><br>Powered by <a href="https://hexo.io" target="_blank">Hexo</a> | Theme <a href="https://lx.blleng.cn" target="_blank">Lx</a><br>
+  </div>
+</footer>
+</div>
+<a href="javascript:;" class="popup-trigger"><i class="menu-item-icon fa fa-search fa-fw"></i></a>
+<div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="Search..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+<button class="menu-trigger"></button>
+<div class="menu">
+  <div class="menu-head">
+    <span class="layer">
+      <div class="col">
+        <div class="row for-pic">
+          <div class="profile-pic">
+            <a href="/"><img src="https://sebastian-1256190695.cos.ap-guangzhou.myqcloud.com/person_1.jpg" alt="Sebastian Kennedy"></a>
+          </div>
+        </div>
+        <div class="row for-name">
+          <p>Sebastian Kennedy</p>
+          <span class="tagline">人类的悲欢并不相通，我只觉得他们吵闹。</span>
+        </div>
+      </div>
+    </span>
+  </div>
+  <nav class="menu-container">
+  <ul class="menu-items">
+    <li><a href="/"><i class="fa fa-home fa-fw"></i>首页</a></li>
+    <li><a href="/archives/"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+    <li class="has-sub"><span class="dropdown-heading">
+      <i class="fa fa-bookmark fa-fw"></i>页面</span>
+        <ul>
+          <li><a href="/guestbook">留言</a></li>
+        <li><a href="/about">关于</a></li>
+        </ul>
+    </li>
+    <li class="has-sub"><span class="dropdown-heading">
+      <i class="fa fa-link fa-fw"></i>友链</span>
+        <ul>
+          <li> <a href="https://lx.blleng.cn" target="_blank">Theme-Lx</a></li>
+        </ul>
+    </li>
+  </ul>
+  </nav>
+</div>
+
+<div class="gototop js-top">
+  <a href="#" class="js-gotop"><i class="fa fa-arrow-up"></i></a>
+</div>
+<script src="/js/jquery.easing.min.js"></script>
+<script src="/js/jquery.waypoints.min.js"></script>
+<script src="/js/jquery.stellar.min.js"></script>
+<script src="/js/main.js"></script>
+<script src="/js/local.search.js"></script>
+
+
+</body>
+</html>

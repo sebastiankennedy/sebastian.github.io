@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Linux Shell 基础之运算符 | “人类的悲欢并不相通，我只觉得他们吵闹。”</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="author" content="Sebastian Kennedy">
+  <meta name="keywords" content="Sebastian Kennedy Blog PHP Laravel Yii">
+  <meta name="description" content="Sebastian Kennedy Blog PHP Laravel Yii">
+  <script id="hexo-configurations">
+  var CONFIG = {
+    root: '/',
+    theme: 'lx',
+    version: '1.4.5',
+    localsearch:{
+      "enable": true,
+      "trigger": "auto",
+      "top_n_per_article": 1,
+      "unescape": false,
+      "preload": false
+      },
+    path: 'search.xml'
+  };
+</script>
+
+  <link rel="shortcut icon" href="https://sebastian-1256190695.cos.ap-guangzhou.myqcloud.com/person_1.jpg">
+  <link rel="stylesheet" href="/css/main.css">
+  <script src="/js/jquery.min.js"></script>
+  <script src="/js/jquery.jside.menu.js"></script>
+	<script>
+	$(document).ready(function(){
+	$(".menu-container").jSideMenu({
+	    jSidePosition: "position-right",
+	    jSideSticky: true,
+	    jSideSkin: "black-grey",
+	     });
+	}); 
+	</script>
+  <!--Google_Analytics-->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-150354789-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'UA-150354789-1');
+</script>
+
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:300|Noto+Serif+SC&amp;display=swap">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/font-awesome@4/css/font-awesome.min.css">
+</head>
+<body>
+<div class="single">
+<div id="page">
+<div id="lx-aside" style="background-image: url(https://sebastian-1256190695.cos.ap-guangzhou.myqcloud.com/page-cover.jpg)" data-stellar-background-ratio="0.5">
+  <div class="overlay">
+  <div class="page-title">
+    <div class="avatar"><a href="/"><img src="https://sebastian-1256190695.cos.ap-guangzhou.myqcloud.com/person_1.jpg"></a></div>
+    <span>2016-10-04</span>
+    <h2>Linux Shell 基础之运算符</h2>
+    <div class="tags"><i class="fa fa-tag"></i><a class="tag-link" href="/tags/Linux/">Linux</a></div>
+    </div>
+</div>
+</div>
+<div id="lx-main-content">
+  <div class="lx-post">
+    <div class="lx-entry padding">
+      <div>
+        <h2 id="shell-运算符"><a class="header-anchor" href="#shell-运算符"></a>Shell 运算符</h2>
+<ul>
+<li>declare 声明变量
+<ul>
+<li><code>declare [+/-][选项] 变量名</code>
+<ul>
+<li>- 给变量设定类型属性
+<ul>
+<li>-a 将变量声明为数组型</li>
+<li>-i 将变量声明为整数型</li>
+<li>-x 将变量声明为环境变量</li>
+<li>-r 将变量声明为只读变量</li>
+<li>-p 显示指定变量的被声明的类型</li>
+</ul>
+</li>
+<li>+ 取消变量的类型属性</li>
+</ul>
+</li>
+<li><code>declare -x test=123</code> 声明环境变量</li>
+</ul>
+</li>
+<li>declare -p 查询变量的属性
+<ul>
+<li><code>declare -p</code> 查询所有变量的属性</li>
+<li><code>declare -p 变量名</code> 查询指定变量的属性</li>
+</ul>
+</li>
+<li>expr 或 let 数值运算工具</li>
+</ul>
+<h2 id="shell-运算符-例子"><a class="header-anchor" href="#shell-运算符-例子"></a>Shell 运算符 例子</h2>
+<h3 id="shell-declare-例子"><a class="header-anchor" href="#shell-declare-例子"></a>Shell declare 例子</h3>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span> 给变量 aa 和 bb 赋值</span><br><span class="line">aa=11</span><br><span class="line">bb=22</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 声明变量 cc 的类型是整数型，它的值是 aa 和 bb 的和</span><br><span class="line">declare -i cc=$aa+$bb</span><br></pre></td></tr></table></figure>
+<h3 id="声明数组变量例子"><a class="header-anchor" href="#声明数组变量例子"></a>声明数组变量例子</h3>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span> 定义数组</span><br><span class="line">movie[0]=zp</span><br><span class="line">movie[1]=tp</span><br><span class="line">declare -a movie[2]=live</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 查看数组</span><br><span class="line">echo $&#123;movie&#125;</span><br><span class="line">echo $&#123;movie[2]&#125;</span><br><span class="line">echo $&#123;movie[*]&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="shell-环境变量配置文件"><a class="header-anchor" href="#shell-环境变量配置文件"></a>Shell 环境变量配置文件</h2>
+<p>环境变量配置文件中主要是定义对系统操作环境生效的系统默认环境变量，如 PATH 等</p>
+<ul>
+<li>source 命令
+<ul>
+<li><code>source 配置文件</code></li>
+<li><code>. 配置文件</code></li>
+</ul>
+</li>
+<li>常用的环境变量配置文件
+<ul>
+<li>/etc/profile
+<ul>
+<li>USER 变量</li>
+<li>LOGNAME 变量</li>
+<li>MAIL 变量</li>
+<li>PATH 变量</li>
+<li>HOSTNAME 变量</li>
+<li>HISTSIZE 变量</li>
+<li>umask 查看系统默认权限
+<ul>
+<li>文件最高权限为 666</li>
+<li>目录最高权限为 777</li>
+<li>权限不能使用数字进行换算，而必须使用字母</li>
+<li>umask 定义的权限，是系统默认权限中准备丢弃的权限</li>
+</ul>
+</li>
+<li>调用 /etc/profile.d/*sh 文件</li>
+</ul>
+</li>
+<li>/etc/profile.d/*sh</li>
+<li>~/.bash_profile</li>
+<li>~/.bashrc</li>
+<li>/etc/bashrc</li>
+</ul>
+</li>
+<li>其他配置文件
+<ul>
+<li><code>~/.bash_logout</code> 注销时生效的环境变量配置文件</li>
+</ul>
+</li>
+<li>Shell 登录信息
+<ul>
+<li><code>cat /etc/issue</code> 本地终端欢迎信息</li>
+<li><code>cat /etc/issue.net</code> 远程终端欢迎信息
+<ul>
+<li>转义符在 <code>/etc/issue.net</code> 文件中不能使用</li>
+<li>是否显示此欢迎信息，由 SSH 的配置文件 <code>/etc/ssh/sshd_config</code> 决定，加入 “Banner /etc/issue.net” 行才能显示（需要重启 SSH 服务）</li>
+</ul>
+</li>
+<li><code>/etc/motd</code> 登陆后欢迎信息，不管是本地登录，还是远程登录，都可以显示此欢迎信息</li>
+</ul>
+</li>
+</ul>
+
+      </div>
+    </div>
+  </div>
+</div>
+<div class="lx-navigation">
+	<div class="lx-cover prev lx-cover-sm" style="background-image: url(https://sebastian-1256190695.cos.ap-guangzhou.myqcloud.com/footer_2.jpg)">
+		<div class="overlay"></div>
+		<a class="copy" href="/2016/10/04/Linux-Shell-基础之条件判断语句/">
+			<div class="display-t">
+				<div class="display-tc">
+					<div>
+						<span>Next</span>
+						<h3>Linux Shell 基础之条件判断语句</h3>
+					</div>
+				</div>
+			</div>
+		</a>
+	</div>
+        <div class="lx-cover next lx-cover-sm" style="background-image: url(https://sebastian-1256190695.cos.ap-guangzhou.myqcloud.com/footer_1.jpg)">
+		<div class="overlay"></div>
+		<a class="copy" href="/2016/10/04/Linux-Shell-基础之变量/">
+			<div class="display-t">
+				<div class="display-tc">
+					<div>
+						<span>Prev</span>
+						<h3>Linux Shell 基础之变量</h3>
+					</div>
+				</div>
+			</div>
+		</a>
+	</div>
+</div>
+</div>
+<div class="comment"><div id="comments"></div></div>
+<footer>
+  <div>
+  Copyright &copy; 2019.<a href="/">Sebastian Kennedy</a><br>Powered by <a href="https://hexo.io" target="_blank">Hexo</a> | Theme <a href="https://lx.blleng.cn" target="_blank">Lx</a><br>
+  </div>
+</footer>
+</div>
+<a href="javascript:;" class="popup-trigger"><i class="menu-item-icon fa fa-search fa-fw"></i></a>
+<div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="Search..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+<button class="menu-trigger"></button>
+<div class="menu">
+  <div class="menu-head">
+    <span class="layer">
+      <div class="col">
+        <div class="row for-pic">
+          <div class="profile-pic">
+            <a href="/"><img src="https://sebastian-1256190695.cos.ap-guangzhou.myqcloud.com/person_1.jpg" alt="Sebastian Kennedy"></a>
+          </div>
+        </div>
+        <div class="row for-name">
+          <p>Sebastian Kennedy</p>
+          <span class="tagline">人类的悲欢并不相通，我只觉得他们吵闹。</span>
+        </div>
+      </div>
+    </span>
+  </div>
+  <nav class="menu-container">
+  <ul class="menu-items">
+    <li><a href="/"><i class="fa fa-home fa-fw"></i>首页</a></li>
+    <li><a href="/archives/"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+    <li class="has-sub"><span class="dropdown-heading">
+      <i class="fa fa-bookmark fa-fw"></i>页面</span>
+        <ul>
+          <li><a href="/guestbook">留言</a></li>
+        <li><a href="/about">关于</a></li>
+        </ul>
+    </li>
+    <li class="has-sub"><span class="dropdown-heading">
+      <i class="fa fa-link fa-fw"></i>友链</span>
+        <ul>
+          <li> <a href="https://lx.blleng.cn" target="_blank">Theme-Lx</a></li>
+        </ul>
+    </li>
+  </ul>
+  </nav>
+</div>
+
+<div class="gototop js-top">
+  <a href="#" class="js-gotop"><i class="fa fa-arrow-up"></i></a>
+</div>
+<script src="/js/jquery.easing.min.js"></script>
+<script src="/js/jquery.waypoints.min.js"></script>
+<script src="/js/jquery.stellar.min.js"></script>
+<script src="/js/main.js"></script>
+<script src="/js/local.search.js"></script>
+
+
+</body>
+</html>

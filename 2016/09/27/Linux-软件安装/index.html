@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Linux 软件安装 | “人类的悲欢并不相通，我只觉得他们吵闹。”</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="author" content="Sebastian Kennedy">
+  <meta name="keywords" content="Sebastian Kennedy Blog PHP Laravel Yii">
+  <meta name="description" content="Sebastian Kennedy Blog PHP Laravel Yii">
+  <script id="hexo-configurations">
+  var CONFIG = {
+    root: '/',
+    theme: 'lx',
+    version: '1.4.5',
+    localsearch:{
+      "enable": true,
+      "trigger": "auto",
+      "top_n_per_article": 1,
+      "unescape": false,
+      "preload": false
+      },
+    path: 'search.xml'
+  };
+</script>
+
+  <link rel="shortcut icon" href="https://sebastian-1256190695.cos.ap-guangzhou.myqcloud.com/person_1.jpg">
+  <link rel="stylesheet" href="/css/main.css">
+  <script src="/js/jquery.min.js"></script>
+  <script src="/js/jquery.jside.menu.js"></script>
+	<script>
+	$(document).ready(function(){
+	$(".menu-container").jSideMenu({
+	    jSidePosition: "position-right",
+	    jSideSticky: true,
+	    jSideSkin: "black-grey",
+	     });
+	}); 
+	</script>
+  <!--Google_Analytics-->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-150354789-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'UA-150354789-1');
+</script>
+
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:300|Noto+Serif+SC&amp;display=swap">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/font-awesome@4/css/font-awesome.min.css">
+</head>
+<body>
+<div class="single">
+<div id="page">
+<div id="lx-aside" style="background-image: url(https://sebastian-1256190695.cos.ap-guangzhou.myqcloud.com/page-cover.jpg)" data-stellar-background-ratio="0.5">
+  <div class="overlay">
+  <div class="page-title">
+    <div class="avatar"><a href="/"><img src="https://sebastian-1256190695.cos.ap-guangzhou.myqcloud.com/person_1.jpg"></a></div>
+    <span>2016-09-27</span>
+    <h2>Linux 软件安装</h2>
+    <div class="tags"><i class="fa fa-tag"></i><a class="tag-link" href="/tags/Linux/">Linux</a></div>
+    </div>
+</div>
+</div>
+<div id="lx-main-content">
+  <div class="lx-post">
+    <div class="lx-entry padding">
+      <div>
+        <h2 id="软件包管理简介"><a class="header-anchor" href="#软件包管理简介"></a>软件包管理简介</h2>
+<ul>
+<li>软件包分类
+<ul>
+<li>源码包
+<ul>
+<li>优点：
+<ul>
+<li>开源，如果有足够的能力，可以修改代码</li>
+<li>可以自由选择所需的功能</li>
+<li>软件是编译安装，所以更加适合自己的系统，更加稳定也效率更高</li>
+<li>卸载方便</li>
+</ul>
+</li>
+<li>缺点：
+<ul>
+<li>安装步骤较多，尤其安装较大的软件集合时，容易出现拼写错误</li>
+<li>编译过程时间较长，安装比二进制安装时间长</li>
+<li>编译安装一旦报错，新手很难解决安装错误</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>二进制包（RPM 包、系统默认包）
+<ul>
+<li>优点：
+<ul>
+<li>包管理系统简单，只通过几个命令就可以实现包的安装、升级、查询和卸载</li>
+<li>安装速度比源码包安装快得多</li>
+</ul>
+</li>
+<li>缺点：
+<ul>
+<li>经过编译，不再可以看到源代码</li>
+<li>功能选择不如源码包灵活</li>
+<li>依赖性</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>脚本安装包（本质是源码包和二进制包）
+<ul>
+<li>优点：安装简单、快捷</li>
+<li>缺点：完全丧失了自定义性</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="rpm-命令管理"><a class="header-anchor" href="#rpm-命令管理"></a>RPM 命令管理</h2>
+<h3 id="rpm-包命令规则"><a class="header-anchor" href="#rpm-包命令规则"></a>RPM 包命令规则</h3>
+<ul>
+<li><code>httpd-2.2.15-15.el6.centos.1.i686.rpm</code>
+<ul>
+<li>httpd：软件包名</li>
+<li>2.2.15：软件版本</li>
+<li>15：软件发布的次数</li>
+<li>el6.centos：适合的 Linux 平台</li>
+<li>i686：适合的硬件平台</li>
+<li>rpm：rpm 包扩展名</li>
+</ul>
+</li>
+</ul>
+<p>RPM 包依赖性</p>
+<ul>
+<li>树形依赖：a-&gt;b-&gt;c</li>
+<li>环形依赖：a-&gt;b-&gt;c-&gt;a</li>
+<li>模块依赖：查询网站：<a href="http://www.rpmfind.net" target="_blank" rel="noopener">www.rpmfind.net</a></li>
+</ul>
+<h3 id="rpm-安装命令"><a class="header-anchor" href="#rpm-安装命令"></a>RPM 安装命令</h3>
+<p>包全名与包名</p>
+<ul>
+<li>包全名：操作的包是没有安装的软件包时，使用包全名。而且要注意路径。</li>
+<li>包名：操作已经安装的软件包时，使用包名，是搜索 /var/lib/rpm/ 中的数据库</li>
+</ul>
+<p>RPM 包安装</p>
+<ul>
+<li>安装
+<ul>
+<li><code>rpm [选项] 包全名</code>
+<ul>
+<li>选项：
+<ul>
+<li>-i（install）安装</li>
+<li>-v（verbose）显示详细信息</li>
+<li>-h（hash）显示进度</li>
+<li>–nodeps 不检测依赖性</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>升级
+<ul>
+<li><code>rpm -Uvh  包全名</code>
+<ul>
+<li>选项：
+<ul>
+<li>-U 升级</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>卸载
+<ul>
+<li><code>rpm -e 包名</code>
+<ul>
+<li>选项：
+<ul>
+<li>-e 卸载</li>
+<li>–nodeps 不检查依赖性</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>查询
+<ul>
+<li><code>rpm -qa</code> 查询所有已经安装的 RPM 包</li>
+<li><code>rpm -q 包名</code> 查询包是否安装</li>
+<li><code>rpm -qi 包名</code> 查询软件包详细信息</li>
+<li><code>rpm -ql 包名</code> 查询包中文件安装位置
+<ul>
+<li>RPM 包默认安装路径
+<ul>
+<li>/etc 配置文件安装目录</li>
+<li>/usr/bin 可执行命令安装目录</li>
+<li>/usr/lib 程序所使用的函数库保存位置</li>
+<li>/usr/share/doc 基本的软件使用手册保存位置</li>
+<li>/usr/share/man/ 帮助文件保存位置</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><code>rpm -qf 系统文件名</code>
+<ul>
+<li>选项：
+<ul>
+<li>-f 查询系统文件属于哪个软件包（file）</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><code>rpm -qR 包名</code>
+<ul>
+<li>选项：
+<ul>
+<li>-R 查询软件包的依赖性</li>
+<li>-p 查询未安装包信息</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="yum-命令管理"><a class="header-anchor" href="#yum-命令管理"></a>Yum 命令管理</h2>
+<ul>
+<li>查询
+<ul>
+<li><code>yum list</code> 查询所有可用软件包列表</li>
+<li><code>yum search 关键字</code> 搜索服务器上所有和关键字相关的包</li>
+</ul>
+</li>
+<li>安装
+<ul>
+<li><code>yum -y install 包名</code>
+<ul>
+<li>选项：
+<ul>
+<li>install 安装</li>
+<li>-y 自动回答 yes</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>升级
+<ul>
+<li><code>yum -y update 包名</code>
+<ul>
+<li>选项：
+<ul>
+<li>update 升级</li>
+<li>-y 自动回答 yes</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>卸载
+<ul>
+<li><code>yum -y remove 包名</code>
+<ul>
+<li>选项：
+<ul>
+<li>remove 卸载</li>
+<li>-y 自动回答 yes</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>组管理
+<ul>
+<li><code>yum grouplist</code> 列出所有可用的软件组列表</li>
+<li><code>yum groupinstall 软件组名</code> 安装指定软件组，组名可以由 grouplist 查询出来</li>
+<li><code>yum groupremove 软件组名</code> 卸载指定软件组</li>
+</ul>
+</li>
+</ul>
+<h2 id="源码包安装"><a class="header-anchor" href="#源码包安装"></a>源码包安装</h2>
+<p>源码包安装位置需要手动指定，一般安装在 <code>/usr/local/软件名</code></p>
+<p>安装源码包之前需要安装 C 语言编译器</p>
+<p>源码包安装过程</p>
+<ul>
+<li>下载源码包</li>
+<li>解压缩下载的源码包</li>
+<li>进入解压缩目录</li>
+<li><code>./configure 软件配置与检查</code>
+<ul>
+<li>定义需要的功能选项</li>
+<li>检测系统环境是否符合安装要求</li>
+<li>把定义好的功能选项和检测系统环境的信息都写入 Makefile 文件，用于后续的编辑</li>
+</ul>
+</li>
+<li><code>make</code> 编译
+<ul>
+<li><code>make clean</code> 如果编译错误，尝试执行 <code>make clean</code></li>
+</ul>
+</li>
+<li><code>make install</code> 编译安装</li>
+</ul>
+<p>源码包不需要卸载命令，直接删除安装目录即可。不会遗留垃圾文件</p>
+
+      </div>
+    </div>
+  </div>
+</div>
+<div class="lx-navigation">
+	<div class="lx-cover prev lx-cover-sm" style="background-image: url(https://sebastian-1256190695.cos.ap-guangzhou.myqcloud.com/footer_2.jpg)">
+		<div class="overlay"></div>
+		<a class="copy" href="/2016/09/30/Linux-权限管理/">
+			<div class="display-t">
+				<div class="display-tc">
+					<div>
+						<span>Next</span>
+						<h3>Linux 权限管理</h3>
+					</div>
+				</div>
+			</div>
+		</a>
+	</div>
+        <div class="lx-cover next lx-cover-sm" style="background-image: url(https://sebastian-1256190695.cos.ap-guangzhou.myqcloud.com/footer_1.jpg)">
+		<div class="overlay"></div>
+		<a class="copy" href="/2016/09/26/Linux-定时任务/">
+			<div class="display-t">
+				<div class="display-tc">
+					<div>
+						<span>Prev</span>
+						<h3>Linux 定时任务</h3>
+					</div>
+				</div>
+			</div>
+		</a>
+	</div>
+</div>
+</div>
+<div class="comment"><div id="comments"></div></div>
+<footer>
+  <div>
+  Copyright &copy; 2019.<a href="/">Sebastian Kennedy</a><br>Powered by <a href="https://hexo.io" target="_blank">Hexo</a> | Theme <a href="https://lx.blleng.cn" target="_blank">Lx</a><br>
+  </div>
+</footer>
+</div>
+<a href="javascript:;" class="popup-trigger"><i class="menu-item-icon fa fa-search fa-fw"></i></a>
+<div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="Search..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+<button class="menu-trigger"></button>
+<div class="menu">
+  <div class="menu-head">
+    <span class="layer">
+      <div class="col">
+        <div class="row for-pic">
+          <div class="profile-pic">
+            <a href="/"><img src="https://sebastian-1256190695.cos.ap-guangzhou.myqcloud.com/person_1.jpg" alt="Sebastian Kennedy"></a>
+          </div>
+        </div>
+        <div class="row for-name">
+          <p>Sebastian Kennedy</p>
+          <span class="tagline">人类的悲欢并不相通，我只觉得他们吵闹。</span>
+        </div>
+      </div>
+    </span>
+  </div>
+  <nav class="menu-container">
+  <ul class="menu-items">
+    <li><a href="/"><i class="fa fa-home fa-fw"></i>首页</a></li>
+    <li><a href="/archives/"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+    <li class="has-sub"><span class="dropdown-heading">
+      <i class="fa fa-bookmark fa-fw"></i>页面</span>
+        <ul>
+          <li><a href="/guestbook">留言</a></li>
+        <li><a href="/about">关于</a></li>
+        </ul>
+    </li>
+    <li class="has-sub"><span class="dropdown-heading">
+      <i class="fa fa-link fa-fw"></i>友链</span>
+        <ul>
+          <li> <a href="https://lx.blleng.cn" target="_blank">Theme-Lx</a></li>
+        </ul>
+    </li>
+  </ul>
+  </nav>
+</div>
+
+<div class="gototop js-top">
+  <a href="#" class="js-gotop"><i class="fa fa-arrow-up"></i></a>
+</div>
+<script src="/js/jquery.easing.min.js"></script>
+<script src="/js/jquery.waypoints.min.js"></script>
+<script src="/js/jquery.stellar.min.js"></script>
+<script src="/js/main.js"></script>
+<script src="/js/local.search.js"></script>
+
+
+</body>
+</html>

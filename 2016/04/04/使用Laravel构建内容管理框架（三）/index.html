@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>使用 Laravel 构建内容管理框架（三） | “人类的悲欢并不相通，我只觉得他们吵闹。”</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="author" content="Sebastian Kennedy">
+  <meta name="keywords" content="Sebastian Kennedy Blog PHP Laravel Yii">
+  <meta name="description" content="Sebastian Kennedy Blog PHP Laravel Yii">
+  <script id="hexo-configurations">
+  var CONFIG = {
+    root: '/',
+    theme: 'lx',
+    version: '1.4.5',
+    localsearch:{
+      "enable": true,
+      "trigger": "auto",
+      "top_n_per_article": 1,
+      "unescape": false,
+      "preload": false
+      },
+    path: 'search.xml'
+  };
+</script>
+
+  <link rel="shortcut icon" href="https://sebastian-1256190695.cos.ap-guangzhou.myqcloud.com/person_1.jpg">
+  <link rel="stylesheet" href="/css/main.css">
+  <script src="/js/jquery.min.js"></script>
+  <script src="/js/jquery.jside.menu.js"></script>
+	<script>
+	$(document).ready(function(){
+	$(".menu-container").jSideMenu({
+	    jSidePosition: "position-right",
+	    jSideSticky: true,
+	    jSideSkin: "black-grey",
+	     });
+	}); 
+	</script>
+  <!--Google_Analytics-->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-150354789-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'UA-150354789-1');
+</script>
+
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:300|Noto+Serif+SC&amp;display=swap">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/font-awesome@4/css/font-awesome.min.css">
+</head>
+<body>
+<div class="single">
+<div id="page">
+<div id="lx-aside" style="background-image: url(https://sebastian-1256190695.cos.ap-guangzhou.myqcloud.com/page-cover.jpg)" data-stellar-background-ratio="0.5">
+  <div class="overlay">
+  <div class="page-title">
+    <div class="avatar"><a href="/"><img src="https://sebastian-1256190695.cos.ap-guangzhou.myqcloud.com/person_1.jpg"></a></div>
+    <span>2016-04-04</span>
+    <h2>使用 Laravel 构建内容管理框架（三）</h2>
+    <div class="tags"><i class="fa fa-tag"></i><a class="tag-link" href="/tags/Laravel/">Laravel</a></div>
+    </div>
+</div>
+</div>
+<div id="lx-main-content">
+  <div class="lx-post">
+    <div class="lx-entry padding">
+      <div>
+        <p>完成登录管理页面与登录验证功能</p>
+<h1 id="管理用户模型"><a class="header-anchor" href="#管理用户模型"></a>管理用户模型</h1>
+<hr>
+<p>在文件夹<code>app</code>下新建文件夹<code>Models</code>，将文件夹<code>app</code>下的<code>User.php</code>移动到文件夹<code>app/Models</code>下<br>
+修改文件<code>User.php</code>的命名空间</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">namespace App\Models;</span><br></pre></td></tr></table></figure>
+<p>打开文件<code>config/auth.php</code>，修改代码如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&apos;model&apos; =&gt; App\Models\User::class,</span><br></pre></td></tr></table></figure>
+<h1 id="新增路由"><a class="header-anchor" href="#新增路由"></a>新增路由</h1>
+<hr>
+<p>打开文件<code>app/Http/routes.php</code>，文件代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">Route::group([&apos;namespace&apos; =&gt; &apos;Backend&apos;, &apos;middleware&apos; =&gt; [&apos;auth&apos;]], function () &#123;</span><br><span class="line">    Route::get(&apos;/&apos;, &apos;IndexController@index&apos;);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">Route::group([&apos;namespace&apos; =&gt; &apos;Auth&apos;], function () &#123;</span><br><span class="line">    Route::get(&apos;auth/login&apos;, &apos;AuthController@getLogin&apos;);</span><br><span class="line">    Route::post(&apos;auth/login&apos;, &apos;AuthController@postLogin&apos;);</span><br><span class="line">    Route::get(&apos;auth/logout&apos;, &apos;AuthController@getLogout&apos;);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<h1 id="新增登录视图"><a class="header-anchor" href="#新增登录视图"></a>新增登录视图</h1>
+<hr>
+<p>在文件夹<code>resources/views/</code>新建文件夹<code>auth</code>，然后新建视图文件<code>login.blade.php</code><br>
+在文件夹<code>resources/views/backend/layout</code>新建文件夹<code>message</code>，然后新建视图文件如下：</p>
+<ul>
+<li>tips.blade.php</li>
+<li>error.blade.php</li>
+<li>success.blade.php</li>
+</ul>
+<h2 id="login-blade-php"><a class="header-anchor" href="#login-blade-php"></a>login.blade.php</h2>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html lang=&quot;zh&quot;&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">    &lt;meta charset=&quot;utf-8&quot;&gt;</span><br><span class="line">    &lt;meta http-equiv=&quot;X-UA-Compatible&quot; content=&quot;IE=edge&quot;&gt;</span><br><span class="line">    &lt;title&gt;AdminLTE 2 | Log in&lt;/title&gt;</span><br><span class="line">    &lt;meta content=&quot;width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no&quot; name=&quot;viewport&quot;&gt;</span><br><span class="line">    &lt;link href=&quot;&#123;&#123; asset(&quot;/assets/css/app.css&quot;) &#125;&#125;&quot; rel=&quot;stylesheet&quot; type=&quot;text/css&quot;/&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;body class=&quot;hold-transition login-page&quot;&gt;</span><br><span class="line">&lt;div class=&quot;login-box&quot;&gt;</span><br><span class="line">    &lt;div class=&quot;login-logo&quot;&gt;</span><br><span class="line">        &lt;b&gt;TianMao&lt;/b&gt;CMF</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">    &lt;div class=&quot;login-box-body&quot;&gt;</span><br><span class="line">        &lt;p class=&quot;login-box-msg&quot;&gt;Happy Coding&lt;/p&gt;</span><br><span class="line"></span><br><span class="line">        &lt;form action=&quot;&#123;&#123;URL::to(&apos;/auth/login&apos;)&#125;&#125;&quot; method=&quot;post&quot; enctype=&quot;multipart/form-data&quot;&gt;</span><br><span class="line">            &lt;input type=&quot;hidden&quot; name=&quot;_token&quot; value=&quot;&#123;&#123; csrf_token() &#125;&#125;&quot;&gt;</span><br><span class="line">            &lt;div class=&quot;row form-group has-feedback&quot;&gt;</span><br><span class="line">                &lt;input type=&quot;text&quot; class=&quot;form-control&quot; placeholder=&quot;账号&quot; name=&quot;email&quot;&gt;</span><br><span class="line">                &lt;span class=&quot;fa fa-user form-control-feedback&quot;&gt;&lt;/span&gt;</span><br><span class="line">                @include(&apos;backend.layout.message.tips&apos;,[&apos;field&apos;=&gt;&apos;email&apos;])</span><br><span class="line">            &lt;/div&gt;</span><br><span class="line">            &lt;div class=&quot;row form-group has-feedback&quot;&gt;</span><br><span class="line">                &lt;input type=&quot;password&quot; class=&quot;form-control&quot; placeholder=&quot;密码&quot; name=&quot;password&quot;&gt;</span><br><span class="line">                &lt;span class=&quot;fa fa-lock form-control-feedback&quot;&gt;&lt;/span&gt;</span><br><span class="line">                @include(&apos;backend.layout.message.tips&apos;,[&apos;field&apos;=&gt;&apos;password&apos;])</span><br><span class="line">            &lt;/div&gt;</span><br><span class="line">            &lt;div class=&quot;row form-group has-feedback&quot;&gt;</span><br><span class="line">                &lt;input type=&quot;text&quot; class=&quot;form-control&quot; placeholder=&quot;验证码&quot; name=&quot;captcha&quot;&gt;</span><br><span class="line">                &lt;span class=&quot;fa fa-image form-control-feedback&quot;&gt;&lt;/span&gt;</span><br><span class="line">                @include(&apos;backend.layout.message.tips&apos;,[&apos;field&apos;=&gt;&apos;captcha&apos;])</span><br><span class="line">            &lt;/div&gt;</span><br><span class="line">            &lt;div class=&quot;row form-group has-feedback&quot;&gt;</span><br><span class="line">                &lt;img src=&quot;&#123;&#123;$captcha&#125;&#125;&quot; alt=&quot;图片验证码&quot; style=&quot;width: 100%;&quot;&gt;</span><br><span class="line">            &lt;/div&gt;</span><br><span class="line">            &lt;div class=&quot;row&quot;&gt;</span><br><span class="line">                &lt;div class=&quot;col-xs-8&quot;&gt;</span><br><span class="line">                    &lt;div class=&quot;checkbox icheck&quot;&gt;</span><br><span class="line">                        &lt;label&gt;</span><br><span class="line">                            &lt;input type=&quot;checkbox&quot; name=&quot;remember&quot; value=&quot;1&quot;&gt; 保持登录</span><br><span class="line">                        &lt;/label&gt;</span><br><span class="line">                    &lt;/div&gt;</span><br><span class="line">                &lt;/div&gt;</span><br><span class="line">                &lt;div class=&quot;col-xs-4&quot;&gt;</span><br><span class="line">                    &lt;button type=&quot;submit&quot; class=&quot;btn btn-primary btn-block btn-flat&quot;&gt;登 录&lt;/button&gt;</span><br><span class="line">                &lt;/div&gt;</span><br><span class="line">            &lt;/div&gt;</span><br><span class="line">        &lt;/form&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">&lt;/div&gt;</span><br><span class="line">&lt;script src=&quot;&#123;&#123; asset (&quot;/assets/js/app.js&quot;) &#125;&#125;&quot;&gt;&lt;/script&gt;</span><br><span class="line">&lt;script&gt;</span><br><span class="line">    $(function () &#123;</span><br><span class="line">        $(&apos;input&apos;).iCheck(&#123;</span><br><span class="line">            checkboxClass: &apos;icheckbox_square-blue&apos;,</span><br><span class="line">            radioClass: &apos;iradio_square-blue&apos;,</span><br><span class="line">            increaseArea: &apos;20%&apos;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;);</span><br><span class="line">&lt;/script&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+<h2 id="tips-blade-php"><a class="header-anchor" href="#tips-blade-php"></a>tips.blade.php</h2>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">@if($errors-&gt;has($field))</span><br><span class="line">	@foreach ($errors-&gt;get($field) as $error)</span><br><span class="line">		&lt;button class=&quot;btn btn-danger col-sm-12 btn-flat&quot; style=&quot;width: 100%;&quot;&gt;</span><br><span class="line">			&lt;i class=&quot;fa fa-times-circle-o&quot;&gt;&lt;/i&gt; &#123;&#123;$error&#125;&#125;</span><br><span class="line">		&lt;/button&gt;</span><br><span class="line">	@endforeach</span><br><span class="line">@endif</span><br></pre></td></tr></table></figure>
+<h2 id="error-blade-php"><a class="header-anchor" href="#error-blade-php"></a>error.blade.php</h2>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">@if(Session::has(&apos;errors&apos;))</span><br><span class="line">	&lt;div id=&quot;errors-message&quot; class=&quot;alert alert-danger alert-dismissible&quot;&gt;</span><br><span class="line">		&lt;button type=&quot;button&quot; class=&quot;close&quot; data-dismiss=&quot;alert&quot; aria-hidden=&quot;true&quot;&gt;×&lt;/button&gt;</span><br><span class="line">		&lt;h4&gt;&lt;i class=&quot;icon fa fa-ban&quot;&gt;&lt;/i&gt; 错误提示!&lt;/h4&gt;</span><br><span class="line">		@foreach($errors-&gt;all() as $error)</span><br><span class="line">			&#123;&#123;$error&#125;&#125;</span><br><span class="line">		@endforeach</span><br><span class="line">	&lt;/div&gt;</span><br><span class="line">@endif</span><br></pre></td></tr></table></figure>
+<h2 id="success-blade-php"><a class="header-anchor" href="#success-blade-php"></a>success.blade.php</h2>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">@if(Session::has(&apos;success&apos;))</span><br><span class="line">	&lt;div id=&quot;success-message&quot; class=&quot;alert alert-success alert-dismissible&quot;&gt;</span><br><span class="line">		&lt;button type=&quot;button&quot; class=&quot;close&quot; data-dismiss=&quot;alert&quot; aria-hidden=&quot;true&quot;&gt;×&lt;/button&gt;</span><br><span class="line">		&lt;h4&gt;&lt;i class=&quot;icon fa fa-check&quot;&gt;&lt;/i&gt; 成功提示!&lt;/h4&gt;</span><br><span class="line">		&#123;&#123;Session::get(&apos;success&apos;)&#125;&#125;</span><br><span class="line">	&lt;/div&gt;</span><br><span class="line">@endif</span><br></pre></td></tr></table></figure>
+<h1 id="新增验证码package"><a class="header-anchor" href="#新增验证码package"></a>新增验证码Package</h1>
+<hr>
+<p>打开<code>composer.json</code>文件,修改代码如下:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"> &quot;require&quot;: &#123;</span><br><span class="line">    &quot;php&quot;: &quot;&gt;=5.5.9&quot;,</span><br><span class="line">    &quot;laravel/framework&quot;: &quot;5.1.*&quot;,</span><br><span class="line">    &quot;gregwar/captcha&quot;: &quot;1.*&quot;</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
+<p><code>gregwar/captcha</code>是验证码Package，用来生成验证码，在终端执行以下命令进行安装。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo composer install</span><br></pre></td></tr></table></figure>
+<h1 id="管理登录认证控制器"><a class="header-anchor" href="#管理登录认证控制器"></a>管理登录认证控制器</h1>
+<p>打开文件<code>app/Http/Auth/AuthController.php</code>，新增代码如下:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">use Illuminate\Support\Facades\Session;</span><br><span class="line"></span><br><span class="line">public function getLogin()</span><br><span class="line">&#123;</span><br><span class="line">    if (view()-&gt;exists(&apos;auth.authenticate&apos;)) &#123;</span><br><span class="line">        return view(&apos;auth.authenticate&apos;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    $builder = new CaptchaBuilder();</span><br><span class="line">    $builder-&gt;build();</span><br><span class="line">    Session::put(&apos;phrase&apos;, $builder-&gt;getPhrase());</span><br><span class="line"></span><br><span class="line">    return view(&apos;auth.login&apos;)-&gt;with(&apos;captcha&apos;, $builder-&gt;inline());</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public function postLogin(Request $request)</span><br><span class="line">&#123;</span><br><span class="line">    $this-&gt;validate($request, [</span><br><span class="line">        $this-&gt;loginUsername() =&gt; &apos;required&apos;,</span><br><span class="line">        &apos;password&apos;             =&gt; &apos;required&apos;,</span><br><span class="line">        &apos;captcha&apos;              =&gt; &apos;required&apos;</span><br><span class="line">    ], [</span><br><span class="line">        $this-&gt;loginUsername() . &apos;.required&apos; =&gt; &apos;请输入邮箱或用户名称&apos;,</span><br><span class="line">        &apos;password.required&apos;                  =&gt; &apos;请输入用户密码&apos;,</span><br><span class="line">        &apos;captcha.required&apos;                   =&gt; &apos;请输入验证码&apos;</span><br><span class="line">    ]);</span><br><span class="line"></span><br><span class="line">    if (Session::get(&apos;phrase&apos;) !== $request-&gt;get(&apos;captcha&apos;)) &#123;</span><br><span class="line">        return redirect()-&gt;back()-&gt;withErrors(array(&apos;captcha&apos; =&gt; &apos;验证码不正确&apos;))-&gt;withInput();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="使用迁移文件生成数据表"><a class="header-anchor" href="#使用迁移文件生成数据表"></a>使用迁移文件生成数据表</h1>
+<hr>
+<p>接下来打开终端，在项目下运行以下命令，生成用户表并创建用户</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">// 生成数据表</span><br><span class="line">php artisan migrate</span><br><span class="line"></span><br><span class="line">// 生成用户数据</span><br><span class="line">php artisan tinker</span><br><span class="line">$user = new App\Models\User;</span><br><span class="line">$user-&gt;name = &quot;admin&quot;;</span><br><span class="line">$user-&gt;email = &quot;admin@qq.com&quot;;</span><br><span class="line">$user-&gt;password = bcrypt(123456);</span><br><span class="line">$user-&gt;save();</span><br><span class="line">exit</span><br></pre></td></tr></table></figure>
+<h1 id="管理登录认证操作跳转页面"><a class="header-anchor" href="#管理登录认证操作跳转页面"></a>管理登录认证操作跳转页面</h1>
+<p>打开文件<code>app\Http\Controller\Auth\AuthController</code>，新增以下成员属性:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">// 设置成功登录后转向的页面：</span><br><span class="line">protected $redirectPath = &apos;/&apos;;</span><br><span class="line"></span><br><span class="line">// 设置登录失败后转向的页面：</span><br><span class="line">protected $loginPath = &apos;/auth/login&apos;;</span><br><span class="line"></span><br><span class="line">// 设置退出登录后转向的页面：</span><br><span class="line">protected $redirectAfterLogout = &apos;/&apos;;</span><br></pre></td></tr></table></figure>
+<p>打开中间件<code>app\Http\Middleware\RedirectIfAuthenticated.php</code>，找到相应的地方，修改代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"> public function handle($request, Closure $next)</span><br><span class="line">&#123;</span><br><span class="line">    // 设置登录之后，输入/auth/login的跳转地址</span><br><span class="line">    if ($this-&gt;auth-&gt;check()) &#123;</span><br><span class="line">        return redirect(&apos;/&apos;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    return $next($request);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+      </div>
+    </div>
+  </div>
+</div>
+<div class="lx-navigation">
+	<div class="lx-cover prev lx-cover-sm" style="background-image: url(https://sebastian-1256190695.cos.ap-guangzhou.myqcloud.com/footer_2.jpg)">
+		<div class="overlay"></div>
+		<a class="copy" href="/2016/04/04/使用Laravel构建内容管理框架（四）/">
+			<div class="display-t">
+				<div class="display-tc">
+					<div>
+						<span>Next</span>
+						<h3>使用 Laravel 构建内容管理框架（四）</h3>
+					</div>
+				</div>
+			</div>
+		</a>
+	</div>
+        <div class="lx-cover next lx-cover-sm" style="background-image: url(https://sebastian-1256190695.cos.ap-guangzhou.myqcloud.com/footer_1.jpg)">
+		<div class="overlay"></div>
+		<a class="copy" href="/2016/04/04/使用Laravel构建内容管理框架（二）/">
+			<div class="display-t">
+				<div class="display-tc">
+					<div>
+						<span>Prev</span>
+						<h3>使用 Laravel 构建内容管理框架（二）</h3>
+					</div>
+				</div>
+			</div>
+		</a>
+	</div>
+</div>
+</div>
+<div class="comment"><div id="comments"></div></div>
+<footer>
+  <div>
+  Copyright &copy; 2019.<a href="/">Sebastian Kennedy</a><br>Powered by <a href="https://hexo.io" target="_blank">Hexo</a> | Theme <a href="https://lx.blleng.cn" target="_blank">Lx</a><br>
+  </div>
+</footer>
+</div>
+<a href="javascript:;" class="popup-trigger"><i class="menu-item-icon fa fa-search fa-fw"></i></a>
+<div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="Search..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+<button class="menu-trigger"></button>
+<div class="menu">
+  <div class="menu-head">
+    <span class="layer">
+      <div class="col">
+        <div class="row for-pic">
+          <div class="profile-pic">
+            <a href="/"><img src="https://sebastian-1256190695.cos.ap-guangzhou.myqcloud.com/person_1.jpg" alt="Sebastian Kennedy"></a>
+          </div>
+        </div>
+        <div class="row for-name">
+          <p>Sebastian Kennedy</p>
+          <span class="tagline">人类的悲欢并不相通，我只觉得他们吵闹。</span>
+        </div>
+      </div>
+    </span>
+  </div>
+  <nav class="menu-container">
+  <ul class="menu-items">
+    <li><a href="/"><i class="fa fa-home fa-fw"></i>首页</a></li>
+    <li><a href="/archives/"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+    <li class="has-sub"><span class="dropdown-heading">
+      <i class="fa fa-bookmark fa-fw"></i>页面</span>
+        <ul>
+          <li><a href="/guestbook">留言</a></li>
+        <li><a href="/about">关于</a></li>
+        </ul>
+    </li>
+    <li class="has-sub"><span class="dropdown-heading">
+      <i class="fa fa-link fa-fw"></i>友链</span>
+        <ul>
+          <li> <a href="https://lx.blleng.cn" target="_blank">Theme-Lx</a></li>
+        </ul>
+    </li>
+  </ul>
+  </nav>
+</div>
+
+<div class="gototop js-top">
+  <a href="#" class="js-gotop"><i class="fa fa-arrow-up"></i></a>
+</div>
+<script src="/js/jquery.easing.min.js"></script>
+<script src="/js/jquery.waypoints.min.js"></script>
+<script src="/js/jquery.stellar.min.js"></script>
+<script src="/js/main.js"></script>
+<script src="/js/local.search.js"></script>
+
+
+</body>
+</html>

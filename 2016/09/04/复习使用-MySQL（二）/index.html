@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>复习使用 MySQL（二） | “人类的悲欢并不相通，我只觉得他们吵闹。”</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="author" content="Sebastian Kennedy">
+  <meta name="keywords" content="Sebastian Kennedy Blog PHP Laravel Yii">
+  <meta name="description" content="Sebastian Kennedy Blog PHP Laravel Yii">
+  <script id="hexo-configurations">
+  var CONFIG = {
+    root: '/',
+    theme: 'lx',
+    version: '1.4.5',
+    localsearch:{
+      "enable": true,
+      "trigger": "auto",
+      "top_n_per_article": 1,
+      "unescape": false,
+      "preload": false
+      },
+    path: 'search.xml'
+  };
+</script>
+
+  <link rel="shortcut icon" href="https://sebastian-1256190695.cos.ap-guangzhou.myqcloud.com/person_1.jpg">
+  <link rel="stylesheet" href="/css/main.css">
+  <script src="/js/jquery.min.js"></script>
+  <script src="/js/jquery.jside.menu.js"></script>
+	<script>
+	$(document).ready(function(){
+	$(".menu-container").jSideMenu({
+	    jSidePosition: "position-right",
+	    jSideSticky: true,
+	    jSideSkin: "black-grey",
+	     });
+	}); 
+	</script>
+  <!--Google_Analytics-->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-150354789-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'UA-150354789-1');
+</script>
+
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:300|Noto+Serif+SC&amp;display=swap">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/font-awesome@4/css/font-awesome.min.css">
+</head>
+<body>
+<div class="single">
+<div id="page">
+<div id="lx-aside" style="background-image: url(https://sebastian-1256190695.cos.ap-guangzhou.myqcloud.com/page-cover.jpg)" data-stellar-background-ratio="0.5">
+  <div class="overlay">
+  <div class="page-title">
+    <div class="avatar"><a href="/"><img src="https://sebastian-1256190695.cos.ap-guangzhou.myqcloud.com/person_1.jpg"></a></div>
+    <span>2016-09-04</span>
+    <h2>复习使用 MySQL（二）</h2>
+    <div class="tags"><i class="fa fa-tag"></i><a class="tag-link" href="/tags/MySQL/">MySQL</a></div>
+    </div>
+</div>
+</div>
+<div id="lx-main-content">
+  <div class="lx-post">
+    <div class="lx-entry padding">
+      <div>
+        <h2 id="环境"><a class="header-anchor" href="#环境"></a>环境</h2>
+<ul>
+<li>MySQL 5.7.13</li>
+</ul>
+<h2 id="mysql-主要存储引擎"><a class="header-anchor" href="#mysql-主要存储引擎"></a>MySQL 主要存储引擎</h2>
+<table>
+<thead>
+<tr>
+<th>特性/引擎</th>
+<th>MyISAM</th>
+<th>Aria</th>
+<th>InnoDB</th>
+<th>XtraDB</th>
+<th>Memory</th>
+<th>Archive</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>数据存储</td>
+<td>传统顺序数据储存</td>
+<td>传统顺序数据储存</td>
+<td>表空间存储方式</td>
+<td>表空间存储方式</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>事务支持</td>
+<td>不支持</td>
+<td>支持</td>
+<td>支持</td>
+<td>支持</td>
+<td>不支持</td>
+<td>不支持</td>
+</tr>
+<tr>
+<td>外键</td>
+<td>不支持</td>
+<td>不支持</td>
+<td>支持</td>
+<td>支持</td>
+<td>不支持</td>
+<td>不支持</td>
+</tr>
+<tr>
+<td>全文检索</td>
+<td>支持</td>
+<td>支持</td>
+<td>5.6 之后支持</td>
+<td>5.6 之后支持</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>锁级别</td>
+<td>表级锁</td>
+<td>表级锁</td>
+<td>行级锁</td>
+<td>行级锁</td>
+<td>表级锁</td>
+<td>行级锁</td>
+</tr>
+<tr>
+<td>Count 速度</td>
+<td>快</td>
+<td>快</td>
+<td>慢</td>
+<td>慢</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>适合业务</td>
+<td>读多写少、单表数据量小于 1 KW</td>
+<td>读多写少、单表数据量小于 1 KW</td>
+<td>读写均衡、数据量不限</td>
+<td>读写均衡、数据量不限</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>可用版本</td>
+<td>MySQL、MariaDB、Percona</td>
+<td>MariaDB</td>
+<td>MySQL、MariaDB、Percona</td>
+<td>MariaDB、Percona</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>其他说明</td>
+<td>传统顺序索引数据库，适合读多写少小数据量业务</td>
+<td>MyISAM 增强版，性能更好</td>
+<td>适合高压力高性能的业务模型</td>
+<td>InnoDB 增强版</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="mysql-索引定义"><a class="header-anchor" href="#mysql-索引定义"></a>MySQL 索引定义</h2>
+<p>MySQL 的索引（Index）是帮助 MySQL 高效获取数据的数据结构</p>
+<h2 id="mysql-索引类型"><a class="header-anchor" href="#mysql-索引类型"></a>MySQL 索引类型</h2>
+<ul>
+<li>Normal
+<ul>
+<li>普通索引，对存储的数值没有任何限制</li>
+</ul>
+</li>
+<li>Unique
+<ul>
+<li>唯一索引，不允许数值重复，但允许空值</li>
+</ul>
+</li>
+<li>Primary
+<ul>
+<li>主键索引，是一种特殊的唯一索引，不允许存在数值重复或空值</li>
+</ul>
+</li>
+<li>Spatial（R-Tree）
+<ul>
+<li>GIS 相关空间查询使用索引数据结构。</li>
+</ul>
+</li>
+<li>Fulltext
+<ul>
+<li>主要用于全文检索，目前只有 MyISAM 和 MySQL 5.6 + 的 InnoDB 支持；目前只支持英文。</li>
+</ul>
+</li>
+</ul>
+<h2 id="mysql-索引方法"><a class="header-anchor" href="#mysql-索引方法"></a>MySQL 索引方法</h2>
+<ul>
+<li>B+Tree
+<ul>
+<li>可用于排序的索引数据结构，可应用于 =，&gt;，&lt; 等各个范围查询，并且可以排序</li>
+<li>时间复杂度：O(log2N)</li>
+</ul>
+</li>
+<li>Hash
+<ul>
+<li>只能用于 =，IN 等操作，无法进行范围操作，Key 冲突严重情况下可能性能比 B-Tree 低下</li>
+<li>时间复杂度：O(1)</li>
+</ul>
+</li>
+</ul>
+<h2 id="myisam-索引结构：b-tree"><a class="header-anchor" href="#myisam-索引结构：b-tree"></a>MyISAM 索引结构：B+ Tree</h2>
+<ul>
+<li>MyISAM 主索引和辅助索引
+<ul>
+<li>区别在于：主索引 Key 是唯一；辅助索引 Key 可以重复</li>
+</ul>
+</li>
+<li>MyISAM 为非聚簇索引</li>
+</ul>
+<h2 id="innodb-索引结构：b-tree"><a class="header-anchor" href="#innodb-索引结构：b-tree"></a>InnoDB 索引结构：B+ Tree</h2>
+<ul>
+<li>InnoDB 主索引和辅助索引
+<ul>
+<li>InnoDB 的主索引是聚簇索引，数据和 Key 本身都会存储在 B+Tree 的叶子节点</li>
+<li>InnoDB 的辅助索引本身主要是记录主索引的 Key,最终查找数据还是从辅助索引再去主索引查找</li>
+</ul>
+</li>
+<li>InnoDB 为聚簇索引</li>
+</ul>
+<h2 id="存储引擎及版本选择"><a class="header-anchor" href="#存储引擎及版本选择"></a>存储引擎及版本选择</h2>
+<p>结论：</p>
+<ul>
+<li>使用 InnoDB 于生产环境</li>
+<li>使用 MySQL 5.5+ 于生产环境</li>
+</ul>
+<p>原因：</p>
+<ul>
+<li>更稳定可靠的数据存储和索引结构；整个存储引擎设计思想更可靠先进，接近于Oracle、SQL Server级别的数据库（有兴趣可以去阅读源码了解细节）</li>
+<li>更多可靠特性支持，比如事务、外键等支持（支付等关键领域事务非常重要）</li>
+<li>运行更稳定，不论读写数据的量级，都能够保证比较稳定的性能响应</li>
+<li>更好地崩溃恢复机制，特别利用一些Percona的一些工具，更有效运维InnoDB</li>
+<li>MySQL 5.5+ 对比 MySQL 5.1.x 总体功能和性能提升太多，改进太多</li>
+</ul>
+
+      </div>
+    </div>
+  </div>
+</div>
+<div class="lx-navigation">
+	<div class="lx-cover prev lx-cover-sm" style="background-image: url(https://sebastian-1256190695.cos.ap-guangzhou.myqcloud.com/footer_2.jpg)">
+		<div class="overlay"></div>
+		<a class="copy" href="/2016/09/04/复习使用-MySQL（三）/">
+			<div class="display-t">
+				<div class="display-tc">
+					<div>
+						<span>Next</span>
+						<h3>复习使用 MySQL（三）</h3>
+					</div>
+				</div>
+			</div>
+		</a>
+	</div>
+        <div class="lx-cover next lx-cover-sm" style="background-image: url(https://sebastian-1256190695.cos.ap-guangzhou.myqcloud.com/footer_1.jpg)">
+		<div class="overlay"></div>
+		<a class="copy" href="/2016/09/02/复习使用-MySQL（一）/">
+			<div class="display-t">
+				<div class="display-tc">
+					<div>
+						<span>Prev</span>
+						<h3>复习使用 MySQL（一）</h3>
+					</div>
+				</div>
+			</div>
+		</a>
+	</div>
+</div>
+</div>
+<div class="comment"><div id="comments"></div></div>
+<footer>
+  <div>
+  Copyright &copy; 2019.<a href="/">Sebastian Kennedy</a><br>Powered by <a href="https://hexo.io" target="_blank">Hexo</a> | Theme <a href="https://lx.blleng.cn" target="_blank">Lx</a><br>
+  </div>
+</footer>
+</div>
+<a href="javascript:;" class="popup-trigger"><i class="menu-item-icon fa fa-search fa-fw"></i></a>
+<div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="Search..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+<button class="menu-trigger"></button>
+<div class="menu">
+  <div class="menu-head">
+    <span class="layer">
+      <div class="col">
+        <div class="row for-pic">
+          <div class="profile-pic">
+            <a href="/"><img src="https://sebastian-1256190695.cos.ap-guangzhou.myqcloud.com/person_1.jpg" alt="Sebastian Kennedy"></a>
+          </div>
+        </div>
+        <div class="row for-name">
+          <p>Sebastian Kennedy</p>
+          <span class="tagline">人类的悲欢并不相通，我只觉得他们吵闹。</span>
+        </div>
+      </div>
+    </span>
+  </div>
+  <nav class="menu-container">
+  <ul class="menu-items">
+    <li><a href="/"><i class="fa fa-home fa-fw"></i>首页</a></li>
+    <li><a href="/archives/"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+    <li class="has-sub"><span class="dropdown-heading">
+      <i class="fa fa-bookmark fa-fw"></i>页面</span>
+        <ul>
+          <li><a href="/guestbook">留言</a></li>
+        <li><a href="/about">关于</a></li>
+        </ul>
+    </li>
+    <li class="has-sub"><span class="dropdown-heading">
+      <i class="fa fa-link fa-fw"></i>友链</span>
+        <ul>
+          <li> <a href="https://lx.blleng.cn" target="_blank">Theme-Lx</a></li>
+        </ul>
+    </li>
+  </ul>
+  </nav>
+</div>
+
+<div class="gototop js-top">
+  <a href="#" class="js-gotop"><i class="fa fa-arrow-up"></i></a>
+</div>
+<script src="/js/jquery.easing.min.js"></script>
+<script src="/js/jquery.waypoints.min.js"></script>
+<script src="/js/jquery.stellar.min.js"></script>
+<script src="/js/main.js"></script>
+<script src="/js/local.search.js"></script>
+
+
+</body>
+</html>

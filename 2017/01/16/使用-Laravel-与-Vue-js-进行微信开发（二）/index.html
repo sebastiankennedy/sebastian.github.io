@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>使用 Laravel 与 Vue.js 进行微信开发（二） | “人类的悲欢并不相通，我只觉得他们吵闹。”</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="author" content="Sebastian Kennedy">
+  <meta name="keywords" content="Sebastian Kennedy Blog PHP Laravel Yii">
+  <meta name="description" content="Sebastian Kennedy Blog PHP Laravel Yii">
+  <script id="hexo-configurations">
+  var CONFIG = {
+    root: '/',
+    theme: 'lx',
+    version: '1.4.5',
+    localsearch:{
+      "enable": true,
+      "trigger": "auto",
+      "top_n_per_article": 1,
+      "unescape": false,
+      "preload": false
+      },
+    path: 'search.xml'
+  };
+</script>
+
+  <link rel="shortcut icon" href="https://sebastian-1256190695.cos.ap-guangzhou.myqcloud.com/person_1.jpg">
+  <link rel="stylesheet" href="/css/main.css">
+  <script src="/js/jquery.min.js"></script>
+  <script src="/js/jquery.jside.menu.js"></script>
+	<script>
+	$(document).ready(function(){
+	$(".menu-container").jSideMenu({
+	    jSidePosition: "position-right",
+	    jSideSticky: true,
+	    jSideSkin: "black-grey",
+	     });
+	}); 
+	</script>
+  <!--Google_Analytics-->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-150354789-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'UA-150354789-1');
+</script>
+
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:300|Noto+Serif+SC&amp;display=swap">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/font-awesome@4/css/font-awesome.min.css">
+</head>
+<body>
+<div class="single">
+<div id="page">
+<div id="lx-aside" style="background-image: url(https://sebastian-1256190695.cos.ap-guangzhou.myqcloud.com/page-cover.jpg)" data-stellar-background-ratio="0.5">
+  <div class="overlay">
+  <div class="page-title">
+    <div class="avatar"><a href="/"><img src="https://sebastian-1256190695.cos.ap-guangzhou.myqcloud.com/person_1.jpg"></a></div>
+    <span>2017-01-16</span>
+    <h2>使用 Laravel 与 Vue.js 进行微信开发（二）</h2>
+    <div class="tags"><i class="fa fa-tag"></i><a class="tag-link" href="/tags/Laravel/">Laravel</a></div>
+    </div>
+</div>
+</div>
+<div id="lx-main-content">
+  <div class="lx-post">
+    <div class="lx-entry padding">
+      <div>
+        <h2 id="目标"><a class="header-anchor" href="#目标"></a>目标</h2>
+<p>本文的目标是实现微信用户授权，当用户进入 Web App 的时候，能够获取用户的信息。</p>
+<h2 id="配置回调地址"><a class="header-anchor" href="#配置回调地址"></a>配置回调地址</h2>
+<p>微信公众平台 -&gt; 开发者工具 -&gt; 公众平台测试帐号 -&gt; 测试号管理 -&gt; 体验接口权限表 -&gt; 功能服务 -&gt; 网页帐号 -&gt; 修改 -&gt; 填写回调域名，格式如：<a href="http://www.baidu.com" target="_blank" rel="noopener">www.baidu.com</a></p>
+<h2 id="修改配置文件"><a class="header-anchor" href="#修改配置文件"></a>修改配置文件</h2>
+<p>可以修改文件 config/wechat.php ，也可以在 .env 文件进行配置</p>
+<p>wechat.php 文件配置</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">/*</span><br><span class="line"> * OAuth 配置</span><br><span class="line"> *</span><br><span class="line"> * only_wechat_browser: 只在微信浏览器跳转</span><br><span class="line"> * scopes：公众平台（snsapi_userinfo / snsapi_base），开放平台：snsapi_login</span><br><span class="line"> * callback：OAuth授权完成后的回调页地址(如果使用中间件，则随便填写。。。)</span><br><span class="line"> */</span><br><span class="line"> &apos;oauth&apos; =&gt; [</span><br><span class="line">     &apos;only_wechat_browser&apos; =&gt; false,</span><br><span class="line">     &apos;scopes&apos;   =&gt; array_map(&apos;trim&apos;, explode(&apos;,&apos;, env(&apos;WECHAT_OAUTH_SCOPES&apos;, &apos;snsapi_userinfo&apos;))),</span><br><span class="line">     &apos;callback&apos; =&gt; env(&apos;WECHAT_OAUTH_CALLBACK&apos;, &apos;/examples/oauth_callback.php&apos;),</span><br><span class="line"> ],</span><br></pre></td></tr></table></figure>
+<p>.env 文件配置</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">WECHAT_APPID=****</span><br><span class="line">WECHAT_SECRET=***</span><br><span class="line">WECHAT_TOKEN=****</span><br><span class="line">WECHAT_AES_KEY=</span><br><span class="line"></span><br><span class="line">WECHAT_OAUTH_SCOPES=snsapi_userinfo</span><br><span class="line">WECHAT_OAUTH_CALLBACK=/wechat/oauth-callback</span><br></pre></td></tr></table></figure>
+<h2 id="新增路由"><a class="header-anchor" href="#新增路由"></a>新增路由</h2>
+<p>修改文件 app/Http/Routes/wechat.php，代码如下：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="comment">/* 处理微信发送消息 */</span></span><br><span class="line">Route::any(<span class="string">'/request-handler'</span>, <span class="string">'WeChatServerController@requestHandler'</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">/* 处理微信授权回调 */</span></span><br><span class="line">Route::any(<span class="string">'/oauth-callback'</span>, <span class="string">'WeChatServerController@oauthCallback'</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">/* 微信应用首页 */</span></span><br><span class="line">Route::get(<span class="string">'/'</span>, [</span><br><span class="line">    <span class="string">'as'</span> =&gt; <span class="string">'wechat.index'</span>,</span><br><span class="line">    <span class="string">'uses'</span> =&gt; <span class="string">'WeChatApplicationController@index'</span>,</span><br><span class="line">    <span class="string">'middleware'</span> =&gt; [],</span><br><span class="line">]);</span><br></pre></td></tr></table></figure>
+<h2 id="关闭路由-csrf"><a class="header-anchor" href="#关闭路由-csrf"></a>关闭路由 CSRF</h2>
+<p>修改文件 app/Http/Middleware/VerifyCSsrfToken.php，代码如下：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">protected</span> $except = [</span><br><span class="line">	<span class="string">'/wechat/request-handler'</span>,</span><br><span class="line">	<span class="string">'/wechat/oauth-callback'</span></span><br><span class="line">];</span><br></pre></td></tr></table></figure>
+<h2 id="获取授权"><a class="header-anchor" href="#获取授权"></a>获取授权</h2>
+<h3 id="1-授权页面"><a class="header-anchor" href="#1-授权页面"></a>1.授权页面</h3>
+<p>新增文件 app/Http/Controllers/WeChat/WeChatApplicationController.php，代码如下：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">namespace</span> <span class="title">App</span>\<span class="title">Http</span>\<span class="title">Controllers</span>\<span class="title">WeChat</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">use</span> <span class="title">Illuminate</span>\<span class="title">Http</span>\<span class="title">Request</span>;</span><br><span class="line"><span class="keyword">use</span> <span class="title">App</span>\<span class="title">Http</span>\<span class="title">Controllers</span>\<span class="title">Controller</span>;</span><br><span class="line"><span class="keyword">use</span> <span class="title">EasyWeChat</span>\<span class="title">Foundation</span>\<span class="title">Application</span> <span class="title">as</span> <span class="title">WeChat</span>;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">WeChatApplicationController</span> <span class="keyword">extends</span> <span class="title">Controller</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">index</span><span class="params">(Request $request, WeChat $wechat)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">    	<span class="comment">// 如果 Session 中没有用户信息，则跳转至微信授权页面</span></span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">empty</span>($request-&gt;session()-&gt;has(<span class="string">'weChatUserInfo'</span>))) &#123;</span><br><span class="line">            $oauth = $wechat-&gt;oauth;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">return</span> $oauth-&gt;redirect();</span><br><span class="line">        &#125;</span><br><span class="line">        $user = $request-&gt;session()-&gt;get(<span class="string">'weChatUserInfo'</span>);</span><br><span class="line">        dump($user);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="2-回调操作"><a class="header-anchor" href="#2-回调操作"></a>2.回调操作</h3>
+<p>修改文件 app/Http/Controllers/WeChat/WeChatServerController.php，代码如下：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 微信用户授权回调</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> Request $request</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> WeChat $weChat</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span> \Illuminate\Http\RedirectResponse</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">oauthCallback</span><span class="params">(Request $request, WeChat $weChat)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    $oauth = $weChat-&gt;oauth;</span><br><span class="line">    $user = $oauth-&gt;user();</span><br><span class="line">    $request-&gt;session()-&gt;put(<span class="string">'weChatUserInfo'</span>, $user-&gt;toArray());</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> redirect()-&gt;route(<span class="string">'wechat.index'</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="3-访问首页"><a class="header-anchor" href="#3-访问首页"></a>3.访问首页</h3>
+<p>下载微信的 Web 开发者工具，在工具中访问授权首页，比如访问:你的域名/wechat,可以跳转至授权页，如下图：<br>
+<img src="http://o93kt6djh.bkt.clouddn.com/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202017-01-16%2022.24.46.png" alt><br>
+<img src="http://o93kt6djh.bkt.clouddn.com/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202017-01-16%2022.25.06.png" alt></p>
+
+      </div>
+    </div>
+  </div>
+</div>
+<div class="lx-navigation">
+	<div class="lx-cover prev lx-cover-sm" style="background-image: url(https://sebastian-1256190695.cos.ap-guangzhou.myqcloud.com/footer_2.jpg)">
+		<div class="overlay"></div>
+		<a class="copy" href="/2017/01/16/使用-Laravel-与-Vue-js-进行微信开发（三）/">
+			<div class="display-t">
+				<div class="display-tc">
+					<div>
+						<span>Next</span>
+						<h3>使用 Laravel 与 Vue.js 进行微信开发（三）</h3>
+					</div>
+				</div>
+			</div>
+		</a>
+	</div>
+        <div class="lx-cover next lx-cover-sm" style="background-image: url(https://sebastian-1256190695.cos.ap-guangzhou.myqcloud.com/footer_1.jpg)">
+		<div class="overlay"></div>
+		<a class="copy" href="/2017/01/15/使用-Laravel-与-Vue.js-进行微信开发（一）/">
+			<div class="display-t">
+				<div class="display-tc">
+					<div>
+						<span>Prev</span>
+						<h3>使用 Laravel 与 Vue.js 进行微信开发（一）</h3>
+					</div>
+				</div>
+			</div>
+		</a>
+	</div>
+</div>
+</div>
+<div class="comment"><div id="comments"></div></div>
+<footer>
+  <div>
+  Copyright &copy; 2019.<a href="/">Sebastian Kennedy</a><br>Powered by <a href="https://hexo.io" target="_blank">Hexo</a> | Theme <a href="https://lx.blleng.cn" target="_blank">Lx</a><br>
+  </div>
+</footer>
+</div>
+<a href="javascript:;" class="popup-trigger"><i class="menu-item-icon fa fa-search fa-fw"></i></a>
+<div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="Search..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+<button class="menu-trigger"></button>
+<div class="menu">
+  <div class="menu-head">
+    <span class="layer">
+      <div class="col">
+        <div class="row for-pic">
+          <div class="profile-pic">
+            <a href="/"><img src="https://sebastian-1256190695.cos.ap-guangzhou.myqcloud.com/person_1.jpg" alt="Sebastian Kennedy"></a>
+          </div>
+        </div>
+        <div class="row for-name">
+          <p>Sebastian Kennedy</p>
+          <span class="tagline">人类的悲欢并不相通，我只觉得他们吵闹。</span>
+        </div>
+      </div>
+    </span>
+  </div>
+  <nav class="menu-container">
+  <ul class="menu-items">
+    <li><a href="/"><i class="fa fa-home fa-fw"></i>首页</a></li>
+    <li><a href="/archives/"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+    <li class="has-sub"><span class="dropdown-heading">
+      <i class="fa fa-bookmark fa-fw"></i>页面</span>
+        <ul>
+          <li><a href="/guestbook">留言</a></li>
+        <li><a href="/about">关于</a></li>
+        </ul>
+    </li>
+    <li class="has-sub"><span class="dropdown-heading">
+      <i class="fa fa-link fa-fw"></i>友链</span>
+        <ul>
+          <li> <a href="https://lx.blleng.cn" target="_blank">Theme-Lx</a></li>
+        </ul>
+    </li>
+  </ul>
+  </nav>
+</div>
+
+<div class="gototop js-top">
+  <a href="#" class="js-gotop"><i class="fa fa-arrow-up"></i></a>
+</div>
+<script src="/js/jquery.easing.min.js"></script>
+<script src="/js/jquery.waypoints.min.js"></script>
+<script src="/js/jquery.stellar.min.js"></script>
+<script src="/js/main.js"></script>
+<script src="/js/local.search.js"></script>
+
+
+</body>
+</html>

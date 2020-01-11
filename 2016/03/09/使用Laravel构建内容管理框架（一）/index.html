@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>使用 Laravel 构建内容管理框架（一） | “人类的悲欢并不相通，我只觉得他们吵闹。”</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="author" content="Sebastian Kennedy">
+  <meta name="keywords" content="Sebastian Kennedy Blog PHP Laravel Yii">
+  <meta name="description" content="Sebastian Kennedy Blog PHP Laravel Yii">
+  <script id="hexo-configurations">
+  var CONFIG = {
+    root: '/',
+    theme: 'lx',
+    version: '1.4.5',
+    localsearch:{
+      "enable": true,
+      "trigger": "auto",
+      "top_n_per_article": 1,
+      "unescape": false,
+      "preload": false
+      },
+    path: 'search.xml'
+  };
+</script>
+
+  <link rel="shortcut icon" href="https://sebastian-1256190695.cos.ap-guangzhou.myqcloud.com/person_1.jpg">
+  <link rel="stylesheet" href="/css/main.css">
+  <script src="/js/jquery.min.js"></script>
+  <script src="/js/jquery.jside.menu.js"></script>
+	<script>
+	$(document).ready(function(){
+	$(".menu-container").jSideMenu({
+	    jSidePosition: "position-right",
+	    jSideSticky: true,
+	    jSideSkin: "black-grey",
+	     });
+	}); 
+	</script>
+  <!--Google_Analytics-->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-150354789-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'UA-150354789-1');
+</script>
+
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:300|Noto+Serif+SC&amp;display=swap">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/font-awesome@4/css/font-awesome.min.css">
+</head>
+<body>
+<div class="single">
+<div id="page">
+<div id="lx-aside" style="background-image: url(https://sebastian-1256190695.cos.ap-guangzhou.myqcloud.com/page-cover.jpg)" data-stellar-background-ratio="0.5">
+  <div class="overlay">
+  <div class="page-title">
+    <div class="avatar"><a href="/"><img src="https://sebastian-1256190695.cos.ap-guangzhou.myqcloud.com/person_1.jpg"></a></div>
+    <span>2016-03-09</span>
+    <h2>使用 Laravel 构建内容管理框架（一）</h2>
+    <div class="tags"><i class="fa fa-tag"></i><a class="tag-link" href="/tags/Laravel/">Laravel</a></div>
+    </div>
+</div>
+</div>
+<div id="lx-main-content">
+  <div class="lx-post">
+    <div class="lx-entry padding">
+      <div>
+        <p>为使用 Laravel 构建内容管理框架做好环境、代码和脚本的准备</p>
+<h1 id="安装laravel"><a class="header-anchor" href="#安装laravel"></a>安装Laravel</h1>
+<hr>
+<p>在终端使用Composer安装Laravel</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo composer create-project laravel/laravel backend --prefer-dist 5.1.x</span><br></pre></td></tr></table></figure>
+<p>执行后，会在当前目录下新建一个文件夹，里面就是新建的Laravel项目</p>
+<h1 id="安装gulp-bower"><a class="header-anchor" href="#安装gulp-bower"></a>安装gulp、bower</h1>
+<hr>
+<p>在终端使用npm安装gulp</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">sudo npm install -g gulp  #全局安装npm</span><br><span class="line">sudo npm install -g bower #全局安装bower</span><br><span class="line"></span><br><span class="line">cd backend</span><br><span class="line">sudo npm install gulp   #在项目本地安装gulp</span><br><span class="line">sudo npm install bower  #在项目本地安装bower</span><br><span class="line">sudp npm install        #安装项目Node依赖、Laravel Elixir</span><br></pre></td></tr></table></figure>
+<p>运行<code>gulp tdd</code>之后，会自动监控测试单元</p>
+<h1 id="使用bower集成前端依赖库"><a class="header-anchor" href="#使用bower集成前端依赖库"></a>使用bower集成前端依赖库</h1>
+<hr>
+<p>在项目根目录新增文件<code>.bowerrc</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    &quot;directory&quot;: &quot;vendor/bower&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上述配置告诉bower在<code>vendor/bower</code>存放下载文件<br>
+执行命令<code>bower init</code>创建文件<code>bower.json</code></p>
+<p>依赖安装所需前端资源</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo bower install admin-lte</span><br><span class="line">sudo bower install fontawesome</span><br><span class="line">sudo bower install ionicons</span><br></pre></td></tr></table></figure>
+<p>打开文件<code>gulpfile.js</code>，编辑如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br></pre></td><td class="code"><pre><span class="line">var gulp = require(&apos;gulp&apos;);</span><br><span class="line">var elixir = require(&apos;laravel-elixir&apos;);</span><br><span class="line"></span><br><span class="line">gulp.task(&apos;copy&apos;, function () &#123;</span><br><span class="line">    // jQuery</span><br><span class="line">    gulp.src(&quot;vendor/bower/AdminLTE/plugins/jQuery/jQuery-2.1.4.min.js&quot;)</span><br><span class="line">        .pipe(gulp.dest(&quot;resources/assets/js/&quot;));</span><br><span class="line"></span><br><span class="line">    // bootstarp</span><br><span class="line">    gulp.src(&quot;vendor/bower/AdminLTE/bootstrap/css/bootstrap.min.css&quot;)</span><br><span class="line">        .pipe(gulp.dest(&quot;resources/assets/css/&quot;));</span><br><span class="line">    gulp.src(&quot;vendor/bower/AdminLTE/bootstrap/js/bootstrap.min.js&quot;)</span><br><span class="line">        .pipe(gulp.dest(&quot;resources/assets/js/&quot;));</span><br><span class="line"></span><br><span class="line">    // AdminLTE</span><br><span class="line">    gulp.src(&quot;vendor/bower/AdminLTE/dist/css/AdminLTE.min.css&quot;)</span><br><span class="line">        .pipe(gulp.dest(&quot;resources/assets/css/&quot;));</span><br><span class="line">    gulp.src(&quot;vendor/bower/AdminLTE/dist/css/skins/skin-blue.min.css&quot;)</span><br><span class="line">        .pipe(gulp.dest(&quot;resources/assets/css/&quot;));</span><br><span class="line">    gulp.src(&quot;vendor/bower/AdminLTE/dist/js/app.min.js&quot;)</span><br><span class="line">        .pipe(gulp.dest(&quot;resources/assets/js/&quot;));</span><br><span class="line">    gulp.src(&quot;vendor/bower/AdminLTE/dist/img/*&quot;)</span><br><span class="line">        .pipe(gulp.dest(&quot;public/assets/img/&quot;));</span><br><span class="line"></span><br><span class="line">    // Fontawesome</span><br><span class="line">    gulp.src(&quot;vendor/bower/font-awesome/css/font-awesome.min.css&quot;)</span><br><span class="line">        .pipe(gulp.dest(&quot;resources/assets/css/&quot;));</span><br><span class="line">    gulp.src(&quot;vendor/bower/font-awesome/fonts/*&quot;)</span><br><span class="line">        .pipe(gulp.dest(&quot;public/assets/fonts/&quot;));</span><br><span class="line"></span><br><span class="line">    // Ionicons</span><br><span class="line">    gulp.src(&quot;vendor/bower/Ionicons/css/ionicons.min.css&quot;)</span><br><span class="line">        .pipe(gulp.dest(&quot;resources/assets/css/&quot;));</span><br><span class="line">    gulp.src(&quot;vendor/bower/Ionicons/fonts/*&quot;)</span><br><span class="line">        .pipe(gulp.dest(&quot;public/assets/fonts/&quot;));</span><br><span class="line"></span><br><span class="line">    // slimScroll</span><br><span class="line">    gulp.src(&quot;vendor/bower/AdminLTE/plugins/slimScroll/jquery.slimscroll.min.js&quot;)</span><br><span class="line">        .pipe(gulp.dest(&quot;resources/assets/js/&quot;));</span><br><span class="line"></span><br><span class="line">    // iCheck</span><br><span class="line">    gulp.src(&quot;vendor/bower/AdminLTE/plugins/iCheck/icheck.min.js&quot;)</span><br><span class="line">        .pipe(gulp.dest(&quot;resources/assets/js/&quot;));</span><br><span class="line">    gulp.src(&quot;vendor/bower/AdminLTE/plugins/iCheck/square/blue.css&quot;)</span><br><span class="line">        .pipe(gulp.dest(&quot;resources/assets/css/&quot;));</span><br><span class="line">    gulp.src(&quot;vendor/bower/AdminLTE/plugins/iCheck/square/blue.png&quot;)</span><br><span class="line">        .pipe(gulp.dest(&quot;public/assets/css/&quot;));</span><br><span class="line">    gulp.src(&quot;vendor/bower/AdminLTE/plugins/iCheck/square/blue@2x.png&quot;)</span><br><span class="line">        .pipe(gulp.dest(&quot;public/assets/css/&quot;));</span><br><span class="line"></span><br><span class="line">    // select2</span><br><span class="line">    gulp.src(&quot;vendor/bower/AdminLTE/plugins/select2/select2.full.min.js&quot;)</span><br><span class="line">        .pipe(gulp.dest(&quot;resources/assets/js/&quot;));</span><br><span class="line">    gulp.src(&quot;vendor/bower/AdminLTE/plugins/select2/select2.min.js&quot;)</span><br><span class="line">        .pipe(gulp.dest(&quot;resources/assets/js/&quot;));</span><br><span class="line">    gulp.src(&quot;vendor/bower/AdminLTE/plugins/select2/select2.min.css&quot;)</span><br><span class="line">        .pipe(gulp.dest(&quot;resources/assets/css/&quot;));</span><br><span class="line"></span><br><span class="line">    // pace</span><br><span class="line">    gulp.src(&quot;vendor/bower/AdminLTE/plugins/pace/pace.min.css&quot;)</span><br><span class="line">        .pipe(gulp.dest(&quot;resources/assets/css/&quot;));</span><br><span class="line">    gulp.src(&quot;vendor/bower/AdminLTE/plugins/pace/pace.min.js&quot;)</span><br><span class="line">        .pipe(gulp.dest(&quot;resources/assets/js/&quot;));</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">elixir(function (mix) &#123;</span><br><span class="line">    // 合并javascript脚本</span><br><span class="line">    mix.scripts(</span><br><span class="line">        [</span><br><span class="line">            &apos;jQuery-2.1.4.min.js&apos;,</span><br><span class="line">            &apos;bootstrap.min.js&apos;,</span><br><span class="line">            &apos;app.min.js&apos;,</span><br><span class="line">            &apos;pace.min.js&apos;,</span><br><span class="line">            &apos;jquery.slimscroll.min.js&apos;,</span><br><span class="line">            &apos;icheck.min.js&apos;,</span><br><span class="line">            &apos;select2.full.min.js&apos;,</span><br><span class="line">            &apos;select2.min.js&apos;</span><br><span class="line">        ],</span><br><span class="line">        &apos;public/assets/js/app.js&apos;,</span><br><span class="line">        &apos;resources/assets/js/&apos;</span><br><span class="line">    );</span><br><span class="line"></span><br><span class="line">    // 合并css脚本</span><br><span class="line">    mix.styles(</span><br><span class="line">        [</span><br><span class="line">            &apos;bootstrap.min.css&apos;,</span><br><span class="line">            &apos;pace.min.css&apos;,</span><br><span class="line">            &apos;select2.min.css&apos;,</span><br><span class="line">            &apos;AdminLTE.min.css&apos;,</span><br><span class="line">            &apos;skin-blue.min.css&apos;,</span><br><span class="line">            &apos;font-awesome.min.css&apos;,</span><br><span class="line">            &apos;ionicons.min.css&apos;,</span><br><span class="line">            &apos;blue.css&apos;</span><br><span class="line">        ],</span><br><span class="line">        &apos;public/assets/css/app.css&apos;,</span><br><span class="line">        &apos;resources/assets/css/&apos;</span><br><span class="line">    );</span><br><span class="line"></span><br><span class="line">    // 运行单元测试</span><br><span class="line">    mix.phpUnit();</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>在终端执行命令如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">gulp copy</span><br><span class="line">gulp</span><br></pre></td></tr></table></figure>
+<p>上述操作将会在根目录文件夹<code>public/assets/</code>生成所需的前端资源，接下来就是在视图模板中使用。</p>
+
+      </div>
+    </div>
+  </div>
+</div>
+<div class="lx-navigation">
+	<div class="lx-cover prev lx-cover-sm" style="background-image: url(https://sebastian-1256190695.cos.ap-guangzhou.myqcloud.com/footer_2.jpg)">
+		<div class="overlay"></div>
+		<a class="copy" href="/2016/03/13/使用-Sublime-Text-3-开发-PHP-的总结/">
+			<div class="display-t">
+				<div class="display-tc">
+					<div>
+						<span>Next</span>
+						<h3>使用 Sublime Text 3 开发 PHP 的心得</h3>
+					</div>
+				</div>
+			</div>
+		</a>
+	</div>
+        <div class="lx-cover next lx-cover-sm" style="background-image: url(https://sebastian-1256190695.cos.ap-guangzhou.myqcloud.com/footer_1.jpg)">
+		<div class="overlay"></div>
+		<a class="copy" href="#">
+			<div class="display-t">
+				<div class="display-tc">
+					<div>
+						<span>Prev</span>
+						<h3>没有更早的文章</h3>
+					</div>
+				</div>
+			</div>
+		</a>
+	</div>
+</div>
+</div>
+<div class="comment"><div id="comments"></div></div>
+<footer>
+  <div>
+  Copyright &copy; 2019.<a href="/">Sebastian Kennedy</a><br>Powered by <a href="https://hexo.io" target="_blank">Hexo</a> | Theme <a href="https://lx.blleng.cn" target="_blank">Lx</a><br>
+  </div>
+</footer>
+</div>
+<a href="javascript:;" class="popup-trigger"><i class="menu-item-icon fa fa-search fa-fw"></i></a>
+<div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="Search..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+<button class="menu-trigger"></button>
+<div class="menu">
+  <div class="menu-head">
+    <span class="layer">
+      <div class="col">
+        <div class="row for-pic">
+          <div class="profile-pic">
+            <a href="/"><img src="https://sebastian-1256190695.cos.ap-guangzhou.myqcloud.com/person_1.jpg" alt="Sebastian Kennedy"></a>
+          </div>
+        </div>
+        <div class="row for-name">
+          <p>Sebastian Kennedy</p>
+          <span class="tagline">人类的悲欢并不相通，我只觉得他们吵闹。</span>
+        </div>
+      </div>
+    </span>
+  </div>
+  <nav class="menu-container">
+  <ul class="menu-items">
+    <li><a href="/"><i class="fa fa-home fa-fw"></i>首页</a></li>
+    <li><a href="/archives/"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+    <li class="has-sub"><span class="dropdown-heading">
+      <i class="fa fa-bookmark fa-fw"></i>页面</span>
+        <ul>
+          <li><a href="/guestbook">留言</a></li>
+        <li><a href="/about">关于</a></li>
+        </ul>
+    </li>
+    <li class="has-sub"><span class="dropdown-heading">
+      <i class="fa fa-link fa-fw"></i>友链</span>
+        <ul>
+          <li> <a href="https://lx.blleng.cn" target="_blank">Theme-Lx</a></li>
+        </ul>
+    </li>
+  </ul>
+  </nav>
+</div>
+
+<div class="gototop js-top">
+  <a href="#" class="js-gotop"><i class="fa fa-arrow-up"></i></a>
+</div>
+<script src="/js/jquery.easing.min.js"></script>
+<script src="/js/jquery.waypoints.min.js"></script>
+<script src="/js/jquery.stellar.min.js"></script>
+<script src="/js/main.js"></script>
+<script src="/js/local.search.js"></script>
+
+
+</body>
+</html>

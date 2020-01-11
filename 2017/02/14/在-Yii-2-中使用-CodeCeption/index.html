@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>在 Yii 2 中使用 CodeCeption | “人类的悲欢并不相通，我只觉得他们吵闹。”</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="author" content="Sebastian Kennedy">
+  <meta name="keywords" content="Sebastian Kennedy Blog PHP Laravel Yii">
+  <meta name="description" content="Sebastian Kennedy Blog PHP Laravel Yii">
+  <script id="hexo-configurations">
+  var CONFIG = {
+    root: '/',
+    theme: 'lx',
+    version: '1.4.5',
+    localsearch:{
+      "enable": true,
+      "trigger": "auto",
+      "top_n_per_article": 1,
+      "unescape": false,
+      "preload": false
+      },
+    path: 'search.xml'
+  };
+</script>
+
+  <link rel="shortcut icon" href="https://sebastian-1256190695.cos.ap-guangzhou.myqcloud.com/person_1.jpg">
+  <link rel="stylesheet" href="/css/main.css">
+  <script src="/js/jquery.min.js"></script>
+  <script src="/js/jquery.jside.menu.js"></script>
+	<script>
+	$(document).ready(function(){
+	$(".menu-container").jSideMenu({
+	    jSidePosition: "position-right",
+	    jSideSticky: true,
+	    jSideSkin: "black-grey",
+	     });
+	}); 
+	</script>
+  <!--Google_Analytics-->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-150354789-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'UA-150354789-1');
+</script>
+
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:300|Noto+Serif+SC&amp;display=swap">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/font-awesome@4/css/font-awesome.min.css">
+</head>
+<body>
+<div class="single">
+<div id="page">
+<div id="lx-aside" style="background-image: url(https://sebastian-1256190695.cos.ap-guangzhou.myqcloud.com/page-cover.jpg)" data-stellar-background-ratio="0.5">
+  <div class="overlay">
+  <div class="page-title">
+    <div class="avatar"><a href="/"><img src="https://sebastian-1256190695.cos.ap-guangzhou.myqcloud.com/person_1.jpg"></a></div>
+    <span>2017-02-14</span>
+    <h2>在 Yii 2 中使用 CodeCeption</h2>
+    <div class="tags"><i class="fa fa-tag"></i><a class="tag-link" href="/tags/Yii/">Yii</a></div>
+    </div>
+</div>
+</div>
+<div id="lx-main-content">
+  <div class="lx-post">
+    <div class="lx-entry padding">
+      <div>
+        <h2 id="安装-yii2"><a class="header-anchor" href="#安装-yii2"></a>安装 Yii2</h2>
+<p>使用 Composer 安装 Yii 2 高级模板项目</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sudo composer global require "fxp/composer-asset-plugin:^1.2.0"</span><br><span class="line">sudo composer create-project --prefer-dist yiisoft/yii2-app-advanced yii-application</span><br><span class="line">cd yii-application</span><br><span class="line">sudo composer install</span><br></pre></td></tr></table></figure>
+<p>配置 Apache 服务器</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">&lt;VirtualHost *:80&gt;</span></span><br><span class="line">   <span class="attribute"><span class="nomarkup">ServerName</span></span> frontend.dev</span><br><span class="line">   <span class="attribute"><span class="nomarkup">DocumentRoot</span></span> <span class="string">"/path/to/yii-application/frontend/web/"</span></span><br><span class="line"></span><br><span class="line">   <span class="section">&lt;Directory "/path/to/yii-application/frontend/web/"&gt;</span></span><br><span class="line">       <span class="comment"># use mod_rewrite for pretty URL support</span></span><br><span class="line">       <span class="attribute"><span class="nomarkup">RewriteEngine</span></span> <span class="literal">on</span></span><br><span class="line">       <span class="comment"># If a directory or a file exists, use the request directly</span></span><br><span class="line">       <span class="attribute"><span class="nomarkup">RewriteCond</span></span> <span class="variable">%&#123;REQUEST_FILENAME&#125;</span> !-f</span><br><span class="line">       <span class="attribute"><span class="nomarkup">RewriteCond</span></span> <span class="variable">%&#123;REQUEST_FILENAME&#125;</span> !-d</span><br><span class="line">       <span class="comment"># Otherwise forward the request to index.php</span></span><br><span class="line">       <span class="attribute"><span class="nomarkup">RewriteRule</span></span> . index.php</span><br><span class="line"></span><br><span class="line">       <span class="comment"># use index.php as index file</span></span><br><span class="line">       <span class="attribute">DirectoryIndex</span> index.php</span><br><span class="line"></span><br><span class="line">       <span class="comment"># ...other settings...</span></span><br><span class="line">       <span class="comment"># Apache 2.4</span></span><br><span class="line">       <span class="attribute">Require</span> <span class="literal">all</span> granted</span><br><span class="line"></span><br><span class="line">       <span class="comment">## Apache 2.2</span></span><br><span class="line">       <span class="comment"># Order allow,deny</span></span><br><span class="line">       <span class="comment"># Allow from all</span></span><br><span class="line">   <span class="section">&lt;/Directory&gt;</span></span><br><span class="line"><span class="section">&lt;/VirtualHost&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="section">&lt;VirtualHost *:80&gt;</span></span><br><span class="line">   <span class="attribute"><span class="nomarkup">ServerName</span></span> backend.dev</span><br><span class="line">   <span class="attribute"><span class="nomarkup">DocumentRoot</span></span> <span class="string">"/path/to/yii-application/backend/web/"</span></span><br><span class="line"></span><br><span class="line">   <span class="section">&lt;Directory "/path/to/yii-application/backend/web/"&gt;</span></span><br><span class="line">       <span class="comment"># use mod_rewrite for pretty URL support</span></span><br><span class="line">       <span class="attribute"><span class="nomarkup">RewriteEngine</span></span> <span class="literal">on</span></span><br><span class="line">       <span class="comment"># If a directory or a file exists, use the request directly</span></span><br><span class="line">       <span class="attribute"><span class="nomarkup">RewriteCond</span></span> <span class="variable">%&#123;REQUEST_FILENAME&#125;</span> !-f</span><br><span class="line">       <span class="attribute"><span class="nomarkup">RewriteCond</span></span> <span class="variable">%&#123;REQUEST_FILENAME&#125;</span> !-d</span><br><span class="line">       <span class="comment"># Otherwise forward the request to index.php</span></span><br><span class="line">       <span class="attribute"><span class="nomarkup">RewriteRule</span></span> . index.php</span><br><span class="line"></span><br><span class="line">       <span class="comment"># use index.php as index file</span></span><br><span class="line">       <span class="attribute">DirectoryIndex</span> index.php</span><br><span class="line"></span><br><span class="line">       <span class="comment"># ...other settings...</span></span><br><span class="line">       <span class="comment"># Apache 2.4</span></span><br><span class="line">       <span class="attribute">Require</span> <span class="literal">all</span> granted</span><br><span class="line"></span><br><span class="line">       <span class="comment">## Apache 2.2</span></span><br><span class="line">       <span class="comment"># Order allow,deny</span></span><br><span class="line">       <span class="comment"># Allow from all</span></span><br><span class="line">   <span class="section">&lt;/Directory&gt;</span></span><br><span class="line"><span class="section">&lt;/VirtualHost&gt;</span></span><br></pre></td></tr></table></figure>
+<h2 id="安装-codeception"><a class="header-anchor" href="#安装-codeception"></a>安装 Codeception</h2>
+<p>在项目根目录执行以下命令安装 codeception 扩展</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sudo composer global require "codeception/codeception=*"</span><br><span class="line">sudo composer global require "codeception/specify=*"</span><br><span class="line">sudo composer global require "codeception/verify=*"</span><br><span class="line">sudo composer require --dev "yiisoft/yii2-faker=*"</span><br></pre></td></tr></table></figure>
+<p>将 codeception 命令配置进环境变量中</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">vim .zshrc</span><br><span class="line"></span><br><span class="line">// 在文件 .zshrc 中添加以下代码，且保存退出</span><br><span class="line">alias codecept="/Users/LuisEdware/.composer/vendor/codeception/codeception/codecept"</span><br><span class="line"></span><br><span class="line">source .zshrc</span><br></pre></td></tr></table></figure>
+<p>在项目中使用 codeception</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cd frontend/</span><br><span class="line">sudo chmod -R 777 tests</span><br><span class="line">codecept build</span><br><span class="line">codecept run</span><br></pre></td></tr></table></figure>
+<h2 id="单元测试-unit-test"><a class="header-anchor" href="#单元测试-unit-test"></a>单元测试（Unit Test）</h2>
+<p>单元测试是针对程序模块来进行正确性检验的测试工作，可以通过单元测试来确认深藏在代码里面的某些功能仍然可用, 单元测试能消除程序单元的不可靠性。</p>
+<p>Codeception 的单元测试功能是基于 PHPUnit 之上的, 你可以照样写 PHPUnit 的测试代码, Codeception 一样能运行。</p>
+<h4 id="创建单元测试"><a class="header-anchor" href="#创建单元测试"></a>创建单元测试</h4>
+<p>使用 Codeception 的生成器来执行以下命令生成单元测试</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd frontend</span><br><span class="line">codecept generate:test unit Example</span><br></pre></td></tr></table></figure>
+<p>上述命令会在 tests/unit 目录创建一个 ExampleTest 文件，代码如下：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">namespace</span> <span class="title">frontend</span>\<span class="title">tests</span>;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ExampleTest</span> <span class="keyword">extends</span> \<span class="title">Codeception</span>\<span class="title">Test</span>\<span class="title">Unit</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@var</span> \frontend\tests\UnitTester</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">protected</span> $tester;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">protected</span> <span class="function"><span class="keyword">function</span> <span class="title">_before</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">protected</span> <span class="function"><span class="keyword">function</span> <span class="title">_after</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">testPushAndPop</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        $stack = [];</span><br><span class="line">        <span class="keyword">$this</span>-&gt;assertEquals(<span class="number">0</span>, count($stack));</span><br><span class="line"></span><br><span class="line">        array_push($stack, <span class="string">'foo'</span>);</span><br><span class="line">        <span class="keyword">$this</span>-&gt;assertEquals(<span class="string">'foo'</span>, $stack[count($stack)<span class="number">-1</span>]);</span><br><span class="line">        <span class="keyword">$this</span>-&gt;assertEquals(<span class="number">1</span>, count($stack));</span><br><span class="line"></span><br><span class="line">        <span class="keyword">$this</span>-&gt;assertEquals(<span class="string">'foo'</span>, array_pop($stack));</span><br><span class="line">        <span class="keyword">$this</span>-&gt;assertEquals(<span class="number">0</span>, count($stack));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h6 id="测试依赖"><a class="header-anchor" href="#测试依赖"></a>测试依赖</h6>
+<p>通过 <code>@depends</code> 让测试方法之间进行关联依赖</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">namespace</span> <span class="title">frontend</span>\<span class="title">tests</span>;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ExampleTest</span> <span class="keyword">extends</span> \<span class="title">Codeception</span>\<span class="title">Test</span>\<span class="title">Unit</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">testEmpty</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        $stack = [];</span><br><span class="line">        <span class="keyword">$this</span>-&gt;assertEmpty($stack);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> $stack;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@depends</span> testEmpty</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">testPush</span><span class="params">(array $stack)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        array_push($stack, <span class="string">'foo'</span>);</span><br><span class="line">        <span class="keyword">$this</span>-&gt;assertEquals(<span class="string">'foo'</span>, $stack[count($stack)<span class="number">-1</span>]);</span><br><span class="line">        <span class="keyword">$this</span>-&gt;assertNotEmpty($stack);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> $stack;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@depends</span> testPush</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">testPop</span><span class="params">(array $stack)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">$this</span>-&gt;assertEquals(<span class="string">'foo'</span>, array_pop($stack));</span><br><span class="line">        <span class="keyword">$this</span>-&gt;assertEmpty($stack);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h6 id="数据提供商"><a class="header-anchor" href="#数据提供商"></a>数据提供商</h6>
+<p>通过 <code>@dataProvider</code> 让测试方法迭代运行数据提供者方法的数据</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">namespace</span> <span class="title">frontend</span>\<span class="title">tests</span>;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">DataTest</span> <span class="keyword">extends</span> \<span class="title">Codeception</span>\<span class="title">Test</span>\<span class="title">Unit</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@var</span> \frontend\tests\UnitTester</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">protected</span> $tester;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">protected</span> <span class="function"><span class="keyword">function</span> <span class="title">_before</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">protected</span> <span class="function"><span class="keyword">function</span> <span class="title">_after</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@dataProvider</span> additionProvider</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">testAdd</span><span class="params">($a, $b, $expected)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">echo</span> $a;</span><br><span class="line">        <span class="keyword">echo</span> $b;</span><br><span class="line">        <span class="keyword">echo</span> $expected;</span><br><span class="line">        <span class="keyword">$this</span>-&gt;assertEquals($expected, $a + $b);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">additionProvider</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> [</span><br><span class="line">            [<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>],</span><br><span class="line">            [<span class="number">0</span>, <span class="number">1</span>, <span class="number">1</span>],</span><br><span class="line">            [<span class="number">1</span>, <span class="number">0</span>, <span class="number">1</span>],</span><br><span class="line">            [<span class="number">1</span>, <span class="number">1</span>, <span class="number">2</span>]</span><br><span class="line">        ];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h6 id="抛出异常"><a class="header-anchor" href="#抛出异常"></a>抛出异常</h6>
+<p>通过 <code>@expectedException</code> 或方法 <code>$this-&gt;expectException()</code> 在测试实例中抛出异常</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">namespace</span> <span class="title">frontend</span>\<span class="title">tests</span>;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ExceptionTest</span> <span class="keyword">extends</span> \<span class="title">Codeception</span>\<span class="title">Test</span>\<span class="title">Unit</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">testException</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">$this</span>-&gt;expectException(InvalidArgumentException::class);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@expectedException</span> InvalidArgumentException</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">testExceptionTow</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h6 id="断点输出"><a class="header-anchor" href="#断点输出"></a>断点输出</h6>
+<p>通过方法 <code>$this-&gt;expectOutputString()</code> 生成一个预期的输出。当实际输出和预期输出不一致时，则测试不通过。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">use</span> <span class="title">PHPUnit</span>\<span class="title">Framework</span>\<span class="title">TestCase</span>;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">OutputTest</span> <span class="keyword">extends</span> <span class="title">TestCase</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">testExpectFooActualFoo</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">$this</span>-&gt;expectOutputString(<span class="string">'foo'</span>);</span><br><span class="line">        <span class="keyword">print</span> <span class="string">'foo'</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">testExpectBarActualBaz</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">$this</span>-&gt;expectOutputString(<span class="string">'bar'</span>);</span><br><span class="line">        <span class="keyword">print</span> <span class="string">'baz'</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Codeception 的更多 Unit Tests 信息请参考链接：</p>
+<ul>
+<li><a href="https://github.com/Codeception/Codeception/blob/2.0/docs/06-UnitTests.md" target="_blank" rel="noopener">https://github.com/Codeception/Codeception/blob/2.0/docs/06-UnitTests.md</a></li>
+<li><a href="https://github.com/Codeception/Codeception/blob/2.0/docs/modules/Yii2.md" target="_blank" rel="noopener">https://github.com/Codeception/Codeception/blob/2.0/docs/modules/Yii2.md</a></li>
+</ul>
+<h2 id="创建接口测试-restful-api-test"><a class="header-anchor" href="#创建接口测试-restful-api-test"></a>创建接口测试（RESTFUL API TEST）</h2>
+<p>创建 RESTFUL API 测试配置文件，新增文件 <code>api.suite.yml</code> 和文件夹 <code>api</code></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">codecept generate:suite api</span><br></pre></td></tr></table></figure>
+<p>修改配置文件 <code>api.suite.yml</code> 如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">class_name: ApiTester</span><br><span class="line">modules:</span><br><span class="line">    enabled:</span><br><span class="line">        - REST:</span><br><span class="line">            url: www.frontend.dev/index.php?r=</span><br><span class="line">            depends: Yii2</span><br><span class="line">        - \ApiBundle\Helper\Api</span><br><span class="line">    config:</span><br><span class="line">        - Yii2</span><br></pre></td></tr></table></figure>
+<p>创建 RESTFUL API 测试文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">codecept generate:cept api CreateUser</span><br></pre></td></tr></table></figure>
+<p>修改生成文件代码如下：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">use</span> <span class="title">frontend</span>\<span class="title">tests</span>\<span class="title">ApiTester</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 发送 HTTP GET 请求</span></span><br><span class="line">$I = <span class="keyword">new</span> ApiTester($scenario);</span><br><span class="line">$I-&gt;wantTo(<span class="string">'I want to test RESTFUL API'</span>);</span><br><span class="line">$I-&gt;sendGET(<span class="string">'/api/v1/users/create'</span>);</span><br><span class="line">$I-&gt;seeResponseCodeIs(\Codeception\Util\HttpCode::OK);</span><br><span class="line">$I-&gt;seeResponseIsJson();</span><br><span class="line">$I-&gt;seeResponseContains(<span class="string">'&#123;"result":"ok"&#125;'</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 发送 HTTP POST 请求</span></span><br><span class="line">$I-&gt;sendPOST(<span class="string">'/users'</span>, [<span class="string">'name'</span> =&gt; <span class="string">'davert'</span>, <span class="string">'email'</span> =&gt; <span class="string">'davert@codeception.com'</span>]);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 验证 JSON 响应数据类型</span></span><br><span class="line">$I-&gt;seeResponseMatchesJsonType([</span><br><span class="line">    <span class="string">'id'</span> =&gt; <span class="string">'integer'</span>,</span><br><span class="line">    <span class="string">'name'</span> =&gt; <span class="string">'string'</span>,</span><br><span class="line">    <span class="string">'email'</span> =&gt; <span class="string">'string:email'</span>,</span><br><span class="line">    <span class="string">'homepage'</span> =&gt; <span class="string">'string:url|null'</span>,</span><br><span class="line">    <span class="string">'created_at'</span> =&gt; <span class="string">'string:date'</span>,</span><br><span class="line">    <span class="string">'is_active'</span> =&gt; <span class="string">'boolean'</span></span><br><span class="line">]);</span><br></pre></td></tr></table></figure>
+<p>常用的 REST API 如下：</p>
+<ul>
+<li>wantTo()：配置测试标题</li>
+<li>sendGET()：发送 HTTP GET 请求</li>
+<li>sendPUT()：发送 HTTP PUT 请求</li>
+<li>sendPOST()：发送 HTTP POST 请求</li>
+<li>sendDELETE()：发送 HTTP DELETE 请求</li>
+<li>haveHttpHeader()：设置 HTTP 请求头</li>
+<li>seeHttpHeader()：检查 HTTP 请求头</li>
+<li>seeResponseCodeIs()：检查响应状态码</li>
+<li>seeResponseContains()：检查响应内容</li>
+<li>seeResponseContainsJson()：检查响应数据类型是否为 JSON 和核对响应内容</li>
+<li>seeResponseIsJson()：检查响应是否返回 JSON 数据</li>
+<li>seeResponseJsonMatchesJsonPath()：使用 JSON 数据去检查响应内容</li>
+<li>seeResponseMatchesJsonType()：检查响应数据的数据类型</li>
+</ul>
+<p>Codeception 的更多 RESTFUL API 信息请参考链接：</p>
+<ul>
+<li><a href="https://github.com/Codeception/Codeception/blob/2.0/docs/modules/REST.md" target="_blank" rel="noopener">https://github.com/Codeception/Codeception/blob/2.0/docs/modules/REST.md</a></li>
+<li><a href="https://github.com/Codeception/Codeception/blob/2.0/docs/10-WebServices.md" target="_blank" rel="noopener">https://github.com/Codeception/Codeception/blob/2.0/docs/10-WebServices.md</a></li>
+</ul>
+<h2 id="数据库测试-db-test"><a class="header-anchor" href="#数据库测试-db-test"></a>数据库测试（DB TEST）</h2>
+<p>常用的 DB TEST API 如下：</p>
+<ul>
+<li>seeInDatabase()</li>
+<li>dontSeeInDatabase()</li>
+<li>haveInDatabase()</li>
+<li>grabFromDatabase()</li>
+</ul>
+<p>示例代码如下：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="comment">// 检查 User 表是否存在 'username' 为 'Davert', 'email' 为 'davert@mail.com' 的数据，存在则报错</span></span><br><span class="line">$I-&gt;dontSeeInDatabase(<span class="string">'user'</span>, [<span class="string">'username'</span> =&gt; <span class="string">'Davert'</span>, <span class="string">'email'</span> =&gt; <span class="string">'davert@mail.com'</span>]);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 检查 User 表是否存在 'username' 为 'okirlin', 'email' 为 'brady.renner@rutherford.com' 的数据，不存在则报错</span></span><br><span class="line">$I-&gt;seeInDatabase(<span class="string">'user'</span>, [<span class="string">'username'</span> =&gt; <span class="string">'okirlin'</span>, <span class="string">'email'</span> =&gt; <span class="string">'brady.renner@rutherford.com'</span>]);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 检查 User 表是否能够新增以下数据，无法新增则报错</span></span><br><span class="line">$I-&gt;haveInDatabase(<span class="string">'user'</span>,</span><br><span class="line">  [</span><br><span class="line">    <span class="string">'username'</span> =&gt; <span class="string">'miles'</span>,</span><br><span class="line">    <span class="string">'email'</span> =&gt; <span class="string">'miles@davis.com'</span>,</span><br><span class="line">    <span class="string">'auth_key'</span> =&gt; <span class="string">'EdKfXrx88weFMV0vIxuTMWKgfK2tS321'</span>,</span><br><span class="line">    <span class="string">'password_hash'</span> =&gt; <span class="string">'$2y$13$g5nv41Px7VBqhS3hVsVN2.MKfgT3jFdkXEsMC4rQJLfaMa7VaJqL2'</span>,</span><br><span class="line">    <span class="string">'password_reset_token'</span> =&gt; <span class="string">'4BSNyiZNAuxjs5Mty990c47sVrgllIi_1487317115'</span>,</span><br><span class="line">    <span class="string">'email'</span> =&gt; <span class="string">'506510463@qq.com'</span>,</span><br><span class="line">    <span class="string">'role'</span> =&gt; <span class="number">10</span>,</span><br><span class="line">    <span class="string">'status'</span> =&gt; <span class="number">0</span>,</span><br><span class="line">    <span class="string">'created_at'</span> =&gt; <span class="number">1391885313</span>,</span><br><span class="line">    <span class="string">'updated_at'</span> =&gt; <span class="number">1391885313</span>,</span><br><span class="line">]);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 按照正序获取一条 username = miles 的数据的 email 字段值</span></span><br><span class="line">$mail = $I-&gt;grabFromDatabase(<span class="string">'user'</span>, <span class="string">'email'</span>, <span class="keyword">array</span>(<span class="string">'username'</span> =&gt; <span class="string">'troy.becker'</span>));</span><br><span class="line">var_dump($mail);<span class="keyword">exit</span>;</span><br></pre></td></tr></table></figure>
+<p>Codeception 的更多 DB TEST API 信息请参考链接：</p>
+<ul>
+<li>DB：<a href="https://github.com/Codeception/Codeception/blob/2.0/docs/modules/Db.md" target="_blank" rel="noopener">https://github.com/Codeception/Codeception/blob/2.0/docs/modules/Db.md</a></li>
+<li>DBH：<a href="https://github.com/Codeception/Codeception/blob/2.0/docs/modules/Dbh.md" target="_blank" rel="noopener">https://github.com/Codeception/Codeception/blob/2.0/docs/modules/Dbh.md</a></li>
+<li>Doctrine1：<a href="https://github.com/Codeception/Codeception/blob/2.0/docs/modules/Doctrine1.md" target="_blank" rel="noopener">https://github.com/Codeception/Codeception/blob/2.0/docs/modules/Doctrine1.md</a></li>
+<li>Doctrine2：<a href="https://github.com/Codeception/Codeception/blob/2.0/docs/modules/Doctrine2.md" target="_blank" rel="noopener">https://github.com/Codeception/Codeception/blob/2.0/docs/modules/Doctrine2.md</a></li>
+<li>Working with Data：<a href="https://github.com/Codeception/Codeception/blob/2.0/docs/09-Data.md" target="_blank" rel="noopener">https://github.com/Codeception/Codeception/blob/2.0/docs/09-Data.md</a></li>
+</ul>
+
+      </div>
+    </div>
+  </div>
+</div>
+<div class="lx-navigation">
+	<div class="lx-cover prev lx-cover-sm" style="background-image: url(https://sebastian-1256190695.cos.ap-guangzhou.myqcloud.com/footer_2.jpg)">
+		<div class="overlay"></div>
+		<a class="copy" href="/2017/02/17/学习-UML（二）/">
+			<div class="display-t">
+				<div class="display-tc">
+					<div>
+						<span>Next</span>
+						<h3>学习 UML（二）</h3>
+					</div>
+				</div>
+			</div>
+		</a>
+	</div>
+        <div class="lx-cover next lx-cover-sm" style="background-image: url(https://sebastian-1256190695.cos.ap-guangzhou.myqcloud.com/footer_1.jpg)">
+		<div class="overlay"></div>
+		<a class="copy" href="/2017/02/11/LuisEdware-版-PHP-编程规范（遵循-PSR-1-PSR-2）/">
+			<div class="display-t">
+				<div class="display-tc">
+					<div>
+						<span>Prev</span>
+						<h3>LuisEdware 版 PHP 编程规范（遵循 PSR-1/PSR-2）</h3>
+					</div>
+				</div>
+			</div>
+		</a>
+	</div>
+</div>
+</div>
+<div class="comment"><div id="comments"></div></div>
+<footer>
+  <div>
+  Copyright &copy; 2019.<a href="/">Sebastian Kennedy</a><br>Powered by <a href="https://hexo.io" target="_blank">Hexo</a> | Theme <a href="https://lx.blleng.cn" target="_blank">Lx</a><br>
+  </div>
+</footer>
+</div>
+<a href="javascript:;" class="popup-trigger"><i class="menu-item-icon fa fa-search fa-fw"></i></a>
+<div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="Search..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+<button class="menu-trigger"></button>
+<div class="menu">
+  <div class="menu-head">
+    <span class="layer">
+      <div class="col">
+        <div class="row for-pic">
+          <div class="profile-pic">
+            <a href="/"><img src="https://sebastian-1256190695.cos.ap-guangzhou.myqcloud.com/person_1.jpg" alt="Sebastian Kennedy"></a>
+          </div>
+        </div>
+        <div class="row for-name">
+          <p>Sebastian Kennedy</p>
+          <span class="tagline">人类的悲欢并不相通，我只觉得他们吵闹。</span>
+        </div>
+      </div>
+    </span>
+  </div>
+  <nav class="menu-container">
+  <ul class="menu-items">
+    <li><a href="/"><i class="fa fa-home fa-fw"></i>首页</a></li>
+    <li><a href="/archives/"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+    <li class="has-sub"><span class="dropdown-heading">
+      <i class="fa fa-bookmark fa-fw"></i>页面</span>
+        <ul>
+          <li><a href="/guestbook">留言</a></li>
+        <li><a href="/about">关于</a></li>
+        </ul>
+    </li>
+    <li class="has-sub"><span class="dropdown-heading">
+      <i class="fa fa-link fa-fw"></i>友链</span>
+        <ul>
+          <li> <a href="https://lx.blleng.cn" target="_blank">Theme-Lx</a></li>
+        </ul>
+    </li>
+  </ul>
+  </nav>
+</div>
+
+<div class="gototop js-top">
+  <a href="#" class="js-gotop"><i class="fa fa-arrow-up"></i></a>
+</div>
+<script src="/js/jquery.easing.min.js"></script>
+<script src="/js/jquery.waypoints.min.js"></script>
+<script src="/js/jquery.stellar.min.js"></script>
+<script src="/js/main.js"></script>
+<script src="/js/local.search.js"></script>
+
+
+</body>
+</html>

@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Linux 系统管理 | “人类的悲欢并不相通，我只觉得他们吵闹。”</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="author" content="Sebastian Kennedy">
+  <meta name="keywords" content="Sebastian Kennedy Blog PHP Laravel Yii">
+  <meta name="description" content="Sebastian Kennedy Blog PHP Laravel Yii">
+  <script id="hexo-configurations">
+  var CONFIG = {
+    root: '/',
+    theme: 'lx',
+    version: '1.4.5',
+    localsearch:{
+      "enable": true,
+      "trigger": "auto",
+      "top_n_per_article": 1,
+      "unescape": false,
+      "preload": false
+      },
+    path: 'search.xml'
+  };
+</script>
+
+  <link rel="shortcut icon" href="https://sebastian-1256190695.cos.ap-guangzhou.myqcloud.com/person_1.jpg">
+  <link rel="stylesheet" href="/css/main.css">
+  <script src="/js/jquery.min.js"></script>
+  <script src="/js/jquery.jside.menu.js"></script>
+	<script>
+	$(document).ready(function(){
+	$(".menu-container").jSideMenu({
+	    jSidePosition: "position-right",
+	    jSideSticky: true,
+	    jSideSkin: "black-grey",
+	     });
+	}); 
+	</script>
+  <!--Google_Analytics-->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-150354789-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'UA-150354789-1');
+</script>
+
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:300|Noto+Serif+SC&amp;display=swap">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/font-awesome@4/css/font-awesome.min.css">
+</head>
+<body>
+<div class="single">
+<div id="page">
+<div id="lx-aside" style="background-image: url(https://sebastian-1256190695.cos.ap-guangzhou.myqcloud.com/page-cover.jpg)" data-stellar-background-ratio="0.5">
+  <div class="overlay">
+  <div class="page-title">
+    <div class="avatar"><a href="/"><img src="https://sebastian-1256190695.cos.ap-guangzhou.myqcloud.com/person_1.jpg"></a></div>
+    <span>2016-09-24</span>
+    <h2>Linux 系统管理</h2>
+    <div class="tags"><i class="fa fa-tag"></i><a class="tag-link" href="/tags/Linux/">Linux</a></div>
+    </div>
+</div>
+</div>
+<div id="lx-main-content">
+  <div class="lx-post">
+    <div class="lx-entry padding">
+      <div>
+        <h2 id="进程简介"><a class="header-anchor" href="#进程简介"></a>进程简介</h2>
+<p>进程是正在执行的一个程序或命令，每一个进程都是一个运行的实体，都有自己的地址空间，并占用一定的系统资源</p>
+<h2 id="进程管理的作用"><a class="header-anchor" href="#进程管理的作用"></a>进程管理的作用</h2>
+<ul>
+<li>判断服务器健康状态</li>
+<li>查看系统中所有进程</li>
+<li>杀死进程</li>
+</ul>
+<h2 id="进程的查看"><a class="header-anchor" href="#进程的查看"></a>进程的查看</h2>
+<ul>
+<li>
+<h4 id="ps"><a class="header-anchor" href="#ps"></a>ps</h4>
+<ul>
+<li><code>ps aux</code> 查看系统中所有进程，使用 BSD 操作系统格式</li>
+<li><code>ps -le</code> 查看系统中所有进程，使用 Linux 标准命令模式</li>
+<li>选项：
+<ul>
+<li>a 显示一个终端的所有进程，除了会话引线</li>
+<li>u 显示进程的归属用户及内存的使用情况</li>
+<li>x 显示没有控制终端的进程</li>
+<li>-l 长格式显示。显示更加详细的信息</li>
+<li>-e 显示所有进程，和 -A 作用一致</li>
+</ul>
+</li>
+<li>ps 命令输出
+<ul>
+<li>USER 该进程是由哪个用户产生的</li>
+<li>PID 该进程的 ID 号</li>
+<li>%CPU 该进程占用 CPU 资源的百分比，占用越高，进程越耗费资源</li>
+<li>%MEN 该进程占用物理内存的百分比，占用越高，进程越耗费资源</li>
+<li>VSZ 该进程占用虚拟内存大小，单位 KB</li>
+<li>RSS 该进程占用实际物理内存的大小，单位 KB</li>
+<li>TTY 该进程是在哪个终端中运行的。其中 tty1-tty7 代表本地控制台终端，tty1-tty6 是本地的字符界面终端，tty7 是图形终端。pts/0-255 代表虚拟终端，？ 代表内核运行</li>
+<li>STAT 进程状态
+<ul>
+<li>R 运行</li>
+<li>S 睡眠</li>
+<li>T 停止状态</li>
+<li>
+<ul>
+<li>位于后台</li>
+</ul>
+</li>
+<li>s 包含子进程</li>
+</ul>
+</li>
+<li>START 该进程的启动时间</li>
+<li>TIME 该进程占用 CPU 的运算时间，注意不是系统时间</li>
+<li>COMMAND 产生此进程的命令名</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<h4 id="pstree"><a class="header-anchor" href="#pstree"></a>pstree</h4>
+<ul>
+<li><code>pstree [选项]</code>
+<ul>
+<li>-p 显示进程的 PID</li>
+<li>-u 显示进程的所属用户</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<h4 id="top"><a class="header-anchor" href="#top"></a>top</h4>
+<ul>
+<li><code>top [选项]</code></li>
+<li><code>top -b -n 1 &gt; top.log</code> 把每秒的 top 信息写进 <code>top.log</code> 文件中</li>
+<li>选项：
+<ul>
+<li>-d 秒数 指定 top 命令每隔几秒更新。默认是 3 秒</li>
+<li>-b 使用批处理模式输出。一般和 “-n” 选项合用</li>
+<li>-n 次数 指定 top 命令执行的次数。一般和 “-b” 选项合用</li>
+</ul>
+</li>
+<li>top 命令交互模式可以执行命令
+<ul>
+<li>? 或 h 显示帮助</li>
+<li>M 以内存使用率排序</li>
+<li>P 以 CPU 使用率排序，默认此项</li>
+<li>N 以 PID 排序</li>
+<li>q 退出 top</li>
+</ul>
+</li>
+<li>top 参数意义
+<ul>
+<li>第一行系统信息：
+<ul>
+<li><code>12:26:46</code> 系统当前时间</li>
+<li><code>up 1 day,13:32</code> 系统运行时间，本机已运行了 1 天 13 小时 32 分钟</li>
+<li><code>2 users </code>  当前系统登录了用户</li>
+<li><code>load average: 0.00,0.00,0.00</code> 系统在之前 1 分钟，5 分钟，15 分钟的平均负载。一般认为小于1时，负载较小。如果大于 1，系统已经超出负荷</li>
+</ul>
+</li>
+<li>第二行进程信息：
+<ul>
+<li><code>Tasks: 95 total</code> 系统中的进程总数</li>
+<li><code>1 running</code> 正在运行的进程数</li>
+<li><code>94 sleeping </code> 睡眠的进程</li>
+<li><code>0 stopped</code> 正在停止的进程</li>
+<li><code>0 zombie</code> 僵尸进程。如果不是 0，需要手工检查僵尸进程</li>
+</ul>
+</li>
+<li>第三行 CPU 信息：
+<ul>
+<li><code>Cpu(s) 0.1%us</code> 用户模式占用的 CPU 百分比</li>
+<li><code>0.1%sy</code> 系统模式占用的 CPU 百分比</li>
+<li><code>0.0%ni</code> 改变过优先级的用户进程占用的 CPU 百分比</li>
+<li><code>99.7%id</code> 空闲 CPU 的 CPU 百分比</li>
+<li><code>0.1%wa</code> 等待输入 / 输出的进程的占用 CPU 百分比</li>
+<li><code>0.0%hi</code> 硬中断请求服务占用的 CPU 百分比</li>
+<li><code>0.1%si</code> 软中断请求服务占用的 CPU 百分比</li>
+<li><code>0,0%st</code> 虚拟时间百分比</li>
+</ul>
+</li>
+<li>第四行内存信息：
+<ul>
+<li><code>Mem: 635344k total</code> 物理内存的总量，单位 KB</li>
+<li><code>571504k used</code> 已经使用的物理内存数量</li>
+<li><code>53840k free</code> 空闲的物理内存数量</li>
+<li><code>65800k buffers</code> 作为缓冲的内存数量</li>
+</ul>
+</li>
+<li>第五行交换分区信息：
+<ul>
+<li><code>Swap: 524280k total</code> 交换分区（虚拟内存）的总大小</li>
+<li><code>Ok used</code> 已经使用的交互分区的大小</li>
+<li><code>524280k free</code> 空闲交换分区的大小</li>
+<li><code>409280k cached</code> 作为缓存的交互分区的大小</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="杀死进程"><a class="header-anchor" href="#杀死进程"></a>杀死进程</h2>
+<ul>
+<li>kill
+<ul>
+<li><code>kill -l</code> 查看可用的进程信号</li>
+<li><code>kill -1 进程 ID</code> 重启进程</li>
+<li><code>kill -9 进程 ID</code> 强制杀死进程</li>
+</ul>
+</li>
+<li>killall
+<ul>
+<li><code>killall [选项] [信号] 进程名</code>
+<ul>
+<li>选项：
+<ul>
+<li>-i 交互式，询问是否要杀死某个进程</li>
+<li>-I 忽略进程名的大小写</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>pkill
+<ul>
+<li><code>pkill [选项] [信号] 进程名</code>
+<ul>
+<li>选项：
+<ul>
+<li>-t 终端号：按照终端号踢出用户</li>
+</ul>
+</li>
+<li>用法：
+<ul>
+<li><code>pkill -9 -t tty1</code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="修改进程优先级"><a class="header-anchor" href="#修改进程优先级"></a>修改进程优先级</h2>
+<p>Linux 操作系统是一个多用户、多任务的操作系统，Linux 系统中通知运行着非常多的进程。但是 CPU 在同一个时钟周期内只能运算一个指令。进程优先级决定了每个进程处理的先后顺序呢。</p>
+<p>执行命令 <code>ps -le</code> 返回的结果中，PRI 代表 Priority，NI 代表 Nice。这两个值都是优先级，数字越少代表改进程优先级越高。</p>
+<p>用户可以修改 NI 值，注意事项如下：</p>
+<ul>
+<li>NI 值的范围是 -20 到 19</li>
+<li>普通用户调整 NI 值的范围是 0 到 19，而且只能调整自己的进程</li>
+<li>普通用户只能调高 NI 值，而不能降低，如原本 NI 值为0，则只能调整为大于 0</li>
+<li>root 用户才能设定进程 NI 值为负值，而且可以调整任何用户的进程</li>
+<li>PRI（最终值）= PRI（原始值）+ NI</li>
+<li>用户只能修改 NI 的值，不能直接修改 PRI</li>
+</ul>
+<p>修改进程优先级的命令如下：</p>
+<ul>
+<li>nice
+<ul>
+<li><code>nice [选项] 命令</code> nice 的命令可以给新执行的命令直接赋予 NI 值，但是不能修改已经存在进程的 NI 值
+<ul>
+<li>选项：
+<ul>
+<li>-n NI 值：给命令赋予 NI 值</li>
+</ul>
+</li>
+<li>用法：
+<ul>
+<li><code>nice -n -5 service httpd start</code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>renice
+<ul>
+<li><code>renice [优先级] 进程 ID</code> renice 命令是修改已经存在进程的 NI 值的命令
+<ul>
+<li>用法：
+<ul>
+<li><code>renice -10 2125</code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="工作管理"><a class="header-anchor" href="#工作管理"></a>工作管理</h2>
+<p>工作管理指的是在单个登录终端中（也就是登录的 Shell 界面中）同时管理多个工作的行为</p>
+<p>工作管理注意事项如下：</p>
+<ul>
+<li>当前的登录终端，只能管理当前终端的工作，而不能管理其他登录终端的工作</li>
+<li>放入后台的命令必须可以持续运行一段时间，这样我们才能扑捉和操作这个工作</li>
+<li>放入后台执行的命令不能和前台用户有交互或需要前台输入，否则放入后台只能暂停，而不能执行</li>
+</ul>
+<h2 id="工作管理方法"><a class="header-anchor" href="#工作管理方法"></a>工作管理方法</h2>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span> 把命令放入后台，并在后台执行</span><br><span class="line">top &amp;</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 按下 ctrl + z 快捷键，放在后台暂停</span><br><span class="line">top</span><br></pre></td></tr></table></figure>
+<ul>
+<li>jobs
+<ul>
+<li><code>josb [选项]</code>
+<ul>
+<li>选项：
+<ul>
+<li>-l 显示工作的 PID</li>
+</ul>
+</li>
+<li>+ 号代表最近一个放入后台的工作，也是工作恢复时，默认恢复的工作；- 号代表倒数第二个放入后台的工作</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>fg
+<ul>
+<li><code>fg %工作号</code> 将后台暂停的工作恢复到前台执行，注意 % 号可以省略，但是注意工作号和 PID 的区别</li>
+</ul>
+</li>
+<li>bg
+<ul>
+<li><code>bg %工作号</code> 后台恢复执行的命令，是不能和前台有交互的，否则不能恢复到后台执行</li>
+</ul>
+</li>
+</ul>
+<h2 id="后台命令脱离登录终端执行的方法"><a class="header-anchor" href="#后台命令脱离登录终端执行的方法"></a>后台命令脱离登录终端执行的方法</h2>
+<ul>
+<li>第一种方法是把需要后台执行的命令加入 /etc/rc.local 文件</li>
+<li>第二种方法是使用系统定时任务，让系统在指定的时间执行某个后台命令</li>
+<li>第三种方法是使用 nohup 命令</li>
+</ul>
+<h2 id="系统资源查看"><a class="header-anchor" href="#系统资源查看"></a>系统资源查看</h2>
+<ul>
+<li>vmstat
+<ul>
+<li><code>vmstat [刷新延时 刷新次数]</code></li>
+<li>用法：
+<ul>
+<li><code>vmstat 1 3</code></li>
+</ul>
+</li>
+<li>参数：
+<ul>
+<li>procs：进程信息字段
+<ul>
+<li>r 等待运行的进程数，数量越大，系统越繁忙</li>
+<li>b 不可被唤醒的进程数量，数量越大，系统越繁忙</li>
+</ul>
+</li>
+<li>memory：内存信息字段
+<ul>
+<li>free 空闲的内存容量，单位 KB</li>
+<li>buff 缓冲的内存容量，单位 KB</li>
+<li>cache 缓存的内存容量，单位 KB</li>
+<li>swpd 虚拟内存的使用情况，单位 KB</li>
+<li>缓冲和缓存的区别：缓存是用来加速数据读取的，缓冲是用来加速数据写入的</li>
+</ul>
+</li>
+<li>swap：交换分区的信息字段
+<ul>
+<li>si 从磁盘中交换到内存中数据的数量，单位 KB</li>
+<li>so 从内存中交换到磁盘中数据的数量，单位 KB。此两个数越大，证明数据需要经常在磁盘和内存之间交换，系统性能越差。</li>
+</ul>
+</li>
+<li>io：磁盘读写信息字段
+<ul>
+<li>bi 从块设备读入数据的总量，单位是块</li>
+<li>bo 写到块设备的数据的总量，单位是块。此两个数越大，代表系统的 I/O 越繁忙</li>
+</ul>
+</li>
+<li>system：系统信息字段
+<ul>
+<li>in 每秒被中断的进程次数</li>
+<li>cs 每秒进行的事件切换次数。此两个数越大，代表系统与接口设备的通信非常繁忙</li>
+</ul>
+</li>
+<li>CPU：CPU 信息字段
+<ul>
+<li>us 非内核进程消耗 CPU 运算时间的百分比</li>
+<li>sy 内核进程消耗 CPU 运算时间的百分比</li>
+<li>id 空闲 CPu 的百分比</li>
+<li>wa 等待 I/O 所消耗的 CPU 百分比</li>
+<li>st 被虚拟机消耗的 CPU 百分比</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>dmesg
+<ul>
+<li><code>dmesg</code> 显示系统内核信息</li>
+</ul>
+</li>
+<li>free
+<ul>
+<li><code>free [选项]</code> 查看内存使用状态
+<ul>
+<li>选项：
+<ul>
+<li>-\b 以字节为单位显示</li>
+<li>-\k 以 KB 为单位显示，默认就是以 KB 为单位显示</li>
+<li>-\m 以 MB 为单位显示</li>
+<li>-\g 以 GB 为单位显示</li>
+</ul>
+</li>
+<li>参数：
+<ul>
+<li>第一行：total 是总内存数，used 是已经使用的内存数，free 是空闲的内存数，shared 是多个进程共享的内存总数，buffers 是缓冲内存数，cached 是缓存内存数。默认单位是 KB</li>
+<li>第二行：-/buffers/cache 的内存数，相当于第一行的 used-buffers-cached。+/buffers/cache 的内存数，相当于第一行的 free + buffers + cached</li>
+<li>第三行：total 是 swap 的总数；used 是已经使用的 swap 数，free 是空闲的 swap 数。默认单位是 KB</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>cat /proc/cpuinfo
+<ul>
+<li>查看 CPU 信息</li>
+</ul>
+</li>
+<li>uptime
+<ul>
+<li>显示系统的启动时间和平均负载，也就是 top 命令的第一行。</li>
+</ul>
+</li>
+<li>uname
+<ul>
+<li><code>uname [选项]</code>
+<ul>
+<li>选项：
+<ul>
+<li>-a 查看系统所有相关信息</li>
+<li>-r 查看内核版本</li>
+<li>-s 查看内核名称</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>file /bin/ls
+<ul>
+<li>查看系统操作位数</li>
+</ul>
+</li>
+<li>lsb_release -a
+<ul>
+<li>查询当前 Linxu 系统的发行版本</li>
+</ul>
+</li>
+<li>lsof
+<ul>
+<li><code>lsof	[选项]</code>
+<ul>
+<li>选项：
+<ul>
+<li>-c 字符串：只列出以字符串开头的进程打开的文件</li>
+<li>-u 用户名：只列出某个用户的进程打开的文件</li>
+<li>-p PID：列出某个 PID 进程打开的文件</li>
+</ul>
+</li>
+<li>例子：
+<ul>
+<li><code>lsof | more</code></li>
+<li><code>lsof /sbin/init</code></li>
+<li><code>lsof -c httpd</code></li>
+<li><code>lsof -u root</code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+      </div>
+    </div>
+  </div>
+</div>
+<div class="lx-navigation">
+	<div class="lx-cover prev lx-cover-sm" style="background-image: url(https://sebastian-1256190695.cos.ap-guangzhou.myqcloud.com/footer_2.jpg)">
+		<div class="overlay"></div>
+		<a class="copy" href="/2016/09/26/Linux-定时任务/">
+			<div class="display-t">
+				<div class="display-tc">
+					<div>
+						<span>Next</span>
+						<h3>Linux 定时任务</h3>
+					</div>
+				</div>
+			</div>
+		</a>
+	</div>
+        <div class="lx-cover next lx-cover-sm" style="background-image: url(https://sebastian-1256190695.cos.ap-guangzhou.myqcloud.com/footer_1.jpg)">
+		<div class="overlay"></div>
+		<a class="copy" href="/2016/09/23/Linux-服务管理/">
+			<div class="display-t">
+				<div class="display-tc">
+					<div>
+						<span>Prev</span>
+						<h3>Linux 服务管理</h3>
+					</div>
+				</div>
+			</div>
+		</a>
+	</div>
+</div>
+</div>
+<div class="comment"><div id="comments"></div></div>
+<footer>
+  <div>
+  Copyright &copy; 2019.<a href="/">Sebastian Kennedy</a><br>Powered by <a href="https://hexo.io" target="_blank">Hexo</a> | Theme <a href="https://lx.blleng.cn" target="_blank">Lx</a><br>
+  </div>
+</footer>
+</div>
+<a href="javascript:;" class="popup-trigger"><i class="menu-item-icon fa fa-search fa-fw"></i></a>
+<div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="Search..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+<button class="menu-trigger"></button>
+<div class="menu">
+  <div class="menu-head">
+    <span class="layer">
+      <div class="col">
+        <div class="row for-pic">
+          <div class="profile-pic">
+            <a href="/"><img src="https://sebastian-1256190695.cos.ap-guangzhou.myqcloud.com/person_1.jpg" alt="Sebastian Kennedy"></a>
+          </div>
+        </div>
+        <div class="row for-name">
+          <p>Sebastian Kennedy</p>
+          <span class="tagline">人类的悲欢并不相通，我只觉得他们吵闹。</span>
+        </div>
+      </div>
+    </span>
+  </div>
+  <nav class="menu-container">
+  <ul class="menu-items">
+    <li><a href="/"><i class="fa fa-home fa-fw"></i>首页</a></li>
+    <li><a href="/archives/"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+    <li class="has-sub"><span class="dropdown-heading">
+      <i class="fa fa-bookmark fa-fw"></i>页面</span>
+        <ul>
+          <li><a href="/guestbook">留言</a></li>
+        <li><a href="/about">关于</a></li>
+        </ul>
+    </li>
+    <li class="has-sub"><span class="dropdown-heading">
+      <i class="fa fa-link fa-fw"></i>友链</span>
+        <ul>
+          <li> <a href="https://lx.blleng.cn" target="_blank">Theme-Lx</a></li>
+        </ul>
+    </li>
+  </ul>
+  </nav>
+</div>
+
+<div class="gototop js-top">
+  <a href="#" class="js-gotop"><i class="fa fa-arrow-up"></i></a>
+</div>
+<script src="/js/jquery.easing.min.js"></script>
+<script src="/js/jquery.waypoints.min.js"></script>
+<script src="/js/jquery.stellar.min.js"></script>
+<script src="/js/main.js"></script>
+<script src="/js/local.search.js"></script>
+
+
+</body>
+</html>

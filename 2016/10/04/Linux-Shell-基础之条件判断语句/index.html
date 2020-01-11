@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Linux Shell 基础之条件判断语句 | “人类的悲欢并不相通，我只觉得他们吵闹。”</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="author" content="Sebastian Kennedy">
+  <meta name="keywords" content="Sebastian Kennedy Blog PHP Laravel Yii">
+  <meta name="description" content="Sebastian Kennedy Blog PHP Laravel Yii">
+  <script id="hexo-configurations">
+  var CONFIG = {
+    root: '/',
+    theme: 'lx',
+    version: '1.4.5',
+    localsearch:{
+      "enable": true,
+      "trigger": "auto",
+      "top_n_per_article": 1,
+      "unescape": false,
+      "preload": false
+      },
+    path: 'search.xml'
+  };
+</script>
+
+  <link rel="shortcut icon" href="https://sebastian-1256190695.cos.ap-guangzhou.myqcloud.com/person_1.jpg">
+  <link rel="stylesheet" href="/css/main.css">
+  <script src="/js/jquery.min.js"></script>
+  <script src="/js/jquery.jside.menu.js"></script>
+	<script>
+	$(document).ready(function(){
+	$(".menu-container").jSideMenu({
+	    jSidePosition: "position-right",
+	    jSideSticky: true,
+	    jSideSkin: "black-grey",
+	     });
+	}); 
+	</script>
+  <!--Google_Analytics-->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-150354789-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'UA-150354789-1');
+</script>
+
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:300|Noto+Serif+SC&amp;display=swap">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/font-awesome@4/css/font-awesome.min.css">
+</head>
+<body>
+<div class="single">
+<div id="page">
+<div id="lx-aside" style="background-image: url(https://sebastian-1256190695.cos.ap-guangzhou.myqcloud.com/page-cover.jpg)" data-stellar-background-ratio="0.5">
+  <div class="overlay">
+  <div class="page-title">
+    <div class="avatar"><a href="/"><img src="https://sebastian-1256190695.cos.ap-guangzhou.myqcloud.com/person_1.jpg"></a></div>
+    <span>2016-10-04</span>
+    <h2>Linux Shell 基础之条件判断语句</h2>
+    <div class="tags"><i class="fa fa-tag"></i><a class="tag-link" href="/tags/Linux/">Linux</a></div>
+    </div>
+</div>
+</div>
+<div id="lx-main-content">
+  <div class="lx-post">
+    <div class="lx-entry padding">
+      <div>
+        <h2 id="shell-条件判断式语句"><a class="header-anchor" href="#shell-条件判断式语句"></a>Shell 条件判断式语句</h2>
+<h3 id="按文件类型判断"><a class="header-anchor" href="#按文件类型判断"></a>按文件类型判断</h3>
+<table>
+<thead>
+<tr>
+<th>测试选项</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>-b 文件</td>
+<td>判断该文件是否存在，并且是否为块设备文件</td>
+</tr>
+<tr>
+<td>-c 文件</td>
+<td>判断该文件是否存在，并且是否为字符设备文件</td>
+</tr>
+<tr>
+<td>-d 文件</td>
+<td>判断该文件是否存在，并且是否为目录文件</td>
+</tr>
+<tr>
+<td>-e 文件</td>
+<td>判断该文件是否存在（存在为真）</td>
+</tr>
+<tr>
+<td>-f 文件</td>
+<td>判断该文件是否存在，并且是否为普通文件</td>
+</tr>
+<tr>
+<td>-L 文件</td>
+<td>判断该文件是否存在，并且是否为符号链接文件</td>
+</tr>
+<tr>
+<td>-p 文件</td>
+<td>判断该文件是否存在，并且是否为管道文件</td>
+</tr>
+<tr>
+<td>-s 文件</td>
+<td>判断该文件是否存在，并且是否为非空</td>
+</tr>
+<tr>
+<td>-S 文件</td>
+<td>判断该文件是否存在，并且是否为套接字文件</td>
+</tr>
+</tbody>
+</table>
+<p>两种判断格式</p>
+<ul>
+<li><code>test -e /root/install.log</code></li>
+<li><code>[ -e /root/install.log ]</code></li>
+<li><code>[ -e /root/install.log ] &amp;&amp; echo yes || echo no</code></li>
+</ul>
+<h3 id="按文件权限判断"><a class="header-anchor" href="#按文件权限判断"></a>按文件权限判断</h3>
+<table>
+<thead>
+<tr>
+<th>测试选项</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>-r 文件</td>
+<td>判断该文件是否存在，并且是否该文件拥有读权限</td>
+</tr>
+<tr>
+<td>-w 文件</td>
+<td>判断该文件是否存在，并且是否该文件拥有写权限</td>
+</tr>
+<tr>
+<td>-x 文件</td>
+<td>判断该文件是否存在，并且是否该文件拥有执行权限</td>
+</tr>
+<tr>
+<td>-u 文件</td>
+<td>判断该文件是否存在，并且是否该文件拥有 SUID 权限</td>
+</tr>
+<tr>
+<td>-g 文件</td>
+<td>判断该文件是否存在，并且是否该文件拥有 SGID 权限</td>
+</tr>
+<tr>
+<td>-k 文件</td>
+<td>判断该文件是否存在，并且是否该文件拥有 SBit 权限</td>
+</tr>
+</tbody>
+</table>
+<h3 id="两个文件之间的比较"><a class="header-anchor" href="#两个文件之间的比较"></a>两个文件之间的比较</h3>
+<table>
+<thead>
+<tr>
+<th>测试选项</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>文件1 -nt 文件2</td>
+<td>判断文件 1 的修改时间是否比文件 2 的新</td>
+</tr>
+<tr>
+<td>文件1 -ot 文件2</td>
+<td>判断文件 1 的修改时间是否比文件 2 的旧</td>
+</tr>
+<tr>
+<td>文件1 -ef 文件2</td>
+<td>判断文件 1 是否和文件 2 的 Inode 号一致，可以理解为两个文件是否为同一个文件，这个判断用于硬链接判断是很好的方法</td>
+</tr>
+</tbody>
+</table>
+<p>例子</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span> 创建一个硬链接</span><br><span class="line">ln /root/student.txt/tmp/stu.txt</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 测试</span><br><span class="line">[/root/student.txt -ef /tmp/stu.txt] &amp;&amp; echo "yes" || echo "no"</span><br></pre></td></tr></table></figure>
+<h3 id="两个整数之间的比较"><a class="header-anchor" href="#两个整数之间的比较"></a>两个整数之间的比较</h3>
+<table>
+<thead>
+<tr>
+<th>测试选项</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>整数1 -eq 整数2</td>
+<td>判断整数 1 是否和整数 2 相等</td>
+</tr>
+<tr>
+<td>整数1 -ne 整数2</td>
+<td>判断整数 1 是否和整数 2 不相等</td>
+</tr>
+<tr>
+<td>整数1 -gt 整数2</td>
+<td>判断整数 1 是否大于整数 2</td>
+</tr>
+<tr>
+<td>整数1 -lt 整数2</td>
+<td>判断整数 1 是否小于整数 2</td>
+</tr>
+<tr>
+<td>整数1 -ge 整数2</td>
+<td>判断整数 1 是否大于等于整数 2</td>
+</tr>
+<tr>
+<td>整数1 -le 整数2</td>
+<td>判断整数 1 是否小于等于整数 2</td>
+</tr>
+</tbody>
+</table>
+<p>例子</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[ 23 -ge 22 ] &amp;&amp; echo "yes" || echo "no"</span><br><span class="line">[ 23 -le 22 ] &amp;&amp; echo "yes" || echo "no"</span><br></pre></td></tr></table></figure>
+<h3 id="字符串的判断"><a class="header-anchor" href="#字符串的判断"></a>字符串的判断</h3>
+<table>
+<thead>
+<tr>
+<th>测试选项</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>-z</td>
+<td>判断字符串是否为空</td>
+</tr>
+<tr>
+<td>-n</td>
+<td>判断字符串是否为非空</td>
+</tr>
+<tr>
+<td>字符串1==字符串2</td>
+<td>判断字符串 1 是否和字符串 2 相等</td>
+</tr>
+<tr>
+<td>字符串1!=字符串2</td>
+<td>判断字符串 1 是否和字符串 2 不相等</td>
+</tr>
+</tbody>
+</table>
+<p>例子</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span> 给 name 变量赋值</span><br><span class="line">name=fengj</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 判断 name 变量是否为空</span><br><span class="line">[ -z "$name" ] &amp;&amp; echo "yes" || echo "no"</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 给变量 aa 和变量 bb 赋值</span><br><span class="line">aa=11</span><br><span class="line">bb=22</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 判断两个变量的值是否相等</span><br><span class="line">[ "$aa" == "$bb" ] &amp;&amp; echo yes || echo no</span><br></pre></td></tr></table></figure>
+<h3 id="多重条件判断"><a class="header-anchor" href="#多重条件判断"></a>多重条件判断</h3>
+<table>
+<thead>
+<tr>
+<th>测试选项</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>判断1 -a 判断2</td>
+<td>逻辑与，判断 1 和判断 2 都成立，最终的结果才为真</td>
+</tr>
+<tr>
+<td>判断1 -o 判断2</td>
+<td>逻辑或，判断 1 和判断 2 有一个成立，最终的结果就为真</td>
+</tr>
+<tr>
+<td>! 判断</td>
+<td>逻辑非，使原始的判断式取反</td>
+</tr>
+</tbody>
+</table>
+<p>例子</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span> 给变量 aa 赋值</span><br><span class="line">aa=11</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 判断变量 aa 是否有值，同时判断变量 aa 是否大于 23</span><br><span class="line">[ -n "$aa" -a "$aa" -gt 23 ] &amp;&amp; echo "yes" || echo "no"</span><br></pre></td></tr></table></figure>
+<h2 id="shell-单分支if语句"><a class="header-anchor" href="#shell-单分支if语句"></a>Shell 单分支if语句</h2>
+<h3 id="概述"><a class="header-anchor" href="#概述"></a>概述</h3>
+<p>如何 “背” 程序</p>
+<ol>
+<li>抄写目标程序并能正确运行</li>
+<li>为目标程序补全注释</li>
+<li>删掉注释，为代码重新加注释</li>
+<li>删除代码，看注释写代码</li>
+<li>删除注释和代码，从头开始写</li>
+</ol>
+<h3 id="单分支-if-语句"><a class="header-anchor" href="#单分支-if-语句"></a>单分支 if 语句</h3>
+<p>语法支持</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">if [ 条件判断式 ];then</span><br><span class="line">	程序</span><br><span class="line">fi</span><br><span class="line"></span><br><span class="line">if [ 条件判断式 ]</span><br><span class="line">	then</span><br><span class="line">	程序</span><br><span class="line">fi</span><br></pre></td></tr></table></figure>
+<p>例子1：判断登录的用户是否为 root</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span>!/bin/bash</span><br><span class="line"></span><br><span class="line">test=$(env|grep "USER" |cut -d "=" -f2)</span><br><span class="line"></span><br><span class="line">if [ "$test" == root ]</span><br><span class="line">	then</span><br><span class="line">	echo "Current user is root."</span><br><span class="line">fi</span><br></pre></td></tr></table></figure>
+<h3 id="单分支-if-语句例子：判断分区使用率"><a class="header-anchor" href="#单分支-if-语句例子：判断分区使用率"></a>单分支 if 语句例子：判断分区使用率</h3>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span>!/bin/bash</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 统计根分区使用率，把根分区使用率作为变量值赋予变量 rate</span><br><span class="line">rate=$(df -h | grep "/dev/disk1" | awk '&#123;print $5&#125;' | cut -d "%" -f 1)</span><br><span class="line"></span><br><span class="line">if [ $rate -ge 70 ]</span><br><span class="line">then</span><br><span class="line">	echo "Warning! /dev/disk1 is full!!"</span><br><span class="line">fi</span><br></pre></td></tr></table></figure>
+<h2 id="shell-双分支if语句"><a class="header-anchor" href="#shell-双分支if语句"></a>Shell 双分支if语句</h2>
+<p>语法支持</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">if [ 条件判断式 ]</span><br><span class="line">	then</span><br><span class="line">		条件成立时，执行的程序</span><br><span class="line">	else</span><br><span class="line">		条件不成立时，执行的另一个程序</span><br><span class="line">fi</span><br></pre></td></tr></table></figure>
+<h3 id="双分支-if-语句例子：判断输入的是否是一个目录"><a class="header-anchor" href="#双分支-if-语句例子：判断输入的是否是一个目录"></a>双分支 if 语句例子：判断输入的是否是一个目录</h3>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span>!/bin/bash</span><br><span class="line"></span><br><span class="line">read -t 30 -p "Please input a dir:" dir</span><br><span class="line"></span><br><span class="line">if [ -d "$dir" ]</span><br><span class="line">then</span><br><span class="line">    echo "is a Dir"</span><br><span class="line">else</span><br><span class="line">    echo "is not a Dir"</span><br><span class="line">fi</span><br></pre></td></tr></table></figure>
+<h3 id="双分支-if-语句例子：判断apache服务是否启动"><a class="header-anchor" href="#双分支-if-语句例子：判断apache服务是否启动"></a>双分支 if 语句例子：判断Apache服务是否启动</h3>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span>!/bin/bash</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 列出所有进程，选取 httpd 进程，反选 grep</span><br><span class="line">test=$(ps aux | grep httpd | grep -v grep)</span><br><span class="line"></span><br><span class="line">if [ -n "$test" ]</span><br><span class="line">	then</span><br><span class="line">		echo "$(date) httpd is ok!" &gt;&gt; /tmp/autostart-acc.log</span><br><span class="line">	else</span><br><span class="line">		sudo apachectl restart  &amp;&gt; /dev/null</span><br><span class="line">		echo "$(date) restart httpd !!" &gt;&gt; /tmp/autostart-err.log</span><br><span class="line">fi</span><br></pre></td></tr></table></figure>
+<h2 id="shell-多分支-if-语句"><a class="header-anchor" href="#shell-多分支-if-语句"></a>Shell 多分支 if 语句</h2>
+<p>语言支持：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">if [ 条件判断式 1 ]</span><br><span class="line">	then</span><br><span class="line">		条件成立 1 时，执行的程序</span><br><span class="line">elif [ 条件判断式 2 ]</span><br><span class="line">	then</span><br><span class="line">		条件成立 2 时，执行的程序</span><br><span class="line">else</span><br><span class="line">		条件不成立时，执行的另一个程序</span><br><span class="line">fi</span><br></pre></td></tr></table></figure>
+<h3 id="多分支-if-语句例子：判断用户输入的是什么文件"><a class="header-anchor" href="#多分支-if-语句例子：判断用户输入的是什么文件"></a>多分支 if 语句例子：判断用户输入的是什么文件</h3>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span>!/bin/bash</span><br><span class="line"><span class="meta">#</span> 判断用户输出的是什么文件</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 接受键盘的输入，并赋予变量file</span><br><span class="line">read -p "Please input a filename:" file</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 判断变量是否为空</span><br><span class="line">if [ -z "$file" ]</span><br><span class="line">then</span><br><span class="line">	echo "Error,Please input a filename"</span><br><span class="line">	exit 1</span><br><span class="line"><span class="meta">#</span> 判断 file 的值是否存在</span><br><span class="line">elif [ ! -e "$file" ]</span><br><span class="line">then</span><br><span class="line">	echo "Your input is not a file!"</span><br><span class="line">	exit 2</span><br><span class="line"><span class="meta">#</span> 判断 file 的值是否为普通文件</span><br><span class="line">elif [ -f "$file" ]</span><br><span class="line">then</span><br><span class="line">	echo "$file is a regulare file!"</span><br><span class="line"><span class="meta">#</span> 判断 file 的值是否为目录文件</span><br><span class="line">then</span><br><span class="line">	echo "$file is a directory!"</span><br><span class="line">else</span><br><span class="line">	echo "$file is an other file!"</span><br></pre></td></tr></table></figure>
+<h2 id="shell-多分支case语句"><a class="header-anchor" href="#shell-多分支case语句"></a>Shell 多分支case语句</h2>
+<p>语法支持</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">case $变量名 in</span><br><span class="line">	"值1")</span><br><span class="line">		如果变量的值等于值 1，则执行程序1</span><br><span class="line">	;;</span><br><span class="line">	"值2")</span><br><span class="line">		如果变量的值等于值 2，则执行程序2</span><br><span class="line">	;;</span><br><span class="line">	*)</span><br><span class="line">		如果变量的值都不是以上的值，则执行此程序</span><br><span class="line">	;;</span><br></pre></td></tr></table></figure>
+
+      </div>
+    </div>
+  </div>
+</div>
+<div class="lx-navigation">
+	<div class="lx-cover prev lx-cover-sm" style="background-image: url(https://sebastian-1256190695.cos.ap-guangzhou.myqcloud.com/footer_2.jpg)">
+		<div class="overlay"></div>
+		<a class="copy" href="/2016/10/13/MySQL-性能优化/">
+			<div class="display-t">
+				<div class="display-tc">
+					<div>
+						<span>Next</span>
+						<h3>MySQL 性能优化</h3>
+					</div>
+				</div>
+			</div>
+		</a>
+	</div>
+        <div class="lx-cover next lx-cover-sm" style="background-image: url(https://sebastian-1256190695.cos.ap-guangzhou.myqcloud.com/footer_1.jpg)">
+		<div class="overlay"></div>
+		<a class="copy" href="/2016/10/04/Linux-Shell-基础之运算符/">
+			<div class="display-t">
+				<div class="display-tc">
+					<div>
+						<span>Prev</span>
+						<h3>Linux Shell 基础之运算符</h3>
+					</div>
+				</div>
+			</div>
+		</a>
+	</div>
+</div>
+</div>
+<div class="comment"><div id="comments"></div></div>
+<footer>
+  <div>
+  Copyright &copy; 2019.<a href="/">Sebastian Kennedy</a><br>Powered by <a href="https://hexo.io" target="_blank">Hexo</a> | Theme <a href="https://lx.blleng.cn" target="_blank">Lx</a><br>
+  </div>
+</footer>
+</div>
+<a href="javascript:;" class="popup-trigger"><i class="menu-item-icon fa fa-search fa-fw"></i></a>
+<div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="Search..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+<button class="menu-trigger"></button>
+<div class="menu">
+  <div class="menu-head">
+    <span class="layer">
+      <div class="col">
+        <div class="row for-pic">
+          <div class="profile-pic">
+            <a href="/"><img src="https://sebastian-1256190695.cos.ap-guangzhou.myqcloud.com/person_1.jpg" alt="Sebastian Kennedy"></a>
+          </div>
+        </div>
+        <div class="row for-name">
+          <p>Sebastian Kennedy</p>
+          <span class="tagline">人类的悲欢并不相通，我只觉得他们吵闹。</span>
+        </div>
+      </div>
+    </span>
+  </div>
+  <nav class="menu-container">
+  <ul class="menu-items">
+    <li><a href="/"><i class="fa fa-home fa-fw"></i>首页</a></li>
+    <li><a href="/archives/"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+    <li class="has-sub"><span class="dropdown-heading">
+      <i class="fa fa-bookmark fa-fw"></i>页面</span>
+        <ul>
+          <li><a href="/guestbook">留言</a></li>
+        <li><a href="/about">关于</a></li>
+        </ul>
+    </li>
+    <li class="has-sub"><span class="dropdown-heading">
+      <i class="fa fa-link fa-fw"></i>友链</span>
+        <ul>
+          <li> <a href="https://lx.blleng.cn" target="_blank">Theme-Lx</a></li>
+        </ul>
+    </li>
+  </ul>
+  </nav>
+</div>
+
+<div class="gototop js-top">
+  <a href="#" class="js-gotop"><i class="fa fa-arrow-up"></i></a>
+</div>
+<script src="/js/jquery.easing.min.js"></script>
+<script src="/js/jquery.waypoints.min.js"></script>
+<script src="/js/jquery.stellar.min.js"></script>
+<script src="/js/main.js"></script>
+<script src="/js/local.search.js"></script>
+
+
+</body>
+</html>

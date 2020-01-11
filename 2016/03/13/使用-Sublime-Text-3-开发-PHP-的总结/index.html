@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>使用 Sublime Text 3 开发 PHP 的心得 | “人类的悲欢并不相通，我只觉得他们吵闹。”</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="author" content="Sebastian Kennedy">
+  <meta name="keywords" content="Sebastian Kennedy Blog PHP Laravel Yii">
+  <meta name="description" content="Sebastian Kennedy Blog PHP Laravel Yii">
+  <script id="hexo-configurations">
+  var CONFIG = {
+    root: '/',
+    theme: 'lx',
+    version: '1.4.5',
+    localsearch:{
+      "enable": true,
+      "trigger": "auto",
+      "top_n_per_article": 1,
+      "unescape": false,
+      "preload": false
+      },
+    path: 'search.xml'
+  };
+</script>
+
+  <link rel="shortcut icon" href="https://sebastian-1256190695.cos.ap-guangzhou.myqcloud.com/person_1.jpg">
+  <link rel="stylesheet" href="/css/main.css">
+  <script src="/js/jquery.min.js"></script>
+  <script src="/js/jquery.jside.menu.js"></script>
+	<script>
+	$(document).ready(function(){
+	$(".menu-container").jSideMenu({
+	    jSidePosition: "position-right",
+	    jSideSticky: true,
+	    jSideSkin: "black-grey",
+	     });
+	}); 
+	</script>
+  <!--Google_Analytics-->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-150354789-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'UA-150354789-1');
+</script>
+
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:300|Noto+Serif+SC&amp;display=swap">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/font-awesome@4/css/font-awesome.min.css">
+</head>
+<body>
+<div class="single">
+<div id="page">
+<div id="lx-aside" style="background-image: url(https://sebastian-1256190695.cos.ap-guangzhou.myqcloud.com/page-cover.jpg)" data-stellar-background-ratio="0.5">
+  <div class="overlay">
+  <div class="page-title">
+    <div class="avatar"><a href="/"><img src="https://sebastian-1256190695.cos.ap-guangzhou.myqcloud.com/person_1.jpg"></a></div>
+    <span>2016-03-13</span>
+    <h2>使用 Sublime Text 3 开发 PHP 的心得</h2>
+    <div class="tags"><i class="fa fa-tag"></i><a class="tag-link" href="/tags/Sublime-Text-3/">Sublime Text 3</a></div>
+    </div>
+</div>
+</div>
+<div id="lx-main-content">
+  <div class="lx-post">
+    <div class="lx-entry padding">
+      <div>
+        <p>PHPStorm 不卡之日，SublimeText 舍弃之时</p>
+<h2 id="环境"><a class="header-anchor" href="#环境"></a>环境</h2>
+<ul>
+<li>系统：OSX Yosemite 10.10.5</li>
+<li>版本：Sublime Text 3 Build 3103</li>
+</ul>
+<h2 id="安装"><a class="header-anchor" href="#安装"></a>安装</h2>
+<p>使用 Homebrew 安装 Sublime Text 3</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew install Caskroom/cask/sublime-text</span><br></pre></td></tr></table></figure>
+<h2 id="终端配置"><a class="header-anchor" href="#终端配置"></a>终端配置</h2>
+<p>执行以下代码，即可在终端使用 <code>Sublime Text 3</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">// 创建程序链接</span><br><span class="line">ln -s  &quot;/Applications/Sublime Text.app/Contents/SharedSupport/bin/subl&quot; /usr/local/bin/subl</span><br><span class="line"></span><br><span class="line">// 查看使用帮助</span><br><span class="line">subl -h</span><br></pre></td></tr></table></figure>
+<h2 id="快捷键"><a class="header-anchor" href="#快捷键"></a>快捷键</h2>
+<h3 id="常用"><a class="header-anchor" href="#常用"></a>常用</h3>
+<table>
+<thead>
+<tr>
+<th>按键</th>
+<th>命令</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>⌘ + C</td>
+<td>复制</td>
+</tr>
+<tr>
+<td>⌘ + ⇧ + D</td>
+<td>复制粘贴</td>
+</tr>
+<tr>
+<td>⌘ + X</td>
+<td>剪切</td>
+</tr>
+<tr>
+<td>⌘ + V</td>
+<td>粘贴</td>
+</tr>
+<tr>
+<td>⌘ + ⇧ + V</td>
+<td>保持缩进粘贴</td>
+</tr>
+<tr>
+<td>⌘ + ⌥ + V</td>
+<td>打开粘贴面板</td>
+</tr>
+<tr>
+<td>⌘ + F</td>
+<td>查找</td>
+</tr>
+<tr>
+<td>⌘ + /</td>
+<td>注释行</td>
+</tr>
+<tr>
+<td>⌘ + ⌥ + /</td>
+<td>生成注释</td>
+</tr>
+<tr>
+<td>⌘ + ⇧ + F</td>
+<td>全局查找、替换</td>
+</tr>
+<tr>
+<td>⌘ + ↩</td>
+<td>在光标下插入行</td>
+</tr>
+<tr>
+<td>⌘ + ⇧ + ↩</td>
+<td>在光标上插入行</td>
+</tr>
+<tr>
+<td>⌘ + ⇧ + t</td>
+<td>打开关闭的标签页</td>
+</tr>
+<tr>
+<td>⌘ + [NUM]</td>
+<td>选取对应数字的标签页</td>
+</tr>
+<tr>
+<td>⌘ + ⇧ + [</td>
+<td>上一个标签页</td>
+</tr>
+<tr>
+<td>⌘ + ⇧ + ]</td>
+<td>下一个标签页</td>
+</tr>
+<tr>
+<td>⌃ + ⇧ + ↑</td>
+<td>向上扩展光标</td>
+</tr>
+<tr>
+<td>⌃ + ⇧ + ↓</td>
+<td>向下扩展光标</td>
+</tr>
+</tbody>
+</table>
+<h3 id="书签"><a class="header-anchor" href="#书签"></a>书签</h3>
+<table>
+<thead>
+<tr>
+<th>按键</th>
+<th>命令</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>⌘ + F2</td>
+<td>生成或撤销书签</td>
+</tr>
+<tr>
+<td>⇧ + F2</td>
+<td>上一个书签</td>
+</tr>
+<tr>
+<td>F2</td>
+<td>下一个书签</td>
+</tr>
+</tbody>
+</table>
+<h3 id="删除"><a class="header-anchor" href="#删除"></a>删除</h3>
+<table>
+<thead>
+<tr>
+<th>按键</th>
+<th>命令</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>⌃ + ⇧ + K</td>
+<td>删除当前行</td>
+</tr>
+<tr>
+<td>⌘ + K + ⌫</td>
+<td>删除光标之后的内容</td>
+</tr>
+<tr>
+<td>⌘ + K + ⌘ + K</td>
+<td>删除光标之后的内容</td>
+</tr>
+</tbody>
+</table>
+<h3 id="跳转"><a class="header-anchor" href="#跳转"></a>跳转</h3>
+<table>
+<thead>
+<tr>
+<th>按键</th>
+<th>命令</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>⌘ + P , ⌘ + T</td>
+<td>跳转到文件</td>
+</tr>
+<tr>
+<td>⌘ + R</td>
+<td>跳转到方法</td>
+</tr>
+<tr>
+<td>⌃ + G</td>
+<td>跳转到行数</td>
+</tr>
+<tr>
+<td>⌃ + ⇧ + P</td>
+<td>切换工作空间</td>
+</tr>
+<tr>
+<td>⌘ + ⇧ + P</td>
+<td>打开命令面板</td>
+</tr>
+<tr>
+<td>⌃ + -</td>
+<td>向后跳转至修改处</td>
+</tr>
+<tr>
+<td>⌃ + ⇧ + -</td>
+<td>向前跳转至修改处</td>
+</tr>
+</tbody>
+</table>
+<h3 id="光标移动"><a class="header-anchor" href="#光标移动"></a>光标移动</h3>
+<table>
+<thead>
+<tr>
+<th>按键</th>
+<th>命令</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>⌃ + P</td>
+<td>光标向上移动</td>
+</tr>
+<tr>
+<td>⌃ + N</td>
+<td>光标向下移动</td>
+</tr>
+<tr>
+<td>⌃ + B</td>
+<td>光标向左移动</td>
+</tr>
+<tr>
+<td>⌃ + F</td>
+<td>光标向右移动</td>
+</tr>
+<tr>
+<td>⌃ + A , ⌘ + ←</td>
+<td>光标移动到行最左</td>
+</tr>
+<tr>
+<td>⌃ + E , ⌘ + →</td>
+<td>光标移动到行最右</td>
+</tr>
+<tr>
+<td>⌃ + M</td>
+<td>光标在括号里闭合跳转</td>
+</tr>
+<tr>
+<td>⌘ + ⌃ + ↑</td>
+<td>向上移动选中行</td>
+</tr>
+<tr>
+<td>⌘ + ⌃ + ↓</td>
+<td>向下移动选中行</td>
+</tr>
+</tbody>
+</table>
+<h3 id="选取"><a class="header-anchor" href="#选取"></a>选取</h3>
+<table>
+<thead>
+<tr>
+<th>按键</th>
+<th>命令</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>⌘ + L</td>
+<td>选取行</td>
+</tr>
+<tr>
+<td>⌘ + D</td>
+<td>选取一个相同的文本</td>
+</tr>
+<tr>
+<td>⌃ + ⇧ + G</td>
+<td>选取所有相同的文本</td>
+</tr>
+<tr>
+<td>⌘ + A</td>
+<td>选取所有内容</td>
+</tr>
+<tr>
+<td>⌘ + ⇧ + ↑</td>
+<td>向上选取所有内容</td>
+</tr>
+<tr>
+<td>⌘ + ⇧ + ↓</td>
+<td>向下选取所有内容</td>
+</tr>
+<tr>
+<td>⌘ + ⇧ + K</td>
+<td>选取当前行HTML标签</td>
+</tr>
+<tr>
+<td>⌘ + ⇧ + A</td>
+<td>选取HTML标签闭合内容</td>
+</tr>
+<tr>
+<td>⌘ + ⇧ + J</td>
+<td>选取块闭合内容（可以折叠的内容为块）</td>
+</tr>
+<tr>
+<td>⌃ + ⇧ + M</td>
+<td>选取括号内容</td>
+</tr>
+<tr>
+<td>⌃ + ⇧ + A</td>
+<td>选取光标之前内容</td>
+</tr>
+<tr>
+<td>⌃ + ⇧ + E</td>
+<td>选取光标之后内容</td>
+</tr>
+</tbody>
+</table>
+<h3 id="窗口"><a class="header-anchor" href="#窗口"></a>窗口</h3>
+<table>
+<thead>
+<tr>
+<th>按键</th>
+<th>命令</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>⌘ + K + ⌘ + B</td>
+<td>显示左侧栏</td>
+</tr>
+<tr>
+<td>⌃ + `</td>
+<td>显示控制台</td>
+</tr>
+<tr>
+<td>⌘ + B</td>
+<td>执行编译</td>
+</tr>
+<tr>
+<td>⌃ + ⌘ + F</td>
+<td>全屏模式</td>
+</tr>
+<tr>
+<td>⌃ + ⇧ + ⌘ + F</td>
+<td>无干扰全屏模式</td>
+</tr>
+<tr>
+<td>⌃ + ⇧ + 2</td>
+<td>进行左右分屏</td>
+</tr>
+<tr>
+<td>⌃ + ⇧ + 5</td>
+<td>进行上下分屏</td>
+</tr>
+<tr>
+<td>⌃ + ⇧ + 1</td>
+<td>取消所有分屏</td>
+</tr>
+<tr>
+<td>⌃ + Num</td>
+<td>根据数字跳转至对应分屏</td>
+</tr>
+</tbody>
+</table>
+<h2 id="插件"><a class="header-anchor" href="#插件"></a>插件</h2>
+<h3 id="packagecontrol-插件"><a class="header-anchor" href="#packagecontrol-插件"></a>PackageControl 插件</h3>
+<p>按下 <code>⌃ + ~</code> 打开控制台，复制粘贴以下代码并按下 <code>↩</code>：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">import urllib.request,os; pf = &apos;Package Control.sublime-package&apos;; ipp = sublime.installed_packages_path(); urllib.request.install_opener( urllib.request.build_opener( urllib.request.ProxyHandler()) ); open(os.path.join(ipp, pf), &apos;wb&apos;).write(urllib.request.urlopen( &apos;http://sublime.wbond.net/&apos; + pf.replace(&apos; &apos;,&apos;%20&apos;)).read())</span><br></pre></td></tr></table></figure>
+<h3 id="material-theme-插件"><a class="header-anchor" href="#material-theme-插件"></a>Material Theme 插件</h3>
+<p><code>Material Theme</code> 是一款编辑器主题插件</p>
+<p>可以使用 <code>Package Control</code> 插件安装 <code>Material-Theme</code> 插件</p>
+<p><code>Material-Theme</code> 插件可提供三种外观样式：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">//default</span><br><span class="line">&quot;theme&quot;: &quot;Material-Theme.sublime-theme&quot;,</span><br><span class="line">&quot;color_scheme&quot;: &quot;Packages/Material Theme/schemes/Material-Theme.tmTheme&quot;,</span><br><span class="line"></span><br><span class="line">//Darker</span><br><span class="line">&quot;theme&quot;: &quot;Material-Theme-Darker.sublime-theme&quot;,</span><br><span class="line">&quot;color_scheme&quot;: &quot;Packages/Material Theme/schemes/Material-Theme-Darker.tmTheme&quot;,</span><br><span class="line"></span><br><span class="line">//Lighter</span><br><span class="line">&quot;theme&quot;: &quot;Material-Theme-Lighter.sublime-theme&quot;,</span><br><span class="line">&quot;color_scheme&quot;: &quot;Packages/Material Theme/schemes/Material-Theme-Lighter.tmTheme&quot;,</span><br></pre></td></tr></table></figure>
+<h3 id="advancenewfile-插件"><a class="header-anchor" href="#advancenewfile-插件"></a>AdvanceNewFile 插件</h3>
+<p><code>AdvanceNewFile</code> 是一款快速操作文件的插件</p>
+<p>可以使用 <code>Package Control</code> 安装 <code>AdvanceNewFile</code> 插件</p>
+<p>安装完毕之后，可以按下 <code>⌘ + ⇧ + P</code> 调出命令面板，执行以下命令对文件进行操作</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">//新增</span><br><span class="line">ANF:New File</span><br><span class="line"></span><br><span class="line">//删除</span><br><span class="line">ANF:Delete File</span><br><span class="line"></span><br><span class="line">//重命名</span><br><span class="line">ANF:Rename File</span><br><span class="line"></span><br><span class="line">//复制当前文件</span><br><span class="line">ANF:Copy Current File</span><br><span class="line"></span><br><span class="line">//删除当前文件</span><br><span class="line">ANF:Delete Current File</span><br></pre></td></tr></table></figure>
+<p>亦可使用快捷键 <code>⌘ + ⌥ + N</code> 快速新建文件</p>
+<h3 id="php-getters-and-setters-插件"><a class="header-anchor" href="#php-getters-and-setters-插件"></a>PHP Getters and Setters 插件</h3>
+<p><code>PHP Getters and Setters</code> 是一款根据类文件的成员属性，快速生成 Getter 方法和 Setter 方法的插件</p>
+<p>可以使用 <code>Package Control</code> 安装 <code>PHP Getters and Setters</code> 插件</p>
+<p>执行以下命令快速生成 Getter 和 Setter 的代码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">// 生成 Getter 方法</span><br><span class="line">PHP:Generate Getters</span><br><span class="line">// 生成 Setter 方法</span><br><span class="line">PHP:Generate Setters</span><br><span class="line"></span><br><span class="line">// 同时生成 Getter 和 Setter</span><br><span class="line">PHP:Generate Getters and Setters</span><br></pre></td></tr></table></figure>
+<h3 id="php-companion-插件"><a class="header-anchor" href="#php-companion-插件"></a>PHP Companion 插件</h3>
+<p><code>PHP Companion</code> 插件提供以下功能</p>
+<ul>
+<li>
+<p><code>find_use</code><br>
+生成所选类的use声明</p>
+</li>
+<li>
+<p><code>expand_fqcn</code><br>
+生成所选类的引用路径</p>
+</li>
+<li>
+<p><code>import_namespace</code><br>
+生成所选文件的命名空间</p>
+</li>
+<li>
+<p><code>goto_definition_scope</code><br>
+寻找所选代码的定义源头</p>
+</li>
+<li>
+<p><code>insert_php_constructor_property</code><br>
+生成当前类的构造方法</p>
+</li>
+</ul>
+<p>在 <code>Preferences</code> -&gt; <code>Key Bindings - User</code> 新增以下快捷键调用上述插件命令</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">//PHP Companion</span><br><span class="line">&#123;"keys":["f9"],"command":"find_use"&#125;,</span><br><span class="line">&#123;"keys":["f10"],"command":"expand_fqcn"&#125;,</span><br><span class="line">&#123;"keys":["f11"],"command":"goto_definition_scope"&#125;,</span><br><span class="line">&#123;"keys":["f12"],"command":"insert_php_constructor_property"&#125;,</span><br></pre></td></tr></table></figure>
+<h3 id="laravel-artisan-插件"><a class="header-anchor" href="#laravel-artisan-插件"></a>Laravel Artisan 插件</h3>
+<p><code>Laravel Artisan</code> 是一款让开发可以不使用终端就能运行 <code>Artisan CLI</code> 的插件</p>
+<p>命令与在终端使用 <code>php artisan</code> 基本一致，可以按下 <code>⌘ + ⇧ + P</code> 打开命令面板，执行以下命令：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">// 生成控制器</span><br><span class="line">Laravel Artisan5:Make:Controller</span><br><span class="line"></span><br><span class="line">// 生成请求</span><br><span class="line">Laravel Artisan5:Make:Request</span><br><span class="line"></span><br><span class="line">// 生成服务提供者</span><br><span class="line">Laravel Artisan5:Make:Provider</span><br><span class="line"></span><br><span class="line">// 生成数据迁移文件</span><br><span class="line">Laravel Artisan5:Make:Mrgiation</span><br></pre></td></tr></table></figure>
+<h3 id="docblockr-插件"><a class="header-anchor" href="#docblockr-插件"></a>DocBlockr 插件</h3>
+<p><code>DocBlockr</code> 是一款根据代码自动生成注释的插件</p>
+<h3 id="all-autocomplete-插件"><a class="header-anchor" href="#all-autocomplete-插件"></a>All Autocomplete 插件</h3>
+<p><code>All Autocomplete</code> 是一款自动补全的插件，它会查找你打开的所有文件的代码，然后进行代码补全</p>
+<h3 id="sublimelinter-php-插件"><a class="header-anchor" href="#sublimelinter-php-插件"></a>SublimeLinter-php 插件</h3>
+<p><code>SublimeLinter</code> 是一款检查PHP语言错误的插件</p>
+<p>使用 <code>Package Control</code> 安装 <code>SublimeLinter</code> 插件<br>
+使用 <code>Package Control</code> 安装 <code>SublimeLinter-php</code> 插件</p>
+<p>在 <code>Preferences</code> -&gt; <code>Package Settings</code> -&gt; <code>SublimeLinter</code> -&gt; <code>Settings - User</code> 新增以下代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&quot;show_errors_on_save&quot;: true,</span><br></pre></td></tr></table></figure>
+<p>上述操作会让编辑器在保存文件的时候，提示错误信息</p>
+<h2 id="代码片段"><a class="header-anchor" href="#代码片段"></a>代码片段</h2>
+<p><code>Sublime Text</code> 可以创建自定义的代码片段</p>
+<p>点击菜单栏 <code>Tools</code> -&gt; <code>New Snippet</code> ，创建文件 <code>PHP Public Method.sublime-snippet</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&lt;snippet&gt;</span><br><span class="line">	&lt;content&gt;&lt;![CDATA[</span><br><span class="line">public function $&#123;1:function_name&#125;($&#123;2:param&#125;)&#123;</span><br><span class="line">	$&#123;3:return result&#125;</span><br><span class="line">&#125;</span><br><span class="line">]]&gt;&lt;/content&gt;</span><br><span class="line">	&lt;!-- Optional: Set a tabTrigger to define how to trigger the snippet --&gt;</span><br><span class="line">	&lt;tabTrigger&gt;pubf&lt;/tabTrigger&gt;</span><br><span class="line">	&lt;!-- Optional: Set a scope to limit where the snippet will trigger --&gt;</span><br><span class="line">	&lt;scope&gt;source.php&lt;/scope&gt;</span><br><span class="line">&lt;/snippet&gt;</span><br></pre></td></tr></table></figure>
+<p>当在PHP文件写代码时，输入 <code>pubf</code> 并按下 <code>Tab</code> 键，会生成相对应的代码片段</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">public function function_name(param)&#123;</span><br><span class="line">	return true</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="格式化代码"><a class="header-anchor" href="#格式化代码"></a>格式化代码</h2>
+<p>在终端执行以下命令安装 <code>php-cs-fix</code></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew install php-cs-fixer</span><br></pre></td></tr></table></figure>
+<p>假如要对某个 PHP 文件进行格式化操作，运行以下命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd dir</span><br><span class="line">php-cs-fixer fix fileName.php --level=&quot;psr2&quot;</span><br></pre></td></tr></table></figure>
+<p>使用 <code>Sublime Text 3</code> 的 <code>Build System</code> 格式化代码<br>
+点击 <code>Tools</code> -&gt; <code>Build System</code> -&gt; <code>New Bulid System ...</code>，打开代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&quot;shell_cmd&quot;:&quot;make&quot;</span><br></pre></td></tr></table></figure>
+<p>修改上述代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">	&quot;shell_cmd&quot;: &quot;php-cs-fixer fix $file --level=psr2&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>保存之后，在 <code>Tools</code>-<code>Build System</code> 选择 <code>PSR-2</code>，按 <code>⌘ + B </code>对当前文件进行 <code>PSR-2</code> 格式化操作。</p>
+<p>觉得格式化提示信息麻烦，可以在<code>Preferences</code>-<code>Settings - User</code>添加</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&quot;show_panel_on_build&quot;:false</span><br></pre></td></tr></table></figure>
+
+      </div>
+    </div>
+  </div>
+</div>
+<div class="lx-navigation">
+	<div class="lx-cover prev lx-cover-sm" style="background-image: url(https://sebastian-1256190695.cos.ap-guangzhou.myqcloud.com/footer_2.jpg)">
+		<div class="overlay"></div>
+		<a class="copy" href="/2016/04/04/使用Laravel构建内容管理框架（二）/">
+			<div class="display-t">
+				<div class="display-tc">
+					<div>
+						<span>Next</span>
+						<h3>使用 Laravel 构建内容管理框架（二）</h3>
+					</div>
+				</div>
+			</div>
+		</a>
+	</div>
+        <div class="lx-cover next lx-cover-sm" style="background-image: url(https://sebastian-1256190695.cos.ap-guangzhou.myqcloud.com/footer_1.jpg)">
+		<div class="overlay"></div>
+		<a class="copy" href="/2016/03/09/使用Laravel构建内容管理框架（一）/">
+			<div class="display-t">
+				<div class="display-tc">
+					<div>
+						<span>Prev</span>
+						<h3>使用 Laravel 构建内容管理框架（一）</h3>
+					</div>
+				</div>
+			</div>
+		</a>
+	</div>
+</div>
+</div>
+<div class="comment"><div id="comments"></div></div>
+<footer>
+  <div>
+  Copyright &copy; 2019.<a href="/">Sebastian Kennedy</a><br>Powered by <a href="https://hexo.io" target="_blank">Hexo</a> | Theme <a href="https://lx.blleng.cn" target="_blank">Lx</a><br>
+  </div>
+</footer>
+</div>
+<a href="javascript:;" class="popup-trigger"><i class="menu-item-icon fa fa-search fa-fw"></i></a>
+<div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="Search..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+<button class="menu-trigger"></button>
+<div class="menu">
+  <div class="menu-head">
+    <span class="layer">
+      <div class="col">
+        <div class="row for-pic">
+          <div class="profile-pic">
+            <a href="/"><img src="https://sebastian-1256190695.cos.ap-guangzhou.myqcloud.com/person_1.jpg" alt="Sebastian Kennedy"></a>
+          </div>
+        </div>
+        <div class="row for-name">
+          <p>Sebastian Kennedy</p>
+          <span class="tagline">人类的悲欢并不相通，我只觉得他们吵闹。</span>
+        </div>
+      </div>
+    </span>
+  </div>
+  <nav class="menu-container">
+  <ul class="menu-items">
+    <li><a href="/"><i class="fa fa-home fa-fw"></i>首页</a></li>
+    <li><a href="/archives/"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+    <li class="has-sub"><span class="dropdown-heading">
+      <i class="fa fa-bookmark fa-fw"></i>页面</span>
+        <ul>
+          <li><a href="/guestbook">留言</a></li>
+        <li><a href="/about">关于</a></li>
+        </ul>
+    </li>
+    <li class="has-sub"><span class="dropdown-heading">
+      <i class="fa fa-link fa-fw"></i>友链</span>
+        <ul>
+          <li> <a href="https://lx.blleng.cn" target="_blank">Theme-Lx</a></li>
+        </ul>
+    </li>
+  </ul>
+  </nav>
+</div>
+
+<div class="gototop js-top">
+  <a href="#" class="js-gotop"><i class="fa fa-arrow-up"></i></a>
+</div>
+<script src="/js/jquery.easing.min.js"></script>
+<script src="/js/jquery.waypoints.min.js"></script>
+<script src="/js/jquery.stellar.min.js"></script>
+<script src="/js/main.js"></script>
+<script src="/js/local.search.js"></script>
+
+
+</body>
+</html>

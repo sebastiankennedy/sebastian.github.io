@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>使用 PHPStorm 与 Xdebug 调试 Laravel (一) | “人类的悲欢并不相通，我只觉得他们吵闹。”</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="author" content="Sebastian Kennedy">
+  <meta name="keywords" content="Sebastian Kennedy Blog PHP Laravel Yii">
+  <meta name="description" content="Sebastian Kennedy Blog PHP Laravel Yii">
+  <script id="hexo-configurations">
+  var CONFIG = {
+    root: '/',
+    theme: 'lx',
+    version: '1.4.5',
+    localsearch:{
+      "enable": true,
+      "trigger": "auto",
+      "top_n_per_article": 1,
+      "unescape": false,
+      "preload": false
+      },
+    path: 'search.xml'
+  };
+</script>
+
+  <link rel="shortcut icon" href="https://sebastian-1256190695.cos.ap-guangzhou.myqcloud.com/person_1.jpg">
+  <link rel="stylesheet" href="/css/main.css">
+  <script src="/js/jquery.min.js"></script>
+  <script src="/js/jquery.jside.menu.js"></script>
+	<script>
+	$(document).ready(function(){
+	$(".menu-container").jSideMenu({
+	    jSidePosition: "position-right",
+	    jSideSticky: true,
+	    jSideSkin: "black-grey",
+	     });
+	}); 
+	</script>
+  <!--Google_Analytics-->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-150354789-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'UA-150354789-1');
+</script>
+
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:300|Noto+Serif+SC&amp;display=swap">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/font-awesome@4/css/font-awesome.min.css">
+</head>
+<body>
+<div class="single">
+<div id="page">
+<div id="lx-aside" style="background-image: url(https://sebastian-1256190695.cos.ap-guangzhou.myqcloud.com/page-cover.jpg)" data-stellar-background-ratio="0.5">
+  <div class="overlay">
+  <div class="page-title">
+    <div class="avatar"><a href="/"><img src="https://sebastian-1256190695.cos.ap-guangzhou.myqcloud.com/person_1.jpg"></a></div>
+    <span>2016-06-20</span>
+    <h2>使用 PHPStorm 与 Xdebug 调试 Laravel (一)</h2>
+    <div class="tags"><i class="fa fa-tag"></i><a class="tag-link" href="/tags/PHPStorm/">PHPStorm</a></div>
+    </div>
+</div>
+</div>
+<div id="lx-main-content">
+  <div class="lx-post">
+    <div class="lx-entry padding">
+      <div>
+        <p>本文的目的学会使用除了 <code>var_dump，echo，printf</code> 的调试方法</p>
+<h2 id="环境"><a class="header-anchor" href="#环境"></a>环境</h2>
+<ul>
+<li>系统版本：OSX 10.11.4</li>
+<li>PHP 版本：7.0.5</li>
+<li>Xdebug 版本：2.4.0</li>
+<li>Laravel 版本：5.1.31</li>
+<li>PHPStorm 版本：10.0.4</li>
+</ul>
+<h2 id="xdebug-配置"><a class="header-anchor" href="#xdebug-配置"></a>Xdebug 配置</h2>
+<p>本机的 Xdebug 配置文件位于 <code>/usr/local/etc/php/7.0/conf.d/ext-xdebug.ini</code></p>
+<p>打开文件添加并以下代码：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">[xdebug]</span><br><span class="line">zend_extension=<span class="string">"/usr/local/Cellar/php70-xdebug/2.4.0/xdebug.so"</span></span><br><span class="line">xdebug.idekey=PHPSTORM</span><br><span class="line">xdebug.remote_enable=<span class="number">1</span></span><br><span class="line">xdebug.remote_host=localhost</span><br><span class="line">xdebug.remote_port=<span class="number">10000</span></span><br><span class="line">xdebug.profiler_enable=<span class="number">1</span></span><br><span class="line">xdebug.profiler_output_dir=<span class="string">"/Users/LuisEdware/Downloads/Xdebug"</span></span><br></pre></td></tr></table></figure>
+<h2 id="phpstorm-配置"><a class="header-anchor" href="#phpstorm-配置"></a>PHPStorm 配置</h2>
+<p>打开 PHPStorm，首先配置 PHP 的使用版本与 Interpreter<br>
+<code>Preferences =&gt; Language &amp; Frameworks -&gt; PHP</code><br>
+<img src="http://o93kt6djh.bkt.clouddn.com/phpstorm-debug-web-application%E8%AE%BE%E7%BD%AE%20PHP%20%E7%89%88%E6%9C%AC.png" alt="配置 PHP 的使用版本" title="PHP 版本.png"></p>
+<ul>
+<li>PHP language level ：选择 PHP 的使用版本</li>
+<li>Interpreter : 配置 PHP 可执行文件的位置</li>
+</ul>
+<p><img src="http://o93kt6djh.bkt.clouddn.com/phpstorm-debug-web-application%E8%AE%BE%E7%BD%AE%20Interpreter.png" alt="配置 PHP 可执行文件的位置" title="Interpreter.png"></p>
+<ul>
+<li>Name : 命名</li>
+<li>PHP executable : PHP 可执行文件位置，本机使用 Homebrew 安装的 PHP，位置在<code>/usr/local/Cellar/php70/7.0.5/bin/php</code></li>
+</ul>
+<p>然后配置 PHP Debug 时的端口，将端口 <code>9000</code> 修改成 <code>10000</code><br>
+<img src="http://o93kt6djh.bkt.clouddn.com/phpstorm-debug-web-application%E8%AE%BE%E7%BD%AE%20Xdebug.png" alt="配置 Debug 端口" title="Xdebug.png"></p>
+<p>接着修改 <code>Run =&gt; Edit configurations</code>，点击弹出窗口左上角加号，新增一个 <code>PHP Web Application</code><br>
+<img src="http://o93kt6djh.bkt.clouddn.com/phpstorm-debug-web-applicationRun%20Debug.png" alt="Run =&gt; Edit configurations" title="Run Debug.png"><br>
+<img src="http://o93kt6djh.bkt.clouddn.com/phpstorm-debug-web-application%E6%96%B0%E5%BB%BA%20Web%20Application.png" alt="PHP Web Application" title="Server.png"></p>
+<ul>
+<li>Name : 命名</li>
+<li>Server : 服务器，没有跟着下图创建</li>
+<li>Start URL : 要开始 Debug 的 URL</li>
+</ul>
+<p>跟随着选项新增一个 <code>Server</code><br>
+<img src="http://o93kt6djh.bkt.clouddn.com/phpstorm-debug-web-application%E6%96%B0%E5%BB%BA%20Server.png" alt="Server" title="Server.png"></p>
+<ul>
+<li>Name : 命名</li>
+<li>Host : 主机，我在本地将需要 Debug 的项目映射到 <code>cowcat.app</code> 上</li>
+<li>Port : 端口</li>
+<li>Debugger : 除了 Xdebug 还有 Zend Debugger，选择 Xdebug</li>
+</ul>
+<p>设置断点，运行<code>Run =&gt; Debug 'Cowcat'</code><br>
+<img src="http://o93kt6djh.bkt.clouddn.com/phpstorm-debug-web-application%E8%AE%BE%E7%BD%AE%E6%96%AD%E7%82%B9.png" alt="设置断点" title="Server.png"><br>
+<img src="http://o93kt6djh.bkt.clouddn.com/phpstorm-debug-web-applicationRun%20Debug%20Cowcat.png" alt="Debug Cowcat" title="Server.png"></p>
+<p>当浏览器运行指定 URL（就是 PHP Web Application 配置时的 Start URL） 时，出现 Xdebug 控制台，根据控制台的信息和操作进行 Debug<br>
+<img src="http://o93kt6djh.bkt.clouddn.com/phpstorm-debug-web-applicationDebugger%20Console.png" alt="Xdebug 控制台" title="Server.png"></p>
+<p>控制台的功能介绍如下：</p>
+<ul>
+<li>左侧绿色三角形 ： <code>Resume Program</code>，表示將继续执行，直到下一个中断点停止。</li>
+<li>左侧红色方形 ： <code>Stop</code>，表示中断当前程序调试。</li>
+<li>上方第一个图形示 ： <code>Step Over</code>，跳过当前函数。</li>
+<li>上方第二个图形示 ： <code>Step Into</code>，进入当前函数內部的程序（相当于观察程序一步一步执行）。</li>
+<li>上方第三个图形示 ： <code>Force Step Into</code>，強制进入当前函数內部的程序。</li>
+<li>上方第四个图形示 ： <code>Step Out</code>，跳出当前函数內部的程式。</li>
+<li>上方第五个图形示 ： <code>Run to Cursor</code>，定位到当前光标。</li>
+<li>Variables ： 可以观察到所有全局变量、当前局部变量的数值</li>
+<li>Watches ： 可以新增变量，观察变量随着程序执行的变化。</li>
+</ul>
+
+      </div>
+    </div>
+  </div>
+</div>
+<div class="lx-navigation">
+	<div class="lx-cover prev lx-cover-sm" style="background-image: url(https://sebastian-1256190695.cos.ap-guangzhou.myqcloud.com/footer_2.jpg)">
+		<div class="overlay"></div>
+		<a class="copy" href="/2016/06/27/使用-PHPStorm-与-Xdebug-调试-Laravel-二/">
+			<div class="display-t">
+				<div class="display-tc">
+					<div>
+						<span>Next</span>
+						<h3>使用 PHPStorm 与 Xdebug 调试 Laravel (二)</h3>
+					</div>
+				</div>
+			</div>
+		</a>
+	</div>
+        <div class="lx-cover next lx-cover-sm" style="background-image: url(https://sebastian-1256190695.cos.ap-guangzhou.myqcloud.com/footer_1.jpg)">
+		<div class="overlay"></div>
+		<a class="copy" href="/2016/06/10/PHP Web Application 运行流程、概念术语、机制原理和代码实践/">
+			<div class="display-t">
+				<div class="display-tc">
+					<div>
+						<span>Prev</span>
+						<h3>PHP Web Application 运行流程、概念术语、机制原理和代码实践</h3>
+					</div>
+				</div>
+			</div>
+		</a>
+	</div>
+</div>
+</div>
+<div class="comment"><div id="comments"></div></div>
+<footer>
+  <div>
+  Copyright &copy; 2019.<a href="/">Sebastian Kennedy</a><br>Powered by <a href="https://hexo.io" target="_blank">Hexo</a> | Theme <a href="https://lx.blleng.cn" target="_blank">Lx</a><br>
+  </div>
+</footer>
+</div>
+<a href="javascript:;" class="popup-trigger"><i class="menu-item-icon fa fa-search fa-fw"></i></a>
+<div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="Search..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+<button class="menu-trigger"></button>
+<div class="menu">
+  <div class="menu-head">
+    <span class="layer">
+      <div class="col">
+        <div class="row for-pic">
+          <div class="profile-pic">
+            <a href="/"><img src="https://sebastian-1256190695.cos.ap-guangzhou.myqcloud.com/person_1.jpg" alt="Sebastian Kennedy"></a>
+          </div>
+        </div>
+        <div class="row for-name">
+          <p>Sebastian Kennedy</p>
+          <span class="tagline">人类的悲欢并不相通，我只觉得他们吵闹。</span>
+        </div>
+      </div>
+    </span>
+  </div>
+  <nav class="menu-container">
+  <ul class="menu-items">
+    <li><a href="/"><i class="fa fa-home fa-fw"></i>首页</a></li>
+    <li><a href="/archives/"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+    <li class="has-sub"><span class="dropdown-heading">
+      <i class="fa fa-bookmark fa-fw"></i>页面</span>
+        <ul>
+          <li><a href="/guestbook">留言</a></li>
+        <li><a href="/about">关于</a></li>
+        </ul>
+    </li>
+    <li class="has-sub"><span class="dropdown-heading">
+      <i class="fa fa-link fa-fw"></i>友链</span>
+        <ul>
+          <li> <a href="https://lx.blleng.cn" target="_blank">Theme-Lx</a></li>
+        </ul>
+    </li>
+  </ul>
+  </nav>
+</div>
+
+<div class="gototop js-top">
+  <a href="#" class="js-gotop"><i class="fa fa-arrow-up"></i></a>
+</div>
+<script src="/js/jquery.easing.min.js"></script>
+<script src="/js/jquery.waypoints.min.js"></script>
+<script src="/js/jquery.stellar.min.js"></script>
+<script src="/js/main.js"></script>
+<script src="/js/local.search.js"></script>
+
+
+</body>
+</html>
