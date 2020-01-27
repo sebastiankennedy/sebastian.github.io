@@ -74,7 +74,7 @@
 <li>anacron 配置</li>
 </ul>
 <h2 id="at-一次性定时任务"><a class="header-anchor" href="#at-一次性定时任务"></a>at 一次性定时任务</h2>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span> at 服务是否安装</span><br><span class="line">chkconfig --list | grep atd</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> at 服务的启动</span><br><span class="line">service atd restart</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> at 服务是否安装</span></span><br><span class="line">chkconfig --list | grep atd</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> at 服务的启动</span></span><br><span class="line">service atd restart</span><br></pre></td></tr></table></figure>
 <p>at 的访问控制</p>
 <ul>
 <li>如果系统中有 /etc/at.allow 文件，那么只有写入 /etc/at.allow （白名单）文件中的用户可以使用 at 命令（/etc/at.deny 文件会被忽略）</li>
